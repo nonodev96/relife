@@ -38,6 +38,8 @@
     "cordova-plugin-device",
     "cordova-plugin-splashscreen",
     "ionic-plugin-keyboard",
+
+
     "cordova-plugin-camera",
     "cordova-plugin-http",
     "cordova-plugin-app-preferences",
@@ -45,7 +47,9 @@
     "cordova-base64-to-gallery",
     "cordova-plugin-datepicker",
     "cordova-plugin-firebase",
-    "de.appplant.cordova.plugin.local-notification"
+    "de.appplant.cordova.plugin.local-notification",
+    "cordova-plugin-geolocation"
+
   ],
   "cordovaPlatforms": [
     "ios",
