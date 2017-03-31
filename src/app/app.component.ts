@@ -16,7 +16,7 @@ import {SearchPage} from '../pages/search/search';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = Page1;
+  rootPage: any = HomePage;
 
   pages: Array<{title: string, component: any}>;
 
