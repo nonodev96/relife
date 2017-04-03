@@ -6,24 +6,20 @@
 -->
 <ion-header>
   <ion-navbar>
+
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Home</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="logout()">
+        <ion-icon name="log-out"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
+
 <ion-content padding>
-
-  <ion-list>
-    <ion-item *ngFor="let item of items_thumbnails">
-      <ion-thumbnail item-left>
-        <img class="image" src="http://image.tmdb.org/t/p/w185/{{item.poster_path}}">
-      </ion-thumbnail>
-      <h2>{{item.original_title}}</h2>
-      <p>{{item.vote_average}} • {{item.release_date}}</p>
-      <p>{{item.overview}}</p>
-      <button ion-button clear item-right (click)="itemSelected($event, item)">View</button>
-    </ion-item>
-  </ion-list>
-
+  <h3>Welcome inside, {{userInfo.nickname}}!</h3>
+  Your Email is: {{userInfo.email}}
 </ion-content>

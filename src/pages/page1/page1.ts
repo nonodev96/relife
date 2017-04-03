@@ -6,10 +6,10 @@ import { NavController } from 'ionic-angular';
   selector: 'page-page1',
   templateUrl: 'page1.html'
 })
-export class Page1 {
+export class Page1Page {
 
   constructor(public navCtrl: NavController) {
-    
+
   }
 
 }

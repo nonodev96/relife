@@ -2,13 +2,16 @@ import {Component, ViewChild} from '@angular/core';
 import {Nav, Platform} from 'ionic-angular';
 import {StatusBar, Splashscreen} from 'ionic-native';
 
-import {Page1} from '../pages/page1/page1';
-import {Page2} from '../pages/page2/page2';
 import {HomePage} from '../pages/home/home';
-import {ProductPage} from '../pages/product/product';
+import {AjaxTestPage} from '../pages/ajax-test/ajax-test';
+
+// import {Page1Page} from '../pages/page1/page1';
+// import {Page2Page} from '../pages/page2/page2';
 import {AddProductPage} from '../pages/add-product/add-product';
-import {UserPage} from '../pages/user/user';
-import {SearchPage} from '../pages/search/search';
+// import {UserPage} from '../pages/user/user';
+// import {SearchPage} from '../pages/search/search';
+
+import { LoginPage } from '../pages/login/login';
 
 @Component({
   templateUrl: 'app.html'
@@ -16,7 +19,7 @@ import {SearchPage} from '../pages/search/search';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
+  rootPage: any = LoginPage;
 
   pages: Array<{title: string, component: any}>;
 
@@ -25,13 +28,14 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      {title: 'Page One', component: Page1},
-      {title: 'Page Two', component: Page2},
-      {title: 'Page Home', component: HomePage},
-      {title: 'Page ProductPage', component: ProductPage},
-      {title: 'Page UserPage', component: UserPage},
-      {title: 'Page AddProduct', component: AddProductPage},
-      {title: 'Page SearchPage', component: SearchPage}
+      // {title: 'Page Home', component: HomePage},
+      // {title: 'Page AjaxTestPage', component: AjaxTestPage},
+      // {title: 'Page AddProduct', component: AddProductPage},
+
+      // {title: 'Page One', component: Page1Page},
+      // {title: 'Page Two', component: Page2Page},
+      // {title: 'Page UserPage', component: UserPage},
+      // {title: 'Page SearchPage', component: SearchPage}
     ];
 
   }

@@ -6,7 +6,7 @@ import {NavController, NavParams} from 'ionic-angular';
   selector: 'page-page2',
   templateUrl: 'page2.html'
 })
-export class Page2 {
+export class Page2Page {
   selectedItem: any;
   icons: string[];
   items: Array<{title: string, note: string, icon: string}>;
@@ -31,7 +31,7 @@ export class Page2 {
 
   itemTapped(event, item) {
     // That's right, we're pushing to ourselves!
-    this.navCtrl.push(Page2, {
+    this.navCtrl.push(Page2Page, {
       item: item
     });
   }
