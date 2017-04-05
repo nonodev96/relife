@@ -1,3 +1,10 @@
+#Install
+```
+npm install -g ionic cordova
+npm install
+
+```
+
 ##Plugins 
 ````npm
 ionic plugin add cordova-plugin-camera
