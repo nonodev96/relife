@@ -14,6 +14,7 @@ import {UserPage} from '../pages/user/user';
 import {RegisterPage} from '../pages/register/register';
 
 import {AuthService} from "../providers/auth-service";
+import {NativeStorage} from "@ionic-native/native-storage";
 
 @NgModule({
   declarations: [
@@ -48,17 +49,9 @@ import {AuthService} from "../providers/auth-service";
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthService
+    AuthService,
+    NativeStorage
   ]
 })
 export class AppModule {
-  constructor(  ){
-
-  }
-
-  // public logout() {
-  //   this.authService.logout().subscribe(succ => {
-  //     this.navCtrl.setRoot(LoginPage)
-  //   });
-  // }
 }

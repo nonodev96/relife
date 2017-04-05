@@ -31,12 +31,19 @@ page-login {
 
     ion-item {
       border-radius: 30px !important;
-      padding-left: 30px !important;
       font-size: 0.9em;
+      padding: 0 2em!important;
       margin-bottom: 10px;
       border: 1px solid #ffffff;
-      border-bottom: 0px !important;
+      border-bottom: 0 !important;
       box-shadow: none !important;
+    }
+    .ionic-label-login{
+      -ms-flex: 0 0 0px;
+      flex: 0 0 0px;
+      width: 0px;
+      min-width: 15px;
+      max-width: 0px;
     }
 
     .signup-col {

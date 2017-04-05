@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {NavController, AlertController, LoadingController, Loading} from 'ionic-angular';
-import {NativeStorage} from 'ionic-native';
+import {NavController, AlertController, LoadingController, Loading, Platform} from 'ionic-angular';
+import {NativeStorage} from '@ionic-native/native-storage';
 
 import {RegisterPage} from '../register/register';
 import {HomePage} from '../home/home';
@@ -27,8 +27,11 @@ export class LoginPage {
               private auth: AuthService,
               private alertCtrl: AlertController,
               private loadingCtrl: LoadingController,
-              private nativeStorage: NativeStorage) {
+              private nativeStorage: NativeStorage,
+              public plt: Platform) {
+    if (this.plt.is('ios')) {
 
+    }
   }
 
   public createAccount() {
@@ -43,9 +46,10 @@ export class LoginPage {
             this.loading.dismiss();
             this.nav.setRoot(HomePage);
 
-            NativeStorage.setItem('registerCredentials', this.registerCredentials.toString())
-              .then(() => console.log('Stored Login Data!'),
-                error => console.error('Error storing LoginData', error));
+            this.nativeStorage.setItem('registerCredentials', this.registerCredentials).then(
+              () => console.log('Stored Login Data!'),
+              error => console.error('Error storing LoginData', error)
+            );
 
           });
         } else {
@@ -75,6 +79,28 @@ export class LoginPage {
       buttons: ['OK']
     });
     alert.present(prompt);
+  }
+
+  rememberMe() {
+    let data_registerCredentials;
+    this.nativeStorage.getItem('registerCredentials').then(data => {
+      data_registerCredentials = data;
+    });
+    this.showLoading();
+    this.auth.login(data_registerCredentials).subscribe(allowed => {
+        if (allowed) {
+          setTimeout(() => {
+            this.loading.dismiss();
+            this.nav.setRoot(HomePage);
+          });
+        } else {
+          this.loading.dismiss();
+          this.nav.setRoot(HomePage);
+        }
+      },
+      error => {
+        this.showError(error);
+      });
   }
 
   ionViewDidLoad() {

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
-import {NativeStorage} from 'ionic-native';
+import {NativeStorage} from '@ionic-native/native-storage';
 import {LoginPage} from '../login/login';
 import {AuthService} from '../../providers/auth-service';
 
@@ -27,9 +27,10 @@ export class HomePage {
   }
 
   public clickStorage() {
-    NativeStorage.getItem('loginname').then(data => {
-      let d = data;
-      console.error('Error getting LoginData', d);
+    this.nativeStorage.getItem('registerCredentials').then(data => {
+      let str = JSON.stringify(data);
+
+      console.log(str);
     });
   }
 
