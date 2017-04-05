@@ -1,8 +1,13 @@
-import { Component } from '@angular/core';
-import { NavController, AlertController, LoadingController, Loading } from 'ionic-angular';
-import { AuthService } from '../../providers/auth-service';
-import { RegisterPage } from '../register/register';
-import { HomePage } from '../home/home';
+import {Component} from '@angular/core';
+import {NavController, AlertController, LoadingController, Loading} from 'ionic-angular';
+import {NativeStorage} from 'ionic-native';
+
+import {RegisterPage} from '../register/register';
+import {HomePage} from '../home/home';
+
+import {AuthService} from '../../providers/auth-service';
+
+
 /*
  Generated class for the Login page.
 
@@ -18,7 +23,12 @@ export class LoginPage {
   loading: Loading;
   registerCredentials = {email: '', password: ''};
 
-  constructor(private nav: NavController, private auth: AuthService, private alertCtrl: AlertController, private loadingCtrl: LoadingController) {
+  constructor(private nav: NavController,
+              private auth: AuthService,
+              private alertCtrl: AlertController,
+              private loadingCtrl: LoadingController,
+              private nativeStorage: NativeStorage) {
+
   }
 
   public createAccount() {
@@ -31,7 +41,12 @@ export class LoginPage {
         if (allowed) {
           setTimeout(() => {
             this.loading.dismiss();
-            this.nav.setRoot(HomePage)
+            this.nav.setRoot(HomePage);
+
+            NativeStorage.setItem('registerCredentials', this.registerCredentials.toString())
+              .then(() => console.log('Stored Login Data!'),
+                error => console.error('Error storing LoginData', error));
+
           });
         } else {
           this.showError("Acceso denegado");

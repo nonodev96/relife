@@ -52,4 +52,13 @@ import {AuthService} from "../providers/auth-service";
   ]
 })
 export class AppModule {
+  constructor(  ){
+
+  }
+
+  // public logout() {
+  //   this.authService.logout().subscribe(succ => {
+  //     this.navCtrl.setRoot(LoginPage)
+  //   });
+  // }
 }

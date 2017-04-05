@@ -1,7 +1,9 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
+import {NativeStorage} from 'ionic-native';
 import {LoginPage} from '../login/login';
 import {AuthService} from '../../providers/auth-service';
+
 
 /*
  Generated class for the Home page.
@@ -16,11 +18,20 @@ import {AuthService} from '../../providers/auth-service';
 export class HomePage {
   userInfo;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private authService: AuthService) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private authService: AuthService,
+              public nativeStorage: NativeStorage) {
     this.userInfo = this.authService.getUserInfo();
 
   }
 
+  public clickStorage() {
+    NativeStorage.getItem('loginname').then(data => {
+      let d = data;
+      console.error('Error getting LoginData', d);
+    });
+  }
 
   public logout() {
     this.authService.logout().subscribe(succ => {

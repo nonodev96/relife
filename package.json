@@ -47,7 +47,6 @@
     "cordova-plugin-firebase",
     "de.appplant.cordova.plugin.local-notification",
     "cordova-plugin-geolocation"
-
   ],
   "cordovaPlatforms": [
     "android"
