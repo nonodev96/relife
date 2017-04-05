@@ -3,14 +3,12 @@ import {Nav, Platform} from 'ionic-angular';
 import {StatusBar, Splashscreen} from 'ionic-native';
 
 import {HomePage} from '../pages/home/home';
-import {AjaxTestPage} from '../pages/ajax-test/ajax-test';
-
+// import {AjaxTestPage} from '../pages/ajax-test/ajax-test';
 // import {Page1Page} from '../pages/page1/page1';
 // import {Page2Page} from '../pages/page2/page2';
-import {AddProductPage} from '../pages/add-product/add-product';
-// import {UserPage} from '../pages/user/user';
+// import {AddProductPage} from '../pages/add-product/add-product';
+import {UserPage} from '../pages/user/user';
 // import {SearchPage} from '../pages/search/search';
-
 import { LoginPage } from '../pages/login/login';
 
 @Component({
@@ -28,13 +26,12 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      // {title: 'Page Home', component: HomePage},
+      {title: 'Page Home', component: HomePage},
       // {title: 'Page AjaxTestPage', component: AjaxTestPage},
       // {title: 'Page AddProduct', component: AddProductPage},
-
       // {title: 'Page One', component: Page1Page},
       // {title: 'Page Two', component: Page2Page},
-      // {title: 'Page UserPage', component: UserPage},
+      {title: 'Page UserPage', component: UserPage},
       // {title: 'Page SearchPage', component: SearchPage}
     ];
 

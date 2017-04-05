@@ -26,7 +26,7 @@ export class LoginPage {
   }
 
   public login() {
-    this.showLoading()
+    this.showLoading();
     this.auth.login(this.registerCredentials).subscribe(allowed => {
         if (allowed) {
           setTimeout(() => {
@@ -34,7 +34,7 @@ export class LoginPage {
             this.nav.setRoot(HomePage)
           });
         } else {
-          this.showError("Access Denied");
+          this.showError("Acceso denegado");
         }
       },
       error => {
@@ -55,7 +55,7 @@ export class LoginPage {
     });
 
     let alert = this.alertCtrl.create({
-      title: 'Fail',
+      title: 'Error',
       subTitle: text,
       buttons: ['OK']
     });

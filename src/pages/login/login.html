@@ -5,13 +5,13 @@
   Ionic pages and navigation.
 -->
 <ion-content class="login-content" padding>
-  <ion-row class="logo-row">
-    <ion-col></ion-col>
-    <ion-col width-67>
-      <img src="http://placehold.it/300x200"/>
+  <ion-row class="login-title">
+    <ion-col>
+      <h1>Re-Life</h1>
+      <h3>Compra y vende en un dia</h3>
     </ion-col>
-    <ion-col></ion-col>
   </ion-row>
+
   <div class="login-box">
     <form (ngSubmit)="login()" #registerForm="ngForm">
       <ion-row>
@@ -21,25 +21,22 @@
             <ion-item>
               <ion-input value="nono.frailesgmail.com" type="text" placeholder="Email" name="email"
                          [(ngModel)]="registerCredentials.email" required>
-
               </ion-input>
             </ion-item>
 
             <ion-item>
               <ion-input value="Holamundo1" type="password" placeholder="Password" name="password"
                          [(ngModel)]="registerCredentials.password" required>
-
               </ion-input>
             </ion-item>
 
           </ion-list>
         </ion-col>
       </ion-row>
-
       <ion-row>
         <ion-col class="signup-col">
-          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Login</button>
-          <button ion-button class="register-btn" block clear (click)="createAccount()">Create New Account</button>
+          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Iniciar sesión</button>
+          <button ion-button class="register-btn" block clear (click)="createAccount()">Crea una cuenta</button>
         </ion-col>
       </ion-row>
 

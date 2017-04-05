@@ -54,6 +54,7 @@ const SERVER_URL = 'https://relifecloud-nonodev96.c9users.io/';
 @Injectable()
 export class AuthService {
   currentUser: User;
+  stringDataUser;
   access = false;
 
   constructor(public http: Http) {
@@ -73,9 +74,10 @@ export class AuthService {
             // console.log(data);
             // let json_meta = JSON.parse(data.text()).meta;
             let json_data = JSON.parse(data.text()).data;
-            console.log(json_data);
-            console.log(json_data.status);
+            // console.log(json_data);
+            // console.log(json_data.status);
             if (json_data.status == "succes") {
+              this.stringDataUser = data.text();
 
               this.currentUser = new User(
                 json_data.id,
@@ -128,6 +130,9 @@ export class AuthService {
 
   public getUserInfo(): User {
     return this.currentUser;
+  }
+  public getStringDataUser(): string {
+    return this.stringDataUser;
   }
 
   public logout() {

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
-import {AuthService} from '../../providers/auth-service';
 import {LoginPage} from '../login/login';
+import {AuthService} from '../../providers/auth-service';
 
 /*
  Generated class for the Home page.
