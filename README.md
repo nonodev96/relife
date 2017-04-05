@@ -1,7 +1,15 @@
 #Install
 ```
-npm install -g ionic cordova
 npm install
+npm install -g ionic cordova
+
+brew install Caskroom/cask/android-sdk
+export ANDROID_HOME={YOUR_PATH}
+export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+
+cordova telemetry on
+ionic state reset
+ionic state restore
 
 ```
 
