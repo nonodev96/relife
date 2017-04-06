@@ -7,7 +7,6 @@ import {HomePage} from '../home/home';
 
 import {AuthService} from '../../providers/auth-service';
 
-
 /*
  Generated class for the Login page.
 
@@ -22,6 +21,7 @@ export class LoginPage {
 
   loading: Loading;
   registerCredentials = {email: '', password: ''};
+  private data_registerCredentials: any;
 
   constructor(private nav: NavController,
               private auth: AuthService,
@@ -45,6 +45,9 @@ export class LoginPage {
           setTimeout(() => {
             this.loading.dismiss();
             this.nav.setRoot(HomePage);
+            console.log("Register");
+            console.log(this.registerCredentials);
+            console.log("this.nativeStorage.setItem");
 
             this.nativeStorage.setItem('registerCredentials', this.registerCredentials).then(
               () => console.log('Stored Login Data!'),
@@ -82,12 +85,12 @@ export class LoginPage {
   }
 
   rememberMe() {
-    let data_registerCredentials;
     this.nativeStorage.getItem('registerCredentials').then(data => {
-      data_registerCredentials = data;
+      this.data_registerCredentials = data;
+      console.log(this.data_registerCredentials);
     });
     this.showLoading();
-    this.auth.login(data_registerCredentials).subscribe(allowed => {
+    this.auth.login(this.data_registerCredentials).subscribe(allowed => {
         if (allowed) {
           setTimeout(() => {
             this.loading.dismiss();

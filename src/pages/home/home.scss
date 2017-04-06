@@ -1,7 +1,16 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster');
+ion-col {
+  padding: 0 !important;
+}
+ion-card {
+  margin: 0 !important;
+}
+ion-card-content{
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
 page-home {
-  ion-col{
-    background: #dddddd;
-  }
+
   .image {
     height: 5vw;
     width: 5vw;
@@ -15,4 +24,32 @@ page-home {
     object-fit: cover; /* Scale the image - Center and crop image*/
     object-position: center; /* Center the image within the element - Center and crop image*/
   }
+
 }
+.title_re_life .toolbar-title,
+.title_re_life .toolbar-title-md{
+  font-family: 'Lobster', cursive !important;
+  font-size: 2.3rem !important;
+}
+/*
+$SIDEMENU_TOP: #2f3640;
+$SIDEMENU_BOTTOM: #00c2ba;
+$SIDEMENU_TRANSPARENCY: rgba(255,255,255,0.4);
+
+.toolbar-background-md {
+  background: -webkit-gradient(left top, $SIDEMENU_TOP, $SIDEMENU_BOTTOM) !important;
+  background: -o-linear-gradient(bottom right, $SIDEMENU_TOP, $SIDEMENU_BOTTOM) !important;
+  background: -moz-linear-gradient(bottom right, $SIDEMENU_TOP, $SIDEMENU_BOTTOM) !important;
+  background: linear-gradient(to bottom right, $SIDEMENU_TOP, $SIDEMENU_BOTTOM) !important;
+  background-repeat: repeat-x !important;
+  color: white;
+}
+
+.toolbar-ios{
+  background: -webkit-gradient(left top, $SIDEMENU_TOP, $SIDEMENU_BOTTOM) !important;
+  background: -o-linear-gradient(bottom right, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
+  background: -moz-linear-gradient(bottom right, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
+  background: linear-gradient(to bottom right, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
+  background-repeat: repeat-x;
+}
+*/

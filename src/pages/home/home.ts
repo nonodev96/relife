@@ -17,13 +17,16 @@ import {AuthService} from '../../providers/auth-service';
 })
 export class HomePage {
   userInfo;
+  items = [];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private authService: AuthService,
               public nativeStorage: NativeStorage) {
     this.userInfo = this.authService.getUserInfo();
-
+    for (let i = 0; i < 6; i++) {
+      this.items.push(i);
+    }
   }
 
   public clickStorage() {

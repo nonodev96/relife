@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster');
 page-login {
 
   .login-title {
@@ -7,7 +8,8 @@ page-login {
     font-family: "Roboto", "Helvetica Neue", sans-serif;
   }
   .login-title h1 {
-    font-size: 2.5em !important;
+    font-size: 4em !important;
+    font-family: 'Lobster', cursive !important;
   }
   .login-title h3 {
     font-size: 1.5em !important;
@@ -39,11 +41,11 @@ page-login {
       box-shadow: none !important;
     }
     .ionic-label-login{
-      -ms-flex: 0 0 0px;
-      flex: 0 0 0px;
-      width: 0px;
+      -ms-flex: 0 0 0;
+      flex: 0 0 0;
+      width: 0;
       min-width: 15px;
-      max-width: 0px;
+      max-width: 0;
     }
 
     .signup-col {
