@@ -7,6 +7,7 @@ import {HomePage} from '../home/home';
 
 import {AuthService} from '../../providers/auth-service';
 
+
 /*
  Generated class for the Login page.
 
@@ -21,17 +22,16 @@ export class LoginPage {
 
   loading: Loading;
   registerCredentials = {email: '', password: ''};
-  private data_registerCredentials: any;
+  data_registerCredentials;
 
   constructor(private nav: NavController,
               private auth: AuthService,
               private alertCtrl: AlertController,
               private loadingCtrl: LoadingController,
               private nativeStorage: NativeStorage,
-              public plt: Platform) {
-    if (this.plt.is('ios')) {
+              public platform: Platform) {
 
-    }
+
   }
 
   public createAccount() {
@@ -86,24 +86,9 @@ export class LoginPage {
 
   rememberMe() {
     this.nativeStorage.getItem('registerCredentials').then(data => {
-      this.data_registerCredentials = data;
-      console.log(this.data_registerCredentials);
+      console.log(data);
     });
-    this.showLoading();
-    this.auth.login(this.data_registerCredentials).subscribe(allowed => {
-        if (allowed) {
-          setTimeout(() => {
-            this.loading.dismiss();
-            this.nav.setRoot(HomePage);
-          });
-        } else {
-          this.loading.dismiss();
-          this.nav.setRoot(HomePage);
-        }
-      },
-      error => {
-        this.showError(error);
-      });
+
   }
 
   ionViewDidLoad() {

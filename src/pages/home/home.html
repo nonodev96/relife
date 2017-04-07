@@ -5,41 +5,65 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-  <ion-navbar color="theme_color_secondary">
 
+  <ion-toolbar color="theme_color_secondary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
+
     <ion-title class="title_re_life">Re-Life</ion-title>
     <ion-buttons end>
-      <button ion-button (click)="logout()">
-        <ion-icon name="log-out"></ion-icon>
+      <button ion-button icon-only (click)="searchPush()">
+        <ion-icon name="search"></ion-icon>
       </button>
     </ion-buttons>
-  </ion-navbar>
+  </ion-toolbar>
+
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <!--<h3>Welcome inside, {userInfo.nickname!</h3>-->
   <!--Your Email is: {{userInfo.email-->
   <button ion-button (click)="clickStorage()">Native storage</button>
   <br>
   <ion-row>
-    <ion-col col-6 *ngFor="let item of items">
+    <ion-col col-12 *ngFor="let item of items">
 
       <ion-card>
-        <img src="https://ionicframework.com/dist/preview-app/www/assets/img/bjork-live.jpg"/>
-
-        <!--<ion-card-content>
-          <ion-card-title>
-            Björk
-          </ion-card-title>
-        </ion-card-content>-->
         <ion-item>
-          <ion-icon name='musical-notes' item-left style="color: #d03e84"></ion-icon>
-          <ion-badge item-right>90000</ion-badge>
-          <p>Album de música</p>
+          <ion-avatar item-left>
+            <img src="https://ionicframework.com/dist/preview-app/www/assets/img/marty-avatar.png">
+          </ion-avatar>
+          <h2>Marty McFly</h2>
+          <p>November 5, 1955</p>
         </ion-item>
+
+        <img src="https://ionicframework.com/dist/preview-app/www/assets/img/advance-card-bttf.png">
+
+        <ion-card-content>
+          <p>Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a
+            DeLorean?! Whoa. This is heavy.</p>
+        </ion-card-content>
+
+        <ion-row>
+          <ion-col>
+            <button ion-button icon-left clear small>
+              <ion-icon name="thumbs-up"></ion-icon>
+              <div>12 Likes</div>
+            </button>
+          </ion-col>
+          <ion-col>
+            <button ion-button icon-left clear small>
+              <ion-icon name="text"></ion-icon>
+              <div>4 Comments</div>
+            </button>
+          </ion-col>
+          <ion-col center text-center>
+            <ion-note>
+              11h ago
+            </ion-note>
+          </ion-col>
+        </ion-row>
       </ion-card>
 
     </ion-col>

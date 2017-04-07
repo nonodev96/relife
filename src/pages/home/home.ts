@@ -3,6 +3,7 @@ import {NavController, NavParams} from 'ionic-angular';
 import {NativeStorage} from '@ionic-native/native-storage';
 import {LoginPage} from '../login/login';
 import {AuthService} from '../../providers/auth-service';
+import {AddProductPage} from '../add-product/add-product';
 
 
 /*
@@ -27,6 +28,10 @@ export class HomePage {
     for (let i = 0; i < 6; i++) {
       this.items.push(i);
     }
+
+  }
+  searchPush(){
+    this.navCtrl.setRoot(AddProductPage);
   }
 
   public clickStorage() {
