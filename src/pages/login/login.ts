@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
-import {NavController, AlertController, LoadingController, Loading, Platform} from 'ionic-angular';
+import {MenuController, NavController, AlertController, LoadingController, Loading, Platform} from 'ionic-angular';
 import {NativeStorage} from '@ionic-native/native-storage';
+import {Storage} from '@ionic/storage';
 
 import {RegisterPage} from '../register/register';
 import {HomePage} from '../home/home';
@@ -14,24 +15,45 @@ import {AuthService} from '../../providers/auth-service';
  See http://ionicframework.com/docs/v2/components/#navigation for more info on
  Ionic pages and navigation.
  */
+
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
-})
+}) 
 export class LoginPage {
 
   loading: Loading;
-  registerCredentials = {email: '', password: ''};
-  data_registerCredentials;
+  public loging: string = "FALSE";
+  public registerCredentials = {
+    email:'',
+    password:''
+  };
 
-  constructor(private nav: NavController,
-              private auth: AuthService,
+  constructor(private auth: AuthService,
+              private nav: NavController,
+              private menuController: MenuController,
               private alertCtrl: AlertController,
               private loadingCtrl: LoadingController,
               private nativeStorage: NativeStorage,
-              public platform: Platform) {
-
-
+              public platform: Platform,
+              public storage: Storage) {
+    this.menuController = menuController;       
+    this.menuController.get().enable(false);
+    this.storage.ready().then(() => {
+      this.storage.get("email").then(data=>{
+        this.registerCredentials.email = data;
+      });
+      this.storage.get("password").then(data=>{
+        this.registerCredentials.password = data;
+      });
+      this.storage.get("loging").then(data=>{
+        this.loging = data;
+        if(data == "TRUE"){
+          this.login();
+        }
+      });
+    });
+    
   }
 
   public createAccount() {
@@ -40,20 +62,18 @@ export class LoginPage {
 
   public login() {
     this.showLoading();
-    this.auth.login(this.registerCredentials).subscribe(allowed => {
+    this.auth.login(this.registerCredentials).subscribe(
+      allowed => {
         if (allowed) {
           setTimeout(() => {
             this.loading.dismiss();
+            this.storage.ready().then(() => {
+              this.storage.set("email", this.registerCredentials.email);
+              this.storage.set("password", this.registerCredentials.password);
+              this.storage.set("loging", "TRUE");
+            });
+            this.menuController.get().enable(true);
             this.nav.setRoot(HomePage);
-            console.log("Register");
-            console.log(this.registerCredentials);
-            console.log("this.nativeStorage.setItem");
-
-            this.nativeStorage.setItem('registerCredentials', this.registerCredentials).then(
-              () => console.log('Stored Login Data!'),
-              error => console.error('Error storing LoginData', error)
-            );
-
           });
         } else {
           this.showError("Acceso denegado");
@@ -61,7 +81,8 @@ export class LoginPage {
       },
       error => {
         this.showError(error);
-      });
+      }
+    );
   }
 
   showLoading() {

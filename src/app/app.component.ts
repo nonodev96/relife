@@ -9,7 +9,7 @@ import {HomePage} from '../pages/home/home';
 import {AddProductPage} from '../pages/add-product/add-product';
 import {UserPage} from '../pages/user/user';
 // import {SearchPage} from '../pages/search/search';
-// import { LoginPage } from '../pages/login/login';
+import { LoginPage } from '../pages/login/login';
 
 @Component({
   templateUrl: 'app.html'
@@ -17,8 +17,8 @@ import {UserPage} from '../pages/user/user';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  // rootPage: any = LoginPage;
-  rootPage: any = HomePage;
+  rootPage: any = LoginPage;
+  //rootPage: any = HomePage;
 
   pages: Array<{title: string, component: any}>;
 
@@ -27,12 +27,12 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
+      {title: 'Page UserPage', component: UserPage},
       {title: 'Page Home', component: HomePage},
       // {title: 'Page AjaxTestPage', component: AjaxTestPage},
       {title: 'Page AddProduct', component: AddProductPage},
       // {title: 'Page One', component: Page1Page},
       // {title: 'Page Two', component: Page2Page},
-      {title: 'Page UserPage', component: UserPage},
       // {title: 'Page SearchPage', component: SearchPage}
     ];
 

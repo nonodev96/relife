@@ -8,22 +8,6 @@ import 'rxjs/add/operator/map';
 
  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
  for more info on providers and Angular 2 DI.
- {
- "meta": [],
- "data": {
- "id": "1",
- "nickname": "nono",
- "first_name": "Antonio",
- "last_name": "Mudarra Machuca",
- "email": "nonodev96@gmail.com",
- "password": "$2y$12$ieuV.vUReM2.IOhjw39uAuWPKAHLK52tIKf44QG/q8JyH79Qd50cy",
- "location": "",
- "join_date": "2017-04-01 00:00:00",
- "birth_date": "2017-03-29 00:00:00",
- "profile_avatar": "user_1.jpg",
- "status": "succes"
- }
- }
  */
 
 export class User {
@@ -37,7 +21,15 @@ export class User {
   birth_date: string;
   profile_avatar: string;
 
-  constructor(id: string, nickname: string, first_name: string, last_name: string, email: string, location: string, join_date: string, birth_date: string, profile_avatar: string) {
+  constructor(id: string, 
+              nickname: string, 
+              first_name: string, 
+              last_name: string, 
+              email: string, 
+              location: string, 
+              join_date: string, 
+              birth_date: string,
+              profile_avatar: string) {
     this.id = id;
     this.nickname = nickname;
     this.first_name = first_name;
@@ -58,7 +50,7 @@ export class AuthService {
   access = false;
 
   constructor(public http: Http) {
-    console.log('Hello AuthService Provider');
+
   }
 
   public login(credentials) {
@@ -105,11 +97,7 @@ export class AuthService {
             observer.next(this.access);
             observer.complete();
           }
-          // () => {console.log(this)}
         );
-
-        // let access = (credentials.password === "pass" && credentials.email === "email");
-        // this.currentUser = new User();
       });
 
     }
@@ -119,9 +107,7 @@ export class AuthService {
     if (credentials.email === null || credentials.password === null) {
       return Observable.throw("Please insert credentials");
     } else {
-      // At this point store the credentials to your backend!
       return Observable.create(observer => {
-
         observer.next(true);
         observer.complete();
       });

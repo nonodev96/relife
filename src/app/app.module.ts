@@ -2,6 +2,11 @@ import {NgModule, ErrorHandler} from '@angular/core';
 import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
 import {MyApp} from './app.component';
 
+import {IonicStorageModule} from '@ionic/storage';
+import {NativeStorage} from "@ionic-native/native-storage";
+import {AuthService} from "../providers/auth-service";
+import {ProductsService} from "../providers/products-service";
+
 import {AddProductPage} from '../pages/add-product/add-product';
 import {AjaxTestPage} from '../pages/ajax-test/ajax-test';
 import {HomePage} from '../pages/home/home';
@@ -12,9 +17,6 @@ import {ProductPage} from '../pages/product/product';
 import {SearchPage} from '../pages/search/search';
 import {UserPage} from '../pages/user/user';
 import {RegisterPage} from '../pages/register/register';
-
-import {AuthService} from "../providers/auth-service";
-import {NativeStorage} from "@ionic-native/native-storage";
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import {NativeStorage} from "@ionic-native/native-storage";
     RegisterPage
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -49,7 +52,8 @@ import {NativeStorage} from "@ionic-native/native-storage";
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthService,
+    AuthService, 
+    ProductsService, 
     NativeStorage
   ]
 })

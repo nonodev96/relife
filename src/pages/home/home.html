@@ -24,27 +24,46 @@
 <ion-content>
   <!--<h3>Welcome inside, {userInfo.nickname!</h3>-->
   <!--Your Email is: {{userInfo.email-->
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Desliza hacia abajo para actualizar..."
+      refreshingSpinner="circles"
+      refreshingText="Suelta para actualizar">
+
+    </ion-refresher-content>
+  </ion-refresher>
   <button ion-button (click)="clickStorage()">Native storage</button>
+  <button ion-button (click)="presentPrompt()">Present prompt</button>
+  <button ion-button (click)="updateHome()">Update home</button>
   <br>
   <ion-row>
-    <ion-col col-12 *ngFor="let item of items">
-
+    <ion-col col-12 *ngFor="let product of listProductsOfToday">
       <ion-card>
         <ion-item>
           <ion-avatar item-left>
-            <img src="https://ionicframework.com/dist/preview-app/www/assets/img/marty-avatar.png">
+            <img src="https://relifecloud-nonodev96.c9users.io/assets/images/users/{{product.profile_avatar}}">
           </ion-avatar>
-          <h2>Marty McFly</h2>
-          <p>November 5, 1955</p>
+          <h2>{{product.first_name}} {{product.last_name}}</h2>
+          <p>{{product.id_user}}</p>
         </ion-item>
-
-        <img src="https://ionicframework.com/dist/preview-app/www/assets/img/advance-card-bttf.png">
-
+        <img src="https://relifecloud-nonodev96.c9users.io/assets/images/products/{{product.image}}">
         <ion-card-content>
-          <p>Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a
-            DeLorean?! Whoa. This is heavy.</p>
+          <ion-row>
+            <ion-col>
+              <h3 style="text-align: center;"><strong>{{product.title}}</strong></h3>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-3>
+              <strong>{{product.starting_price}}</strong>
+            </ion-col>
+            <ion-col col-9>
+              <p>{{product.description}}</p>
+            </ion-col>
+          </ion-row>
         </ion-card-content>
-
+        
         <ion-row>
           <ion-col>
             <button ion-button icon-left clear small>
@@ -60,7 +79,7 @@
           </ion-col>
           <ion-col center text-center>
             <ion-note>
-              11h ago
+              {{product.datetime_product}}h ago
             </ion-note>
           </ion-col>
         </ion-row>
@@ -68,7 +87,7 @@
 
     </ion-col>
   </ion-row>
-
+  
   <ion-fab right bottom>
     <button ion-fab color="theme_color_secondary_dark">
       <ion-icon name="add"></ion-icon>
