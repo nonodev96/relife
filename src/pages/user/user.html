@@ -7,12 +7,24 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>User</ion-title>
+    <ion-title>Mi perfil</ion-title>
   </ion-navbar>
 
 </ion-header>
-<ion-content padding>
-  <ion-list>
-    userInfoJson
-  </ion-list>
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-avatar item-left>
+        <img src="https://relifecloud-nonodev96.c9users.io/assets/images/users/{{user.profile_avatar}}" alt="">
+      </ion-avatar>
+    </ion-card-header>
+    <ion-card-title>
+      <h2><strong>{{user.nickname}}</strong></h2>
+      <h3>{{user.first_name}} {{user.last_name}}</h3>
+    </ion-card-title>
+    <ion-card-content>
+      <p>{{user.email}}</p>
+      <p>{{user.location}}</p>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

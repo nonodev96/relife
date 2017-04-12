@@ -33,62 +33,56 @@
 
     </ion-refresher-content>
   </ion-refresher>
+  <!--
   <button ion-button (click)="clickStorage()">Native storage</button>
   <button ion-button (click)="presentPrompt()">Present prompt</button>
   <button ion-button (click)="updateHome()">Update home</button>
   <br>
+  -->
   <ion-row>
     <ion-col col-12 *ngFor="let product of listProductsOfToday">
       <ion-card>
+        <!--
         <ion-item>
           <ion-avatar item-left>
             <img src="https://relifecloud-nonodev96.c9users.io/assets/images/users/{{product.profile_avatar}}">
           </ion-avatar>
-          <h2>{{product.first_name}} {{product.last_name}}</h2>
-          <p>{{product.id_user}}</p>
+          <h2>{{product.nickname}}</h2>
+          <p>{{product.datetime_product}}</p>
         </ion-item>
+        -->
         <img src="https://relifecloud-nonodev96.c9users.io/assets/images/products/{{product.image}}">
         <ion-card-content>
           <ion-row>
             <ion-col>
-              <h3 style="text-align: center;"><strong>{{product.title}}</strong></h3>
+              <h3 style="text-align: center; font-size: 1.5em;"><strong>{{product.title}}</strong></h3>
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col col-3>
-              <strong>{{product.starting_price}}</strong>
+            <ion-col>
+              <button ion-button icon-left clear small>
+                <ion-icon name="thumbs-up"></ion-icon>
+                <div>12 Likes</div>
+              </button>
             </ion-col>
-            <ion-col col-9>
-              <p>{{product.description}}</p>
+            <ion-col>
+              <button ion-button icon-left clear small>
+                <ion-icon name="text"></ion-icon>
+                <div>4 Comments</div>
+              </button>
+            </ion-col>
+            <ion-col center text-center>
+              <ion-note>
+                {{product.time_left | date: 'H:mm:ss'}}
+              </ion-note>
             </ion-col>
           </ion-row>
         </ion-card-content>
-        
-        <ion-row>
-          <ion-col>
-            <button ion-button icon-left clear small>
-              <ion-icon name="thumbs-up"></ion-icon>
-              <div>12 Likes</div>
-            </button>
-          </ion-col>
-          <ion-col>
-            <button ion-button icon-left clear small>
-              <ion-icon name="text"></ion-icon>
-              <div>4 Comments</div>
-            </button>
-          </ion-col>
-          <ion-col center text-center>
-            <ion-note>
-              {{product.datetime_product}}h ago
-            </ion-note>
-          </ion-col>
-        </ion-row>
       </ion-card>
-
     </ion-col>
   </ion-row>
-  
-  <ion-fab right bottom>
+
+  <ion-fab left bottom>
     <button ion-fab color="theme_color_secondary_dark">
       <ion-icon name="add"></ion-icon>
     </button>

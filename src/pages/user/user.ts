@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
-import {AuthService} from '../../providers/auth-service';
+import { Component } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
+import { AuthService } from '../../providers/auth-service';
 /*
  Generated class for the User page.
 
@@ -12,15 +12,14 @@ import {AuthService} from '../../providers/auth-service';
   templateUrl: 'user.html'
 })
 export class UserPage {
-  userInfoJson;
+  user;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private authService: AuthService) {
-    this.userInfoJson = JSON.parse(this.authService.getStringDataUser()).data;
-    console.log(this.userInfoJson);
-
-    for (let key in this.userInfoJson) {
-      console.log(key + ":" + this.userInfoJson[key]);
-    }
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private authService: AuthService) {
+    this.user = JSON.parse(this.authService.getStringDataUser()).data;
+    // this.navCtrl.setRoot(HomePage);
+    // this.navCtrl.popToRoot();
   }
 
   ionViewDidLoad() {

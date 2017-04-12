@@ -52,8 +52,8 @@ import {RegisterPage} from '../pages/register/register';
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthService, 
-    ProductsService, 
+    AuthService,
+    ProductsService,
     NativeStorage
   ]
 })

@@ -19,7 +19,7 @@ import {AuthService} from '../../providers/auth-service';
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
-}) 
+})
 export class LoginPage {
 
   loading: Loading;
@@ -37,7 +37,7 @@ export class LoginPage {
               private nativeStorage: NativeStorage,
               public platform: Platform,
               public storage: Storage) {
-    this.menuController = menuController;       
+    this.menuController = menuController;
     this.menuController.get().enable(false);
     this.storage.ready().then(() => {
       this.storage.get("email").then(data=>{
@@ -53,7 +53,7 @@ export class LoginPage {
         }
       });
     });
-    
+
   }
 
   public createAccount() {
@@ -113,7 +113,7 @@ export class LoginPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
+
   }
 
 }

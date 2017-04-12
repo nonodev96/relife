@@ -60,16 +60,14 @@ const SERVER_URL = 'https://relifecloud-nonodev96.c9users.io/api/';
 @Injectable()
 export class ProductsService {
   public listProductsOfToday: Array<ProductOfToday>;
-  
+
   constructor(public http: Http) {
-    console.log('Hello ProductsService Provider');
     this.listProductsOfToday = [];
   }
 
-  public getProductsOfToday() {    
+  public getProductsOfToday() {
     return Observable.create(observer => {
       let link = SERVER_URL + 'product/getProductsOfToday';
-      console.log(link);
       this.http.get(link).subscribe(
         data => {
           observer.next(data);
@@ -83,9 +81,9 @@ export class ProductsService {
         // () => {console.log(this)}
       );
     });
-    
+
   }
-  
-  
+
+
 
 }

@@ -1,11 +1,11 @@
-import {Component} from '@angular/core';
-import {NavController, NavParams, AlertController} from 'ionic-angular';
-import {NativeStorage} from '@ionic-native/native-storage';
-import {Storage} from '@ionic/storage';
+import { Component } from '@angular/core';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NativeStorage } from '@ionic-native/native-storage';
+import { Storage } from '@ionic/storage';
 
-import {LoginPage} from '../login/login';
-import {AuthService} from '../../providers/auth-service';
-import {ProductsService} from '../../providers/products-service';
+import { LoginPage } from '../login/login';
+import { AuthService } from '../../providers/auth-service';
+import { ProductsService } from '../../providers/products-service';
 
 //import {AddProductPage} from '../add-product/add-product';
 export class ProductOfToday {
@@ -22,6 +22,7 @@ export class ProductOfToday {
   public last_name: string;
   public email: string;
   public profile_avatar: string;
+  public time_left: string;
 
   constructor(id: string,
               id_user: string,
@@ -49,6 +50,7 @@ export class ProductOfToday {
     this.last_name = last_name;
     this.email = email;
     this.profile_avatar = profile_avatar;
+    this.time_left = datetime_product;
   }
 }
 /*
@@ -84,16 +86,45 @@ export class HomePage {
       allowed => {
         let json_data = JSON.parse(allowed.text()).data;
         for (let product of json_data) {
+          product.time_left = product.datetime_product;
           this.listProductsOfToday.push(
             product
           );
+          // console.log("product.datetime_product " + product.datetime_product);
+          // console.log("time_left " + product.time_left);
+          this.countDown(product);
         }
-        console.log(this.listProductsOfToday);
       },
       error => {
         console.log("error");
       }
     );
+  }
+
+  public countDown(product) {
+    // let setinterval = null;
+    // clearInterval(setinterval);
+    let datetime = product.time_left;
+    // console.log(product);
+    let object_datetime_deadline = null;
+    let datetime_format = null;
+    let tmp = new Date(datetime);
+    tmp.setDate(new Date(datetime).getDate() + 1);
+    object_datetime_deadline = tmp.getTime();
+    setInterval(
+      ()=> {
+        let now = new Date().getTime();
+        datetime_format = object_datetime_deadline - now;
+        datetime_format = new Date(datetime_format);
+        datetime_format = datetime_format.toISOString().substr(0, 19).replace("T", " ").toString();
+        product.time_left = datetime_format;
+        if (now > object_datetime_deadline) {
+          console.log("borrar");
+        }
+      },
+      1000
+    );
+
   }
 
   public searchPush() {
