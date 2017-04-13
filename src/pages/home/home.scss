@@ -11,20 +11,81 @@ page-home {
     display: inline-block;
     margin-left: auto;
     margin-right: auto;
-    border-radius: 50%; // half for rounding */
-    object-fit: cover; /* Scale the image - Center and crop image*/
-    object-position: center; /* Center the image within the element - Center and crop image*/
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
   }
-
+  ion-thumbnail > img {
+    display: block;
+    width: 100vh;
+    height: 100vh;
+    object-fit: cover;
+  }
+  ion-note {
+    font-size: 12px;
+    align-self: flex-start;
+    margin-top: 14px;
+  }
   .title_re_life .toolbar-title,
-  .title_re_life .toolbar-title-md{
+  .title_re_life .toolbar-title-md {
     font-family: 'Lobster', cursive !important;
     font-size: 2.3rem !important;
   }
 }
+
+/*
+.card-background-page {
+  ion-card {
+    position: relative;
+    text-align: center;
+    min-height: 50%;
+    .father {
+      .card-head {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 90%;
+        margin: 2em 2em 2em 0;
+        background: rgba(255, 255, 255, 0.6);
+        //noinspection CssInvalidFunction,SassScssResolvedByNameOnly
+        .card-title {
+          font-size: 2em;
+          width: 100%;
+          font-weight: bold;
+          color: color($colors, theme_color_secondary, base);
+        }
+
+        //noinspection CssInvalidFunction,SassScssResolvedByNameOnly
+        .card-subtitle {
+          font-size: 1.5em;
+          width: 100%;
+          color: color($colors, theme_color_secondary, base);
+        }
+      }
+      .card-footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: auto;
+        padding: 1em 3em;
+        margin: 2em 2em 3em 0;
+        background: rgba(255, 255, 255, 0.6);
+        //noinspection CssInvalidFunction,SassScssResolvedByNameOnly
+        .card-price {
+          font-size: 1.5em;
+          font-weight: bold;
+          width: 100%;
+          color: color($colors, theme_color_primary, base);
+        }
+      }
+    }
+  }
+}
+*/
 .has-refresher > .scroll-content {
   background: white !important;
 }
+
 /*
 $SIDEMENU_TOP: #2f3640;
 $SIDEMENU_BOTTOM: #00c2ba;

@@ -6,6 +6,7 @@ import { Storage } from '@ionic/storage';
 import { LoginPage } from '../login/login';
 import { AuthService } from '../../providers/auth-service';
 import { ProductsService } from '../../providers/products-service';
+import { ProductPage } from "../product/product";
 
 //import {AddProductPage} from '../add-product/add-product';
 export class ProductOfToday {
@@ -85,14 +86,14 @@ export class HomePage {
     this.prodService.getProductsOfToday().subscribe(
       allowed => {
         let json_data = JSON.parse(allowed.text()).data;
+        this.listProductsOfToday = [];
+
         for (let product of json_data) {
           product.time_left = product.datetime_product;
-          this.listProductsOfToday.push(
-            product
-          );
-          // console.log("product.datetime_product " + product.datetime_product);
-          // console.log("time_left " + product.time_left);
           this.countDown(product);
+          setTimeout(()=> {
+            this.listProductsOfToday.push(product);
+          }, 200);
         }
       },
       error => {
@@ -102,29 +103,38 @@ export class HomePage {
   }
 
   public countDown(product) {
-    // let setinterval = null;
-    // clearInterval(setinterval);
     let datetime = product.time_left;
-    // console.log(product);
     let object_datetime_deadline = null;
     let datetime_format = null;
     let tmp = new Date(datetime);
     tmp.setDate(new Date(datetime).getDate() + 1);
     object_datetime_deadline = tmp.getTime();
-    setInterval(
+    product.sInterval = setInterval(
       ()=> {
         let now = new Date().getTime();
         datetime_format = object_datetime_deadline - now;
         datetime_format = new Date(datetime_format);
         datetime_format = datetime_format.toISOString().substr(0, 19).replace("T", " ").toString();
         product.time_left = datetime_format;
-        if (now > object_datetime_deadline) {
-          console.log("borrar");
+        if (now >= object_datetime_deadline) {
+          clearInterval(product.sInterval);
+          product.time_left = "1970-01-01 00:00:00";
+          this.removeProduct(product);
         }
       },
       1000
     );
 
+  }
+
+  public removeProduct(product) {
+    let to_remove = this.listProductsOfToday.indexOf(product);
+    if (to_remove > -1) {
+      console.log("Borrado o eso creo");
+      this.listProductsOfToday.splice(to_remove, 1);
+    } else {
+      console.log("No remove");
+    }
   }
 
   public searchPush() {
@@ -199,24 +209,29 @@ export class HomePage {
     });
   }
 
-  doRefresh(refresher) {
+  public doRefresh(refresher) {
     this.prodService.getProductsOfToday().subscribe(
       allowed => {
         let json_data = JSON.parse(allowed.text()).data;
         this.listProductsOfToday = [];
+
         for (let product of json_data) {
-          this.listProductsOfToday.push(
-            product
-          );
+          product.time_left = product.datetime_product;
+          this.countDown(product);
+          this.listProductsOfToday.push(product);
         }
+
         refresher.complete();
-        console.log(this.listProductsOfToday);
       },
       error => {
         console.log("GetProductsOfToday error");
         refresher.cancel();
       }
     );
+  }
+
+  public viewProduct(product) {
+    this.navCtrl.push(ProductPage, {product: product});
   }
 
   ionViewDidLoad() {

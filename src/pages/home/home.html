@@ -21,16 +21,13 @@
 
 </ion-header>
 
-<ion-content>
-  <!--<h3>Welcome inside, {userInfo.nickname!</h3>-->
-  <!--Your Email is: {{userInfo.email-->
+<ion-content class="card-background-page">
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content
       pullingIcon="arrow-dropdown"
       pullingText="Desliza hacia abajo para actualizar..."
       refreshingSpinner="circles"
       refreshingText="Suelta para actualizar">
-
     </ion-refresher-content>
   </ion-refresher>
   <!--
@@ -39,50 +36,27 @@
   <button ion-button (click)="updateHome()">Update home</button>
   <br>
   -->
-  <ion-row>
-    <ion-col col-12 *ngFor="let product of listProductsOfToday">
-      <ion-card>
-        <!--
-        <ion-item>
-          <ion-avatar item-left>
-            <img src="https://relifecloud-nonodev96.c9users.io/assets/images/users/{{product.profile_avatar}}">
-          </ion-avatar>
-          <h2>{{product.nickname}}</h2>
-          <p>{{product.datetime_product}}</p>
-        </ion-item>
-        -->
-        <img src="https://relifecloud-nonodev96.c9users.io/assets/images/products/{{product.image}}">
-        <ion-card-content>
-          <ion-row>
-            <ion-col>
-              <h3 style="text-align: center; font-size: 1.5em;"><strong>{{product.title}}</strong></h3>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <button ion-button icon-left clear small>
-                <ion-icon name="thumbs-up"></ion-icon>
-                <div>12 Likes</div>
-              </button>
-            </ion-col>
-            <ion-col>
-              <button ion-button icon-left clear small>
-                <ion-icon name="text"></ion-icon>
-                <div>4 Comments</div>
-              </button>
-            </ion-col>
-            <ion-col center text-center>
-              <ion-note>
-                {{product.time_left | date: 'H:mm:ss'}}
-              </ion-note>
-            </ion-col>
-          </ion-row>
-        </ion-card-content>
-      </ion-card>
-    </ion-col>
-  </ion-row>
+  <ion-list>
+    <ion-item-sliding *ngFor="let product of listProductsOfToday">
+      <ion-item (click)="viewProduct(product)">
+        <ion-thumbnail item-left >
+            <img src="https://relifecloud-nonodev96.c9users.io/assets/images/products/{{product.image}}" alt="">
+        </ion-thumbnail>
+        <h2>{{product.title}}</h2>
+        <p>{{product.starting_price}}€</p>
+        <ion-note item-right>{{product.time_left | date:'H:mm:ss'}}</ion-note>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="removeProduct(product)">
+          <ion-icon name="trash"></ion-icon>
+          Borrar
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 
-  <ion-fab left bottom>
+
+  <ion-fab right bottom>
     <button ion-fab color="theme_color_secondary_dark">
       <ion-icon name="add"></ion-icon>
     </button>
