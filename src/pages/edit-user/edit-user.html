@@ -1,0 +1,41 @@
+<!--
+  Generated template for the EditUser page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+	<ion-navbar color="theme_color_secondary">
+		<ion-toolbar>
+			<ion-title>Editar usuario</ion-title>
+			<ion-buttons end>
+				<button ion-button icon-only (click)="updateUser()">
+					<ion-icon name="checkmark"></ion-icon>
+				</button>
+			</ion-buttons>
+		</ion-toolbar>
+	</ion-navbar>
+	
+</ion-header>
+
+<ion-content>
+	<ion-list>
+		<ion-item>
+			<ion-label color="primary" floating>Nombre *</ion-label>
+			<ion-input [value]="user.first_name" [(ngModel)]="user.first_name"></ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label color="primary" floating>Apellidos *</ion-label>
+			<ion-input [value]="user.last_name" [(ngModel)]="user.last_name"></ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label floating>Cumpleaños</ion-label>
+			<ion-datetime displayFormat="DDDD D MMM \d\e\l YYYY" [(ngModel)]="user.birth_date"></ion-datetime>
+		</ion-item>
+		<ion-item>
+			<ion-label color="primary" floating>Ubicacion</ion-label>
+			<ion-input [value]="user.location" [(ngModel)]="user.location"></ion-input>
+		</ion-item>
+		<button ion-item (click)="openGallery()">Avatar</button>
+	</ion-list>
+</ion-content>

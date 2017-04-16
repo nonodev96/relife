@@ -5,26 +5,50 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>Mi perfil</ion-title>
+  <ion-navbar color="theme_color_secondary">
+    <ion-toolbar>
+      <ion-title>Mi perfil</ion-title>
+      <ion-buttons end>
+        <button ion-button icon-only (click)="openEditUser()">
+          <ion-icon name="create"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
   </ion-navbar>
-
 </ion-header>
+
 <ion-content>
-  <ion-card>
-    <ion-card-header>
-      <ion-avatar item-left>
-        <img src="https://relifecloud-nonodev96.c9users.io/assets/images/users/{{user.profile_avatar}}" alt="">
-      </ion-avatar>
-    </ion-card-header>
-    <ion-card-title>
-      <h2><strong>{{user.nickname}}</strong></h2>
-      <h3>{{user.first_name}} {{user.last_name}}</h3>
-    </ion-card-title>
-    <ion-card-content>
-      <p>{{user.email}}</p>
-      <p>{{user.location}}</p>
-    </ion-card-content>
-  </ion-card>
+  <div id="background-profile">
+    <img src="{{backgroundRandom}}" id="imgBackground">
+    <div id="image-avatar">
+      <div id="image-border">
+        <img src="https://relifecloud-nonodev96.c9users.io/assets/images/users/{{user.profile_avatar}}">
+      </div>
+      <h2 id="nickname">{{user.nickname}}</h2>
+    </div>
+  </div>
+
+  <ion-list>
+    <button ion-item>
+      <ion-icon name="person"></ion-icon>
+      {{user.first_name}} {{user.last_name}}
+    </button>
+    <button ion-item>
+      <ion-icon name="mail"></ion-icon>
+      {{user.email}}
+    </button>
+    <button ion-item>
+      <ion-icon name="egg"></ion-icon>
+      {{user.birth_date}}
+    </button>
+    <button ion-item>
+      <ion-icon name="calendar"></ion-icon>
+      {{user.join_date}}
+    </button>
+    <button ion-item>
+      <ion-icon name="map"></ion-icon>
+      {{user.location}}
+    </button>
+
+  </ion-list>
 </ion-content>

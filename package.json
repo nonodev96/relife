@@ -20,6 +20,7 @@
     "@angular/platform-browser-dynamic": "2.4.8",
     "@angular/platform-server": "2.4.8",
     "@ionic-native/core": "^3.4.4",
+    "@ionic-native/image-picker": "^3.4.4",
     "@ionic-native/native-storage": "^3.4.4",
     "@ionic/storage": "^2.0.1",
     "ionic-angular": "2.2.0",
@@ -50,7 +51,8 @@
     "de.appplant.cordova.plugin.local-notification",
     "cordova-plugin-geolocation",
     "cordova-plugin-nativestorage",
-    "cordova-sqlite-storage"
+    "cordova-sqlite-storage",
+    "https://github.com/Telerik-Verified-Plugins/ImagePicker"
   ],
   "cordovaPlatforms": [
     "android"
