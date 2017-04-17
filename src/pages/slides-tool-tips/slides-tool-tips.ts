@@ -1,16 +1,26 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {NavController} from "ionic-angular";
+import {HomePage} from "../home/home";
 
 /*
-  Generated class for the SlidesToolTips page.
+ Generated class for the SlidesToolTips page.
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+ See http://ionicframework.com/docs/v2/components/#navigation for more info on
+ Ionic pages and navigation.
+ */
 @Component({
   selector: 'page-slides-tool-tips',
   templateUrl: 'slides-tool-tips.html'
 })
 export class SlidesToolTipsPage {
+
+  constructor(public navController: NavController) {
+
+  }
+
+  public changeSetRoot() {
+    this.navController.setRoot(HomePage);
+  }
 
   slides = [
     {

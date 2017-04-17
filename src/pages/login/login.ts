@@ -5,6 +5,7 @@ import {Storage} from '@ionic/storage';
 
 import {RegisterPage} from '../register/register';
 import {HomePage} from '../home/home';
+import {SlidesToolTipsPage} from '../slides-tool-tips/slides-tool-tips';
 
 import {AuthService} from '../../providers/auth-service';
 
@@ -25,12 +26,12 @@ export class LoginPage {
   loading: Loading;
   public loging: string = "FALSE";
   public registerCredentials = {
-    email:'',
-    password:''
+    email: '',
+    password: ''
   };
 
   constructor(private auth: AuthService,
-              private nav: NavController,
+              private navController: NavController,
               private menuController: MenuController,
               private alertCtrl: AlertController,
               private loadingCtrl: LoadingController,
@@ -40,16 +41,16 @@ export class LoginPage {
     this.menuController = menuController;
     this.menuController.get().enable(false);
     this.storage.ready().then(() => {
-      this.storage.get("email").then(data=>{
+      this.storage.get("email").then(data => {
         this.registerCredentials.email = data;
       });
-      this.storage.get("password").then(data=>{
+      this.storage.get("password").then(data => {
         this.registerCredentials.password = data;
       });
-      this.storage.get("loging").then(data=>{
+      this.storage.get("loging").then(data => {
         this.loging = data;
-        if(data == "TRUE"){
-          this.login();
+        if (data == "TRUE") {
+          this.login(true);
         }
       });
     });
@@ -57,10 +58,10 @@ export class LoginPage {
   }
 
   public createAccount() {
-    this.nav.push(RegisterPage);
+    this.navController.push(RegisterPage);
   }
 
-  public login() {
+  public login(changeNavController: boolean) {
     this.showLoading();
     this.auth.login(this.registerCredentials).subscribe(
       allowed => {
@@ -73,7 +74,11 @@ export class LoginPage {
               this.storage.set("loging", "TRUE");
             });
             this.menuController.get().enable(true);
-            this.nav.setRoot(HomePage);
+            if (changeNavController == true) {
+              this.navController.setRoot(HomePage);
+            } else {
+              this.navController.setRoot(SlidesToolTipsPage);
+            }
           });
         } else {
           this.showError("Acceso denegado");
@@ -109,7 +114,10 @@ export class LoginPage {
     this.nativeStorage.getItem('registerCredentials').then(data => {
       console.log(data);
     });
+  }
 
+  private showSlideWelcome() {
+    this.navController.push(SlidesToolTipsPage);
   }
 
   ionViewDidLoad() {

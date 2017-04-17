@@ -13,7 +13,7 @@
   </ion-row>
 
   <div class="login-box">
-    <form (ngSubmit)="login()" #registerForm="ngForm">
+    <form (ngSubmit)="login(false)" #registerForm="ngForm">
       <ion-row>
         <ion-col>
           <ion-list inset>
@@ -41,10 +41,12 @@
       </ion-row>
       <ion-row>
         <ion-col class="signup-col">
-          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Iniciar
-            sesión
+          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">
+            Iniciar sesión
           </button>
-          <button ion-button class="register-btn" block clear (click)="createAccount()">Crea una cuenta</button>
+          <button ion-button class="register-btn" block clear (click)="createAccount()">
+            Crea una cuenta
+          </button>
         </ion-col>
       </ion-row>
       <!--
