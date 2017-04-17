@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import {Injectable} from '@angular/core';
+import {Http, Headers, RequestOptions} from '@angular/http';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 /*
@@ -124,9 +124,36 @@ export class AuthService {
           observer.next(this.stringDataUser);
           observer.complete();
         } else {
-          observer.next("Me cago en todo");
+          observer.next("Error en getUserInfoObservable");
           observer.complete();
         }
+      }
+    );
+  }
+
+  public updateDataUser(userObject, id) {
+    return Observable.create(
+      observer => {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        let link = SERVER_URL + 'api/user/' + id;
+        let body = JSON.stringify(userObject);
+        console.log(link);
+        console.log(body);
+
+        this.http.put(link, body, options).subscribe(
+          response  => {
+            observer.next(JSON.parse(response.text()));
+            observer.complete();
+          },
+          error => {
+            console.log("Error observer");
+            observer.next(error);
+            observer.complete();
+          }
+        );
+
       }
     );
   }

@@ -15,26 +15,38 @@
 			</ion-buttons>
 		</ion-toolbar>
 	</ion-navbar>
-	
+
 </ion-header>
 
 <ion-content>
 	<ion-list>
-		<ion-item>
-			<ion-label color="primary" floating>Nombre *</ion-label>
-			<ion-input [value]="user.first_name" [(ngModel)]="user.first_name"></ion-input>
-		</ion-item>
+    <ion-item>
+      <ion-label color="primary" floating>Nickname *</ion-label>
+      <ion-input [value]="userObject.nickname" [(ngModel)]="userObject.nickname"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" floating>Nombre *</ion-label>
+      <ion-input [value]="userObject.first_name" [(ngModel)]="userObject.first_name"></ion-input>
+    </ion-item>
 		<ion-item>
 			<ion-label color="primary" floating>Apellidos *</ion-label>
-			<ion-input [value]="user.last_name" [(ngModel)]="user.last_name"></ion-input>
+			<ion-input [value]="userObject.last_name" [(ngModel)]="userObject.last_name"></ion-input>
 		</ion-item>
+    <ion-item>
+      <ion-label color="primary" floating>Email *</ion-label>
+      <ion-input [value]="userObject.email" [(ngModel)]="userObject.email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" floating>Contraseña *</ion-label>
+      <ion-input [value]="userObject.password" [(ngModel)]="userObject.password"></ion-input>
+    </ion-item>
 		<ion-item>
 			<ion-label floating>Cumpleaños</ion-label>
-			<ion-datetime displayFormat="DDDD D MMM \d\e\l YYYY" [(ngModel)]="user.birth_date"></ion-datetime>
+			<ion-datetime displayFormat="DDDD D MMM \d\e\l YYYY" [(ngModel)]="userObject.birth_date"></ion-datetime>
 		</ion-item>
 		<ion-item>
 			<ion-label color="primary" floating>Ubicacion</ion-label>
-			<ion-input [value]="user.location" [(ngModel)]="user.location"></ion-input>
+			<ion-input [value]="userObject.location" [(ngModel)]="userObject.location"></ion-input>
 		</ion-item>
 		<button ion-item (click)="openGallery()">Avatar</button>
 	</ion-list>
