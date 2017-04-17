@@ -1,8 +1,12 @@
 import {Component} from '@angular/core';
-import {AlertController, Loading, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {
+  ActionSheetController, AlertController, Loading, LoadingController, NavController,
+  NavParams
+} from 'ionic-angular';
 import {AuthService} from '../../providers/auth-service';
+import {DomSanitizer} from '@angular/platform-browser';
 
-import {DatePicker, ImagePicker} from 'ionic-native';
+import {DatePicker, Camera, ImagePicker} from 'ionic-native';
 
 /*
  Generated class for the EditUser page.
@@ -17,12 +21,15 @@ import {DatePicker, ImagePicker} from 'ionic-native';
 export class EditUserPage {
   public user;
   public userObject;
+  public base64Image;
   loading: Loading;
 
   constructor(public navCtrl: NavController,
+              private actionSheetCtrl: ActionSheetController,
               private alertCtrl: AlertController,
               private loadingCtrl: LoadingController,
               public navParams: NavParams,
+              public domSanitizer: DomSanitizer,
               public authService: AuthService) {
     this.user = JSON.parse(this.authService.getStringDataUser()).data;
     this.userObject = this.user;
@@ -60,7 +67,7 @@ export class EditUserPage {
       password: this.userObject.password,
       location: this.userObject.location,
       birth_date: this.userObject.birth_date,
-      profile_avatar: ""
+      profile_avatar: this.base64Image
     };
     let ID_USER = this.userObject.id;
     this.authService.updateDataUser(userDataToUpdate, ID_USER).subscribe(
@@ -102,6 +109,46 @@ export class EditUserPage {
     );
   }
 
+
+  public selectCameraOrImagePicker() {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Actualizar tu foto de perfil',
+      buttons: [
+        {
+          text: 'Tomar foto',
+          handler: () => {
+            this.openCamera();
+          }
+        }, {
+          text: 'Elegir foto existente',
+          handler: () => {
+            this.openGallery();
+          }
+        }, {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
+  public openCamera(): void {
+    Camera.getPicture({
+      destinationType: Camera.DestinationType.DATA_URL,
+      targetWidth: 1000,
+      targetHeight: 1000
+    }).then((imageData) => {
+      // imageData is a base64 encoded string
+      this.base64Image = "data:image/jpeg;base64," + imageData;
+    }, (err) => {
+      console.log(err);
+    });
+  }
+
   public openGallery(): void {
     let options = {
       maximumImagesCount: 1,
@@ -113,6 +160,7 @@ export class EditUserPage {
       (results) => {
         for (let i = 0; i < results.length; i++) {
           console.log('Image URI: ' + results[i]);
+          this.base64Image = this.domSanitizer.bypassSecurityTrustResourceUrl(results[i]);
         }
       },
       (err) => {

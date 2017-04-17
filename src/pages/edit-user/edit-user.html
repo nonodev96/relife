@@ -48,6 +48,12 @@
 			<ion-label color="primary" floating>Ubicacion</ion-label>
 			<ion-input [value]="userObject.location" [(ngModel)]="userObject.location"></ion-input>
 		</ion-item>
-		<button ion-item (click)="openGallery()">Avatar</button>
-	</ion-list>
+		<button ion-button block outline (click)="selectCameraOrImagePicker()">Editar imagen</button>
+    <ion-item class="item-profile">
+      <div class="item-avatar">
+        <img [src]="base64Image" *ngIf="base64Image" />
+      </div>
+    </ion-item>
+
+  </ion-list>
 </ion-content>

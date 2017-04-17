@@ -57,10 +57,6 @@ export class LoginPage {
 
   }
 
-  public createAccount() {
-    this.navController.push(RegisterPage);
-  }
-
   public login(changeNavController: boolean) {
     this.showLoading();
     this.auth.login(this.registerCredentials).subscribe(
