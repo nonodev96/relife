@@ -18,6 +18,7 @@ import {SearchPage} from '../pages/search/search';
 import {UserPage} from '../pages/user/user';
 import {RegisterPage} from '../pages/register/register';
 import { EditUserPage } from "../pages/edit-user/edit-user";
+import {SlidesToolTipsPage} from "../pages/slides-tool-tips/slides-tool-tips";
 
 @NgModule({
   declarations: [
@@ -32,10 +33,11 @@ import { EditUserPage } from "../pages/edit-user/edit-user";
   SearchPage,
   UserPage,
   RegisterPage,
-  EditUserPage
+  EditUserPage,
+    SlidesToolTipsPage
   ],
   imports: [
-  IonicModule.forRoot(MyApp, 
+  IonicModule.forRoot(MyApp,
   {
     monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
     monthShortNames: ["Enero", "Feb", "Marzo", "Abr", "Mayo", "Jun", "Jul", "Agosto", "set", "Oct", "Nov", "Dic"],
@@ -57,7 +59,8 @@ import { EditUserPage } from "../pages/edit-user/edit-user";
   SearchPage,
   UserPage,
   RegisterPage,
-  EditUserPage
+  EditUserPage,
+    SlidesToolTipsPage
   ],
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},

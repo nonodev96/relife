@@ -91,6 +91,7 @@ export class EditUserPage {
                 console.log("error in password");
               }
             }
+
           });
         }
       },

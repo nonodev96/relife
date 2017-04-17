@@ -11,6 +11,7 @@ import { AddProductPage } from '../pages/add-product/add-product';
 import { UserPage } from '../pages/user/user';
 // import {SearchPage} from '../pages/search/search';
 import { LoginPage } from '../pages/login/login';
+import {SlidesToolTipsPage} from "../pages/slides-tool-tips/slides-tool-tips";
 import { AuthService } from "../providers/auth-service";
 
 @Component({
@@ -35,6 +36,7 @@ export class MyApp {
       {title: 'Page Home', component: HomePage, nav: 'setRoot'},
       // {title: 'Page AjaxTestPage', component: AjaxTestPage},
       {title: 'Page AddProduct', component: AddProductPage, nav: 'push'},
+      {title: 'Slide', component: SlidesToolTipsPage, nav: 'setRoot'},
       // {title: 'Page One', component: Page1Page},
       // {title: 'Page Two', component: Page2Page},
       // {title: 'Page SearchPage', component: SearchPage}
