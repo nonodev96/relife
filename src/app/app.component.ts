@@ -1,18 +1,18 @@
-import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, MenuController } from 'ionic-angular';
-import { StatusBar, Splashscreen } from 'ionic-native';
-import { Storage } from '@ionic/storage';
+import {Component, ViewChild} from '@angular/core';
+import {Nav, Platform, MenuController} from 'ionic-angular';
+import {StatusBar, Splashscreen} from 'ionic-native';
+import {Storage} from '@ionic/storage';
 
-import { HomePage } from '../pages/home/home';
+import {HomePage} from '../pages/home/home';
 // import {AjaxTestPage} from '../pages/ajax-test/ajax-test';
 // import {Page1Page} from '../pages/page1/page1';
 // import {Page2Page} from '../pages/page2/page2';
-import { AddProductPage } from '../pages/add-product/add-product';
-import { UserPage } from '../pages/user/user';
+import {AddProductPage} from '../pages/add-product/add-product';
+import {UserPage} from '../pages/user/user';
 // import {SearchPage} from '../pages/search/search';
-import { LoginPage } from '../pages/login/login';
+import {LoginPage} from '../pages/login/login';
 import {SlidesToolTipsPage} from "../pages/slides-tool-tips/slides-tool-tips";
-import { AuthService } from "../providers/auth-service";
+import {AuthService} from "../providers/auth-service";
 
 @Component({
   templateUrl: 'app.html'
@@ -24,7 +24,7 @@ export class MyApp {
   rootPage: any = LoginPage;
   //rootPage: any = HomePage;
 
-  pages: Array<{title: string, component: any, nav: string}>;
+  pages: Array<{ title: string, component: any, nav: string }>;
 
   constructor(public platform: Platform,
               public auth: AuthService,
@@ -32,14 +32,10 @@ export class MyApp {
               public menuController: MenuController) {
     this.user = [];
     this.pages = [
-      {title: 'Page UserPage', component: UserPage, nav: 'push'},
-      {title: 'Page Home', component: HomePage, nav: 'setRoot'},
-      // {title: 'Page AjaxTestPage', component: AjaxTestPage},
-      {title: 'Page AddProduct', component: AddProductPage, nav: 'push'},
-      {title: 'Slide', component: SlidesToolTipsPage, nav: 'setRoot'},
-      // {title: 'Page One', component: Page1Page},
-      // {title: 'Page Two', component: Page2Page},
-      // {title: 'Page SearchPage', component: SearchPage}
+      {title: 'UserPage', component: UserPage, nav: 'push'},
+      {title: 'Home', component: HomePage, nav: 'setRoot'},
+      {title: 'AddProduct', component: AddProductPage, nav: 'push'},
+      {title: 'Tool tips', component: SlidesToolTipsPage, nav: 'setRoot'},
     ];
     this.initializeApp();
   }
@@ -53,13 +49,13 @@ export class MyApp {
     );
     this.storage.ready().then(() => {
       let credentials = [];
-      this.storage.get("email").then(data=> {
+      this.storage.get("email").then(data => {
         credentials["email"] = data;
       });
-      this.storage.get("password").then(data=> {
+      this.storage.get("password").then(data => {
         credentials["password"] = data;
       });
-      this.storage.get("loging").then(data=> {
+      this.storage.get("loging").then(data => {
         credentials["loging"] = data;
         if (data == "TRUE") {
           this.logingAppComponents(credentials);

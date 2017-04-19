@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { Http } from "@angular/http";
+import {Component} from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
+import {Http} from "@angular/http";
 
 /*
  Generated class for the Product page.

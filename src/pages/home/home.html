@@ -30,17 +30,12 @@
       refreshingText="Suelta para actualizar">
     </ion-refresher-content>
   </ion-refresher>
-  <!--
-  <button ion-button (click)="clickStorage()">Native storage</button>
-  <button ion-button (click)="presentPrompt()">Present prompt</button>
-  <button ion-button (click)="updateHome()">Update home</button>
-  <br>
-  -->
+
   <ion-list>
     <ion-item-sliding *ngFor="let product of listProductsOfToday">
       <ion-item (click)="viewProduct(product)">
-        <ion-thumbnail item-left >
-            <img src="https://relifecloud-nonodev96.c9users.io/assets/images/products/{{product.image}}" alt="">
+        <ion-thumbnail item-left>
+          <img src="https://relifecloud-nonodev96.c9users.io/assets/images/products/{{product.image}}" alt="">
         </ion-thumbnail>
         <h2>{{product.title}}</h2>
         <p>{{product.starting_price}}€</p>

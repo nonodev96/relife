@@ -19,11 +19,14 @@ import {DatePicker, Camera, ImagePicker} from 'ionic-native';
   templateUrl: 'edit-user.html'
 })
 export class EditUserPage {
-  public user;
-  public userObject;
-  public base64Image;
-  loading: Loading;
+  //region ATTRIBUTES
+  private _user;
+  private _userObject;
+  private _base64Image;
+  private _loading: Loading;
+  //endregion
 
+  //region CONSTRUCTOR
   constructor(public navCtrl: NavController,
               private actionSheetCtrl: ActionSheetController,
               private alertCtrl: AlertController,
@@ -31,16 +34,54 @@ export class EditUserPage {
               public navParams: NavParams,
               public domSanitizer: DomSanitizer,
               public authService: AuthService) {
-    this.user = JSON.parse(this.authService.getStringDataUser()).data;
-    this.userObject = this.user;
+    this._user = JSON.parse(this.authService.getStringDataUser()).data;
+    this._userObject = this._user;
     try {
-      this.userObject.birth_date = new Date(this.user.birth_date).toISOString();
+      this._userObject.birth_date = new Date(this._user.birth_date).toISOString();
     } catch (error) {
       console.log(error);
-      this.userObject.birth_date = new Date().toISOString();
+      this._userObject.birth_date = new Date().toISOString();
     }
   }
 
+  //endregion
+
+  //region GETTER AND SETTER
+  get user() {
+    return this._user;
+  }
+
+  set user(value) {
+    this._user = value;
+  }
+
+  get userObject() {
+    return this._userObject;
+  }
+
+  set userObject(value) {
+    this._userObject = value;
+  }
+
+  get base64Image() {
+    return this._base64Image;
+  }
+
+  set base64Image(value) {
+    this._base64Image = value;
+  }
+
+  get loading(): Loading {
+    return this._loading;
+  }
+
+  set loading(value: Loading) {
+    this._loading = value;
+  }
+
+  //endregion
+
+  //region CONTROLLER
   public editBirthDay() {
     DatePicker.show({
       date: new Date(),
@@ -48,7 +89,7 @@ export class EditUserPage {
       androidTheme: 5
     }).then(
       date => {
-        this.userObject.birth_date = date;
+        this._userObject.birth_date = date;
       },
       err => {
         console.log('Error occurred while getting date: ', err);
@@ -57,24 +98,24 @@ export class EditUserPage {
 
   public updateUser() {
     this.showLoading();
-    this.userObject.birth_date = (new Date(this.userObject.birth_date)).toISOString().substring(0, 19).replace('T', ' ');
+    this._userObject.birth_date = (new Date(this._userObject.birth_date)).toISOString().substring(0, 19).replace('T', ' ');
     let userDataToUpdate = {
-      id: this.userObject.id,
-      nickname: this.userObject.nickname,
-      first_name: this.userObject.first_name,
-      last_name: this.userObject.last_name,
-      email: this.userObject.email,
-      password: this.userObject.password,
-      location: this.userObject.location,
-      birth_date: this.userObject.birth_date,
-      profile_avatar: this.base64Image
+      id: this._userObject.id,
+      nickname: this._userObject.nickname,
+      first_name: this._userObject.first_name,
+      last_name: this._userObject.last_name,
+      email: this._userObject.email,
+      password: this._userObject.password,
+      location: this._userObject.location,
+      birth_date: this._userObject.birth_date,
+      profile_avatar: this._base64Image
     };
-    let ID_USER = this.userObject.id;
+    let ID_USER = this._userObject.id;
     this.authService.updateDataUser(userDataToUpdate, ID_USER).subscribe(
       allowed => {
         if (allowed) {
           setTimeout(() => {
-            this.loading.dismiss();
+            this._loading.dismiss();
             console.log(allowed);
             let response = JSON.parse(allowed._body);
 
@@ -109,7 +150,9 @@ export class EditUserPage {
     );
   }
 
+  //endregion
 
+  //region COMPONENTS
   public selectCameraOrImagePicker() {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Actualizar tu foto de perfil',
@@ -136,6 +179,29 @@ export class EditUserPage {
     actionSheet.present();
   }
 
+  public showError(text: string) {
+    setTimeout(() => {
+      this._loading.dismiss();
+    });
+
+    let alert = this.alertCtrl.create({
+      title: 'Error',
+      subTitle: text,
+      buttons: ['OK']
+    });
+    alert.present(prompt);
+  }
+
+  public showLoading() {
+    this._loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+    this._loading.present();
+  }
+
+  //endregion
+
+  //region NATIVE
   public openCamera(): void {
     Camera.getPicture({
       destinationType: Camera.DestinationType.DATA_URL,
@@ -143,7 +209,7 @@ export class EditUserPage {
       targetHeight: 1000
     }).then((imageData) => {
       // imageData is a base64 encoded string
-      this.base64Image = "data:image/jpeg;base64," + imageData;
+      this._base64Image = "data:image/jpeg;base64," + imageData;
     }, (err) => {
       console.log(err);
     });
@@ -160,7 +226,7 @@ export class EditUserPage {
       (results) => {
         for (let i = 0; i < results.length; i++) {
           console.log('Image URI: ' + results[i]);
-          this.base64Image = this.domSanitizer.bypassSecurityTrustResourceUrl(results[i]);
+          this._base64Image = this.domSanitizer.bypassSecurityTrustResourceUrl(results[i]);
         }
       },
       (err) => {
@@ -169,28 +235,12 @@ export class EditUserPage {
     );
   }
 
+  //endregion
+
+  //region Description
   ionViewDidLoad() {
     console.log('ionViewDidLoad EditUserPage');
   }
 
-
-  public showError(text: string) {
-    setTimeout(() => {
-      this.loading.dismiss();
-    });
-
-    let alert = this.alertCtrl.create({
-      title: 'Error',
-      subTitle: text,
-      buttons: ['OK']
-    });
-    alert.present(prompt);
-  }
-
-  showLoading() {
-    this.loading = this.loadingCtrl.create({
-      content: 'Please wait...'
-    });
-    this.loading.present();
-  }
+  //endregion
 }

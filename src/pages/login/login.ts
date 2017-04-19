@@ -2,44 +2,29 @@ import {Component} from '@angular/core';
 import {MenuController, NavController, AlertController, LoadingController, Loading, Platform} from 'ionic-angular';
 import {NativeStorage} from '@ionic-native/native-storage';
 import {Storage} from '@ionic/storage';
-
 import {HomePage} from '../home/home';
 import {SlidesToolTipsPage} from '../slides-tool-tips/slides-tool-tips';
-
 import {AuthService} from '../../providers/auth-service';
-
-
 /*
  Generated class for the Login page.
 
  See http://ionicframework.com/docs/v2/components/#navigation for more info on
  Ionic pages and navigation.
  */
-
 @Component({
-  selector: 'page-login',
-  templateUrl: 'login.html'
+  selector: 'page-login', templateUrl: 'login.html'
 })
 export class LoginPage {
-
   //region ATTRIBUTES
   public loading: Loading;
   private _loging: string = "FALSE";
   private _registerCredentials = {
-    email: '',
-    password: ''
+    email: '', password: ''
   };
   //endregion
 
   //region CONSTRUCTOR
-  constructor(private auth: AuthService,
-              private navController: NavController,
-              private menuController: MenuController,
-              private alertCtrl: AlertController,
-              private loadingCtrl: LoadingController,
-              private nativeStorage: NativeStorage,
-              public platform: Platform,
-              public storage: Storage) {
+  constructor(private auth: AuthService, private navController: NavController, private menuController: MenuController, private alertCtrl: AlertController, private loadingCtrl: LoadingController, private nativeStorage: NativeStorage, public platform: Platform, public storage: Storage) {
     this.menuController = menuController;
     this.menuController.get().enable(false);
     this.storage.ready().then(() => {
@@ -57,6 +42,7 @@ export class LoginPage {
       });
     });
   }
+
   //endregion
 
   //region GETTER AND SETTER
@@ -75,37 +61,36 @@ export class LoginPage {
   set loging(value: string) {
     this._loging = value;
   }
+
   //endregion
 
-  //region USER CONTROLLER
+  //region CONTROLLER
   public login(changeNavController: boolean) {
     this.showLoading();
-    this.auth.login(this._registerCredentials).subscribe(
-      allowed => {
-        if (allowed) {
-          setTimeout(() => {
-            this.loading.dismiss();
-            this.storage.ready().then(() => {
-              this.storage.set("email", this._registerCredentials.email);
-              this.storage.set("password", this._registerCredentials.password);
-              this.storage.set("_loging", "TRUE");
-            });
-            this.menuController.get().enable(true);
-            if (changeNavController == true) {
-              this.navController.setRoot(HomePage);
-            } else {
-              this.navController.setRoot(SlidesToolTipsPage);
-            }
+    this.auth.login(this._registerCredentials).subscribe(allowed => {
+      if (allowed) {
+        setTimeout(() => {
+          this.loading.dismiss();
+          this.storage.ready().then(() => {
+            this.storage.set("email", this._registerCredentials.email);
+            this.storage.set("password", this._registerCredentials.password);
+            this.storage.set("_loging", "TRUE");
           });
-        } else {
-          this.showError("Acceso denegado");
-        }
-      },
-      error => {
-        this.showError(error);
+          this.menuController.get().enable(true);
+          if (changeNavController == true) {
+            this.navController.setRoot(HomePage);
+          } else {
+            this.navController.setRoot(SlidesToolTipsPage);
+          }
+        });
+      } else {
+        this.showError("Acceso denegado");
       }
-    );
+    }, error => {
+      this.showError(error);
+    });
   }
+
   //endregion
 
   //region COMPONENTS
@@ -120,11 +105,8 @@ export class LoginPage {
     setTimeout(() => {
       this.loading.dismiss();
     });
-
     let alert = this.alertCtrl.create({
-      title: 'Error',
-      subTitle: text,
-      buttons: ['OK']
+      title: 'Error', subTitle: text, buttons: ['OK']
     });
     alert.present(prompt);
   }
@@ -134,11 +116,13 @@ export class LoginPage {
       console.log(data);
     });
   }
+
   //endregion
 
   //region DEBUG
   ionViewDidLoad() {
-
+    console.log('ionViewDidLoad LoginPage');
   }
+
   //endregion
 }

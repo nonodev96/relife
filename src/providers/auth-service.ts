@@ -45,14 +45,45 @@ const SERVER_URL = 'https://relifecloud-nonodev96.c9users.io/';
 
 @Injectable()
 export class AuthService {
-  currentUser: User;
-  stringDataUser;
-  access = false;
+  //region ATTRIBUTES
+  public currentUser: User;
+  public stringDataUser;
+  public access = false;
+  //endregion
 
+  //region CONSTRUCTOR
   constructor(public http: Http) {
 
   }
 
+  //endregion
+
+  //region GETTER AND SETTER
+  public getUserInfo(): User {
+    return this.currentUser;
+  }
+
+  public getUserInfoObservable() {
+    return Observable.create(
+      observer => {
+        if (this.access) {
+          observer.next(this.stringDataUser);
+          observer.complete();
+        } else {
+          observer.next("Error en getUserInfoObservable");
+          observer.complete();
+        }
+      }
+    );
+  }
+
+  public getStringDataUser(): string {
+    return this.stringDataUser;
+  }
+
+  //endregion
+
+  //region CONTROLLER
   public login(credentials) {
     if (credentials.email === null || credentials.password === null) {
       return Observable.throw("Please insert credentials");
@@ -100,6 +131,11 @@ export class AuthService {
     }
   }
 
+  /**
+   * Pendiente
+   * @param credentials
+   * @returns {any}
+   */
   public register(credentials) {
     if (credentials.email === null || credentials.password === null) {
       return Observable.throw("Please insert credentials");
@@ -113,37 +149,19 @@ export class AuthService {
     }
   }
 
-  public getUserInfo(): User {
-    return this.currentUser;
-  }
-
-  public getUserInfoObservable() {
-    return Observable.create(
-      observer => {
-        if (this.access) {
-          observer.next(this.stringDataUser);
-          observer.complete();
-        } else {
-          observer.next("Error en getUserInfoObservable");
-          observer.complete();
-        }
-      }
-    );
-  }
-
   public updateDataUser(userObject, id) {
     return Observable.create(
       observer => {
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+        let headers = new Headers({'Content-Type': 'application/json'});
+        let options = new RequestOptions({headers: headers});
 
         let link = SERVER_URL + 'api/user/' + id;
         let body = JSON.stringify(userObject);
-        console.log(link);
-        console.log(body);
+        // console.log(link);
+        // console.log(body);
 
         this.http.put(link, body, options).subscribe(
-          response  => {
+          response => {
             observer.next(JSON.parse(response.text()));
             observer.complete();
           },
@@ -153,13 +171,8 @@ export class AuthService {
             observer.complete();
           }
         );
-
       }
     );
-  }
-
-  public getStringDataUser(): string {
-    return this.stringDataUser;
   }
 
   public logout() {
@@ -170,6 +183,9 @@ export class AuthService {
     });
   }
 
+  //endregion
+
+  //region DEBUG
   logError(err) {
     console.log(err);
   }
@@ -178,4 +194,6 @@ export class AuthService {
     console.log(error);
     return error.json().message || 'Server error, please try again later';
   }
+
+  //endregion
 }

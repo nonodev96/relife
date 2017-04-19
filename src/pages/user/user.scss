@@ -2,17 +2,16 @@ page-user {
   #background-profile {
     position: relative;
     width: 100%;
-    @media screen and (orientation:portrait) {
+    @media screen and (orientation: portrait) {
       height: 40%;
     }
-    @media screen and (orientation:landscape) {
-      height: 70%;    
+    @media screen and (orientation: landscape) {
+      height: 70%;
       #imgBackground {
         width: 100%;
       }
     }
     overflow: hidden;
-    
 
     #image-avatar {
       position: absolute;
@@ -42,7 +41,8 @@ page-user {
         top: 56%;
         left: 0;
         right: 0;
-        */      width: 100%;
+        */
+        width: 100%;
         text-align: center;
       }
     }

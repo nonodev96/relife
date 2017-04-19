@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
-import { NativeStorage } from '@ionic-native/native-storage';
-import { Storage } from '@ionic/storage';
+import {Component} from '@angular/core';
+import {NavController, NavParams, AlertController} from 'ionic-angular';
+import {NativeStorage} from '@ionic-native/native-storage';
+import {Storage} from '@ionic/storage';
 
-import { LoginPage } from '../login/login';
-import { AuthService } from '../../providers/auth-service';
-import { ProductsService } from '../../providers/products-service';
-import { ProductPage } from "../product/product";
+import {LoginPage} from '../login/login';
+import {AuthService} from '../../providers/auth-service';
+import {ProductsService} from '../../providers/products-service';
+import {ProductPage} from "../product/product";
 
 //import {AddProductPage} from '../add-product/add-product';
 export class ProductOfToday {
@@ -65,10 +65,13 @@ export class ProductOfToday {
   templateUrl: 'home.html'
 })
 export class HomePage {
-  public userInfo;
-  public name: string;
-  public listProductsOfToday: Array<ProductOfToday>;
+  //region ATTRIBUTES
+  private _userInfo;
+  private _name: string;
+  private _listProductsOfToday: Array<ProductOfToday>;
+  //endregion
 
+  //region CONSTRUCTOR
   constructor(private authService: AuthService,
               private prodService: ProductsService,
               public navCtrl: NavController,
@@ -77,22 +80,52 @@ export class HomePage {
               public alertCtrl: AlertController,
               public storage: Storage) {
 
-    this.userInfo = this.authService.getUserInfo();
-    this.listProductsOfToday = [];
+    this._userInfo = this.authService.getUserInfo();
+    this._listProductsOfToday = [];
     this.updateHome();
   }
 
+  //endregion
+
+  //region GETTER AND SETTER
+  get userInfo() {
+    return this._userInfo;
+  }
+
+  set userInfo(value) {
+    this._userInfo = value;
+  }
+
+  get name(): string {
+    return this._name;
+  }
+
+  set name(value: string) {
+    this._name = value;
+  }
+
+  get listProductsOfToday(): Array<ProductOfToday> {
+    return this._listProductsOfToday;
+  }
+
+  set listProductsOfToday(value: Array<ProductOfToday>) {
+    this._listProductsOfToday = value;
+  }
+
+  //endregion
+
+  //region CONTROLLER
   public updateHome() {
     this.prodService.getProductsOfToday().subscribe(
       allowed => {
         let json_data = JSON.parse(allowed.text()).data;
-        this.listProductsOfToday = [];
+        this._listProductsOfToday = [];
 
         for (let product of json_data) {
           product.time_left = product.datetime_product;
           this.countDown(product);
-          setTimeout(()=> {
-            this.listProductsOfToday.push(product);
+          setTimeout(() => {
+            this._listProductsOfToday.push(product);
           }, 200);
         }
       },
@@ -110,7 +143,7 @@ export class HomePage {
     tmp.setDate(new Date(datetime).getDate() + 1);
     object_datetime_deadline = tmp.getTime();
     product.sInterval = setInterval(
-      ()=> {
+      () => {
         let now = new Date().getTime();
         datetime_format = object_datetime_deadline - now;
         datetime_format = new Date(datetime_format);
@@ -128,41 +161,44 @@ export class HomePage {
   }
 
   public removeProduct(product) {
-    let to_remove = this.listProductsOfToday.indexOf(product);
+    let to_remove = this._listProductsOfToday.indexOf(product);
     if (to_remove > -1) {
       console.log("Borrado o eso creo");
-      this.listProductsOfToday.splice(to_remove, 1);
+      this._listProductsOfToday.splice(to_remove, 1);
     } else {
       console.log("No remove");
     }
   }
 
-  public searchPush() {
-    let alert = this.alertCtrl.create({
-      title: 'This page not finish',
-      subTitle: 'Sorry',
-      buttons: ['Dismiss']
-    });
-    alert.present();
-  }
-
   public clickStorage() {
     // set a key/value
-    this.storage.set('name', 'Max');
+    this.storage.set('_name', 'Max');
 
     // Or to get a key/value pair
-    this.storage.get('name').then((data)=> {
-      this.name = data;
+    this.storage.get('_name').then((data) => {
+      this._name = data;
     });
 
     let alert = this.alertCtrl.create({
-      title: 'The name is ' + this.name,
+      title: 'The name is ' + this._name,
       subTitle: 'The ionic database is working',
       buttons: ['ok']
     });
     alert.present();
   }
 
+  public logout() {
+    this.authService.logout().subscribe(succ => {
+      this.navCtrl.setRoot(LoginPage)
+    });
+  }
+
+  //endregion
+
+  //region COMPONENTS
+  /**
+   * Pendiente
+   */
   public presentPrompt() {
     let alert = this.alertCtrl.create({
       title: 'Login',
@@ -203,22 +239,25 @@ export class HomePage {
     alert.present();
   }
 
-  public logout() {
-    this.authService.logout().subscribe(succ => {
-      this.navCtrl.setRoot(LoginPage)
+  public searchPush() {
+    let alert = this.alertCtrl.create({
+      title: 'This page not finish',
+      subTitle: 'Sorry',
+      buttons: ['Dismiss']
     });
+    alert.present();
   }
 
   public doRefresh(refresher) {
     this.prodService.getProductsOfToday().subscribe(
       allowed => {
         let json_data = JSON.parse(allowed.text()).data;
-        this.listProductsOfToday = [];
+        this._listProductsOfToday = [];
 
         for (let product of json_data) {
           product.time_left = product.datetime_product;
           this.countDown(product);
-          this.listProductsOfToday.push(product);
+          this._listProductsOfToday.push(product);
         }
 
         refresher.complete();
@@ -234,8 +273,12 @@ export class HomePage {
     this.navCtrl.push(ProductPage, {product: product});
   }
 
-  ionViewDidLoad() {
+  //endregion
+
+  //region DEBUG
+  static ionViewDidLoad() {
     console.log('ionViewDidLoad HomePage');
   }
 
+  //endregion
 }
