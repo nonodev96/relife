@@ -3,7 +3,6 @@ import {MenuController, NavController, AlertController, LoadingController, Loadi
 import {NativeStorage} from '@ionic-native/native-storage';
 import {Storage} from '@ionic/storage';
 
-import {RegisterPage} from '../register/register';
 import {HomePage} from '../home/home';
 import {SlidesToolTipsPage} from '../slides-tool-tips/slides-tool-tips';
 
@@ -23,13 +22,16 @@ import {AuthService} from '../../providers/auth-service';
 })
 export class LoginPage {
 
-  loading: Loading;
-  public loging: string = "FALSE";
-  public registerCredentials = {
+  //region ATTRIBUTES
+  public loading: Loading;
+  private _loging: string = "FALSE";
+  private _registerCredentials = {
     email: '',
     password: ''
   };
+  //endregion
 
+  //region CONSTRUCTOR
   constructor(private auth: AuthService,
               private navController: NavController,
               private menuController: MenuController,
@@ -42,32 +44,51 @@ export class LoginPage {
     this.menuController.get().enable(false);
     this.storage.ready().then(() => {
       this.storage.get("email").then(data => {
-        this.registerCredentials.email = data;
+        this._registerCredentials.email = data;
       });
       this.storage.get("password").then(data => {
-        this.registerCredentials.password = data;
+        this._registerCredentials.password = data;
       });
-      this.storage.get("loging").then(data => {
-        this.loging = data;
+      this.storage.get("_loging").then(data => {
+        this._loging = data;
         if (data == "TRUE") {
           this.login(true);
         }
       });
     });
+  }
+  //endregion
 
+  //region GETTER AND SETTER
+  get registerCredentials(): { email: string; password: string } {
+    return this._registerCredentials;
   }
 
+  set registerCredentials(value: { email: string; password: string }) {
+    this._registerCredentials = value;
+  }
+
+  get loging(): string {
+    return this._loging;
+  }
+
+  set loging(value: string) {
+    this._loging = value;
+  }
+  //endregion
+
+  //region USER CONTROLLER
   public login(changeNavController: boolean) {
     this.showLoading();
-    this.auth.login(this.registerCredentials).subscribe(
+    this.auth.login(this._registerCredentials).subscribe(
       allowed => {
         if (allowed) {
           setTimeout(() => {
             this.loading.dismiss();
             this.storage.ready().then(() => {
-              this.storage.set("email", this.registerCredentials.email);
-              this.storage.set("password", this.registerCredentials.password);
-              this.storage.set("loging", "TRUE");
+              this.storage.set("email", this._registerCredentials.email);
+              this.storage.set("password", this._registerCredentials.password);
+              this.storage.set("_loging", "TRUE");
             });
             this.menuController.get().enable(true);
             if (changeNavController == true) {
@@ -85,7 +106,9 @@ export class LoginPage {
       }
     );
   }
+  //endregion
 
+  //region COMPONENTS
   showLoading() {
     this.loading = this.loadingCtrl.create({
       content: 'Please wait...'
@@ -107,17 +130,15 @@ export class LoginPage {
   }
 
   rememberMe() {
-    this.nativeStorage.getItem('registerCredentials').then(data => {
+    this.nativeStorage.getItem('_registerCredentials').then(data => {
       console.log(data);
     });
   }
+  //endregion
 
-  private showSlideWelcome() {
-    this.navController.push(SlidesToolTipsPage);
-  }
-
+  //region DEBUG
   ionViewDidLoad() {
 
   }
-
+  //endregion
 }
