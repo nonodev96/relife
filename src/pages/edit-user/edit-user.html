@@ -20,39 +20,42 @@
 
 <ion-content>
   <ion-list>
+
+    <ion-item class="item-profile">
+      <div class="item-avatar">
+        <img [src]="_image" *ngIf="_image"/>
+      </div>
+    </ion-item>
+    <ion-item>
+      <button ion-button block outline (click)="selectCameraOrImagePicker()">Editar imagen</button>
+    </ion-item>
     <ion-item>
       <ion-label color="primary" floating>Nickname *</ion-label>
-      <ion-input [value]="userObject.nickname" [(ngModel)]="userObject.nickname"></ion-input>
+      <ion-input [value]="_userObject.nickname" [(ngModel)]="_userObject.nickname"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label color="primary" floating>Nombre</ion-label>
-      <ion-input [value]="userObject.first_name" [(ngModel)]="userObject.first_name"></ion-input>
+      <ion-input [value]="_userObject.first_name" [(ngModel)]="_userObject.first_name"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label color="primary" floating>Apellidos</ion-label>
-      <ion-input [value]="userObject.last_name" [(ngModel)]="userObject.last_name"></ion-input>
+      <ion-input [value]="_userObject.last_name" [(ngModel)]="_userObject.last_name"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label color="primary" floating>Email *</ion-label>
-      <ion-input [value]="userObject.email"></ion-input>
+      <ion-input [value]="_userObject.email"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label color="primary" floating>Contraseña *</ion-label>
-      <ion-input [value]="userObject.password" [(ngModel)]="userObject.password"></ion-input>
+      <ion-input [value]="_userObject.password" [(ngModel)]="_userObject.password"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label floating>Cumpleaños</ion-label>
-      <ion-datetime displayFormat="DDDD D MMM \d\e\l YYYY" [(ngModel)]="userObject.birth_date"></ion-datetime>
+      <ion-datetime displayFormat="DDDD D MMM \d\e\l YYYY" [(ngModel)]="_userObject.birth_date"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label color="primary" floating>Ubicacion</ion-label>
-      <ion-input [value]="userObject.location" [(ngModel)]="userObject.location"></ion-input>
-    </ion-item>
-    <button ion-button block outline (click)="selectCameraOrImagePicker()">Editar imagen</button>
-    <ion-item class="item-profile">
-      <div class="item-avatar">
-        <img [src]="base64Image" *ngIf="base64Image"/>
-      </div>
+      <ion-input [value]="_userObject.location" [(ngModel)]="_userObject.location"></ion-input>
     </ion-item>
 
   </ion-list>

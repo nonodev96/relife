@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {Http, Headers, RequestOptions} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { Http, Headers, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 /*
@@ -9,46 +9,57 @@ import 'rxjs/add/operator/map';
  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
  for more info on providers and Angular 2 DI.
  */
-
-export class User {
+interface iUser {
   id: string;
   nickname: string;
   first_name: string;
   last_name: string;
   email: string;
+  password: string;
   location: string;
-  join_date: string;
-  birth_date: string;
+  join_date: any;
+  birth_date: any;
   profile_avatar: string;
+}
 
-  constructor(id: string,
-              nickname: string,
-              first_name: string,
-              last_name: string,
-              email: string,
-              location: string,
-              join_date: string,
-              birth_date: string,
-              profile_avatar: string) {
-    this.id = id;
-    this.nickname = nickname;
-    this.first_name = first_name;
-    this.last_name = last_name;
-    this.email = email;
-    this.location = location;
-    this.join_date = join_date;
-    this.birth_date = birth_date;
-    this.profile_avatar = profile_avatar;
+export class User {
+  public id: string;
+  public nickname: string;
+  public first_name: string;
+  public last_name: string;
+  public email: string;
+  public password: string;
+  public location: string;
+  public join_date: any;
+  public birth_date: any;
+  public profile_avatar: string;
+
+  constructor();
+  constructor(user: iUser);
+  constructor(user?: any) {
+    this.id = user && user.id || "";
+    this.nickname = user && user.nickname || "";
+    this.first_name = user && user.first_name || "";
+    this.last_name = user && user.last_name || "";
+    this.email = user && user.email || "";
+    this.password = user && user.password || "";
+    this.location = user && user.location || "";
+    this.join_date = user && user.join_date || "";
+    this.birth_date = user && user.birth_date || "";
+    this.profile_avatar = user && user.profile_avatar || "";
   }
 }
+
 const SERVER_URL = 'https://relifecloud-nonodev96.c9users.io/';
+const URL_IMAGE_USERS = "https://relifecloud-nonodev96.c9users.io/assets/images/users/";
+const URL_IMAGE_PRODUCTS = "https://relifecloud-nonodev96.c9users.io/assets/images/products/";
 
 @Injectable()
 export class AuthService {
   //region ATTRIBUTES
-  public currentUser: User;
-  public stringDataUser;
-  public access = false;
+  private _currentUser: User;
+  private _stringDataUser;
+  private _access = false;
   //endregion
 
   //region CONSTRUCTOR
@@ -60,14 +71,18 @@ export class AuthService {
 
   //region GETTER AND SETTER
   public getUserInfo(): User {
-    return this.currentUser;
+    return this._currentUser;
+  }
+
+  public getStringDataUser(): string {
+    return this._stringDataUser;
   }
 
   public getUserInfoObservable() {
     return Observable.create(
       observer => {
-        if (this.access) {
-          observer.next(this.stringDataUser);
+        if (this._access) {
+          observer.next(this.getUserInfo());
           observer.complete();
         } else {
           observer.next("Error en getUserInfoObservable");
@@ -75,10 +90,6 @@ export class AuthService {
         }
       }
     );
-  }
-
-  public getStringDataUser(): string {
-    return this.stringDataUser;
   }
 
   //endregion
@@ -92,36 +103,29 @@ export class AuthService {
         observer => {
           // At this point make a request to your backend to make a real check!
           let link = SERVER_URL + 'api/user/login';
-          let body = JSON.stringify({email: credentials.email, password: credentials.password});
+          let body = JSON.stringify({ email: credentials.email, password: credentials.password });
           this.http.post(link, body).subscribe(
             data => {
+              // let json_meta = JSON.parse(data.text()).meta;
               let json_data = JSON.parse(data.text()).data;
               if (json_data.status == "succes") {
-                this.stringDataUser = data.text();
-                this.currentUser = new User(
-                  json_data.id,
-                  json_data.nickname,
-                  json_data.first_name,
-                  json_data.last_name,
-                  json_data.email,
-                  json_data.location,
-                  json_data.join_date,
-                  json_data.birth_date,
-                  json_data.profile_avatar
-                );
-                this.access = true;
-                observer.next(this.access);
+                json_data.profile_avatar = URL_IMAGE_USERS + json_data.profile_avatar;
+                console.log(json_data);
+                this._currentUser = new User(json_data);
+                this._stringDataUser = JSON.stringify(this._currentUser);
+                this._access = true;
+                observer.next(this._access);
                 observer.complete();
               } else {
-                this.access = false;
-                observer.next(this.access);
+                this._access = false;
+                observer.next(this._access);
                 observer.complete();
               }
             },
             err => {
               console.log(err);
-              this.access = false;
-              observer.next(this.access);
+              this._access = false;
+              observer.next(this._access);
               observer.complete();
             }
           );
@@ -152,17 +156,19 @@ export class AuthService {
   public updateDataUser(userObject, id) {
     return Observable.create(
       observer => {
-        let headers = new Headers({'Content-Type': 'application/json'});
-        let options = new RequestOptions({headers: headers});
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
 
         let link = SERVER_URL + 'api/user/' + id;
         let body = JSON.stringify(userObject);
         // console.log(link);
-        // console.log(body);
+        console.log(body);
 
         this.http.put(link, body, options).subscribe(
           response => {
-            observer.next(JSON.parse(response.text()));
+            console.log("HTTP PUT");
+            console.log(response);
+            observer.next(response);
             observer.complete();
           },
           error => {
@@ -177,7 +183,7 @@ export class AuthService {
 
   public logout() {
     return Observable.create(observer => {
-      this.currentUser = null;
+      this._currentUser = null;
       observer.next(true);
       observer.complete();
     });

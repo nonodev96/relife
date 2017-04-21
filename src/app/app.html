@@ -8,14 +8,18 @@
   <ion-content>
     <ion-item>
       <ion-avatar item-left>
-        <img src="https://relifecloud-nonodev96.c9users.io/assets/images/users/{{user.profile_avatar}}" alt="">
+        <img src="{{_user.profile_avatar}}" >
       </ion-avatar>
-      <h2>{{user.nickname}}</h2>
-      <p>{{user.email}}</p>
+      <h2>{{_user.nickname}}</h2>
+      <p>{{_user.email}}</p>
     </ion-item>
     <ion-list>
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
         {{p.title}}
+      </button>
+
+      <button menuClose ion-item (click)="logOutMenuButton()">
+        Cerrar sesión
       </button>
     </ion-list>
   </ion-content>

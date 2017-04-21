@@ -1,12 +1,12 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import {
   ActionSheetController, AlertController, Loading, LoadingController, NavController,
   NavParams
 } from 'ionic-angular';
-import {AuthService} from '../../providers/auth-service';
-import {DomSanitizer} from '@angular/platform-browser';
+import { AuthService, User } from '../../providers/auth-service';
+import { DomSanitizer } from '@angular/platform-browser';
 
-import {DatePicker, Camera, ImagePicker} from 'ionic-native';
+import { DatePicker, Camera, ImagePicker } from 'ionic-native';
 
 /*
  Generated class for the EditUser page.
@@ -20,9 +20,10 @@ import {DatePicker, Camera, ImagePicker} from 'ionic-native';
 })
 export class EditUserPage {
   //region ATTRIBUTES
-  private _user;
-  private _userObject;
+  private _user: User;
+  private _userObject: User;
   private _base64Image;
+  private _image;
   private _loading: Loading;
   //endregion
 
@@ -34,8 +35,9 @@ export class EditUserPage {
               public navParams: NavParams,
               public domSanitizer: DomSanitizer,
               public authService: AuthService) {
-    this._user = JSON.parse(this.authService.getStringDataUser()).data;
+    this._user = JSON.parse(this.authService.getStringDataUser());
     this._userObject = this._user;
+    this._userObject.password = "Holamundo1";
     try {
       this._userObject.birth_date = new Date(this._user.birth_date).toISOString();
     } catch (error) {
@@ -47,19 +49,19 @@ export class EditUserPage {
   //endregion
 
   //region GETTER AND SETTER
-  get user() {
+  get user(): User {
     return this._user;
   }
 
-  set user(value) {
+  set user(value: User) {
     this._user = value;
   }
 
-  get userObject() {
+  get userObject(): User {
     return this._userObject;
   }
 
-  set userObject(value) {
+  set userObject(value: User) {
     this._userObject = value;
   }
 
@@ -71,6 +73,14 @@ export class EditUserPage {
     this._base64Image = value;
   }
 
+  get image() {
+    return this._image;
+  }
+
+  set image(value) {
+    this._image = value;
+  }
+
   get loading(): Loading {
     return this._loading;
   }
@@ -79,7 +89,7 @@ export class EditUserPage {
     this._loading = value;
   }
 
-  //endregion
+//endregion
 
   //region CONTROLLER
   public editBirthDay() {
@@ -116,27 +126,24 @@ export class EditUserPage {
         if (allowed) {
           setTimeout(() => {
             this._loading.dismiss();
-            console.log(allowed);
-            let response = JSON.parse(allowed._body);
+            let response = JSON.parse(allowed.text());
 
             if (Object.keys(response.meta).length == 0) {
               let alert = this.alertCtrl.create({
-                title: 'Usuario actualizado',
-                subTitle: "Los datos del usuario han sido actualizados actualizado",
-                buttons: ['OK']
+                title: 'Usuario ' + this._userObject.nickname + ' actualizado ',
+                subTitle: "Los datos del usuario han sido actualizados correctamente",
+                buttons: [ 'OK' ]
               });
               alert.present(prompt);
             } else {
               if (typeof response.meta.nickname !== 'undefined') {
-                this.showError(JSON.stringify(response.meta.nickname));
+                this.showError((response.meta.nickname));
               }
               if (typeof response.meta.email !== 'undefined') {
-                this.showError(JSON.stringify(response.meta.email));
+                this.showError((response.meta.email));
               }
               if (typeof response.meta.password !== 'undefined') {
-                this.showError(JSON.stringify(response.meta.password));
-              } else {
-                console.log("error in password");
+                this.showError(response.meta.password);
               }
             }
 
@@ -144,8 +151,11 @@ export class EditUserPage {
         }
       },
       error => {
-        console.log("Error");
-        console.log(error);
+        console.log("Error updateDataUser");
+        setTimeout(() => {
+          this._loading.dismiss();
+          console.log("Error setTimeout");
+        });
       }
     );
   }
@@ -187,7 +197,7 @@ export class EditUserPage {
     let alert = this.alertCtrl.create({
       title: 'Error',
       subTitle: text,
-      buttons: ['OK']
+      buttons: [ 'OK' ]
     });
     alert.present(prompt);
   }
@@ -203,13 +213,17 @@ export class EditUserPage {
 
   //region NATIVE
   public openCamera(): void {
-    Camera.getPicture({
-      destinationType: Camera.DestinationType.DATA_URL,
+    let options = {
+      destinationType: Camera.PictureSourceType.PHOTOLIBRARY,
+      encodingType: Camera.EncodingType.PNG,
+      saveToPhotoAlbum: true,
       targetWidth: 1000,
       targetHeight: 1000
-    }).then((imageData) => {
+    };
+    Camera.getPicture(options).then((imageData) => {
       // imageData is a base64 encoded string
-      this._base64Image = "data:image/jpeg;base64," + imageData;
+      this._base64Image = "data:image/png;base64," + imageData;
+      this._image = this._base64Image
     }, (err) => {
       console.log(err);
     });
@@ -218,15 +232,17 @@ export class EditUserPage {
   public openGallery(): void {
     let options = {
       maximumImagesCount: 1,
-      width: 100,
-      height: 100,
-      quality: 90
+      quality: 100,
+      height: 250,
+      width: 250,
+      // outputType: 1
     };
     ImagePicker.getPictures(options).then(
       (results) => {
         for (let i = 0; i < results.length; i++) {
-          console.log('Image URI: ' + results[i]);
-          this._base64Image = this.domSanitizer.bypassSecurityTrustResourceUrl(results[i]);
+          console.log('Image URI: ' + results[ i ]);
+          this._image = this.domSanitizer.bypassSecurityTrustResourceUrl(results[i]);
+          this._base64Image = this.encodeImageUri(results[ i ]);
         }
       },
       (err) => {
@@ -234,6 +250,20 @@ export class EditUserPage {
       }
     );
   }
+
+  private encodeImageUri(imageUri) {
+    let c = document.createElement('canvas');
+    let ctx = c.getContext("2d");
+    let img = new Image();
+    img.onload = function () {
+      c.width = this.width;
+      c.height = this.height;
+      ctx.drawImage(img, 0, 0);
+    };
+    img.src = imageUri;
+    return c.toDataURL("image/jpeg");
+  }
+
 
   //endregion
 

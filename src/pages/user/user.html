@@ -19,35 +19,35 @@
 
 <ion-content>
   <div id="background-profile">
-    <img src="{{backgroundRandom}}" id="imgBackground">
+    <img src="{{_backgroundRandom}}" id="imgBackground">
     <div id="image-avatar">
       <div id="image-border">
-        <img src="https://relifecloud-nonodev96.c9users.io/assets/images/users/{{user.profile_avatar}}">
+        <img src="{{_user.profile_avatar}}">
       </div>
-      <h2 id="nickname">{{user.nickname}}</h2>
+      <h2 id="nickname">{{_user.nickname}}</h2>
     </div>
   </div>
 
   <ion-list>
     <button ion-item>
       <ion-icon name="person"></ion-icon>
-      {{user.first_name}} {{user.last_name}}
+      {{_user.first_name}} {{_user.last_name}}
     </button>
     <button ion-item>
       <ion-icon name="mail"></ion-icon>
-      {{user.email}}
+      {{_user.email}}
     </button>
     <button ion-item>
       <ion-icon name="egg"></ion-icon>
-      {{user.birth_date}}
+      {{_user.birth_date}}
     </button>
     <button ion-item>
       <ion-icon name="calendar"></ion-icon>
-      {{user.join_date}}
+      {{_user.join_date}}
     </button>
     <button ion-item>
       <ion-icon name="map"></ion-icon>
-      {{user.location}}
+      {{_user.location}}
     </button>
 
   </ion-list>
