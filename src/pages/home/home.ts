@@ -1,12 +1,12 @@
-import {Component} from '@angular/core';
-import {NavController, NavParams, AlertController} from 'ionic-angular';
-import {NativeStorage} from '@ionic-native/native-storage';
-import {Storage} from '@ionic/storage';
+import { Component } from '@angular/core';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NativeStorage } from '@ionic-native/native-storage';
+import { Storage } from '@ionic/storage';
 
-import {LoginPage} from '../login/login';
-import {AuthService} from '../../providers/auth-service';
-import {ProductsService} from '../../providers/products-service';
-import {ProductPage} from "../product/product";
+import { LoginPage } from '../login/login';
+import { AuthService } from '../../providers/auth-service';
+import { ProductsService } from '../../providers/products-service';
+import { ProductPage } from "../product/product";
 
 //import {AddProductPage} from '../add-product/add-product';
 export class ProductOfToday {
@@ -182,7 +182,7 @@ export class HomePage {
     let alert = this.alertCtrl.create({
       title: 'The name is ' + this._name,
       subTitle: 'The ionic database is working',
-      buttons: ['ok']
+      buttons: [ 'ok' ]
     });
     alert.present();
   }
@@ -243,7 +243,7 @@ export class HomePage {
     let alert = this.alertCtrl.create({
       title: 'This page not finish',
       subTitle: 'Sorry',
-      buttons: ['Dismiss']
+      buttons: [ 'Dismiss' ]
     });
     alert.present();
   }
@@ -270,7 +270,7 @@ export class HomePage {
   }
 
   public viewProduct(product) {
-    this.navCtrl.push(ProductPage, {product: product});
+    this.navCtrl.push(ProductPage, { product: product });
   }
 
   //endregion

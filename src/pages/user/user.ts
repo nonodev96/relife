@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AuthService, User } from '../../providers/auth-service';
 import { EditUserPage } from "../edit-user/edit-user";
+import { SharedService } from "../../providers/shared-service";
 
 /*
  Generated class for the User page.
@@ -13,29 +14,36 @@ import { EditUserPage } from "../edit-user/edit-user";
   selector: 'page-user',
   templateUrl: 'user.html'
 })
-export class UserPage {
+export class UserPage implements OnInit {
+
+  //region IMPLEMENTS
+  ngOnInit(): void {
+    this.sharedService.getEmittedUser().subscribe(item => this._user = item);
+  }
+
+  //endregion
+
   //region ATTRIBUTES
   private _user: User;
   private _listBackground;
   private _backgroundRandom;
+
   //endregion
 
   //region CONSTRUCTOR
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              private authService: AuthService) {
+  constructor(private authService: AuthService,
+              private sharedService: SharedService,
+              public navCtrl: NavController,
+              public navParams: NavParams) {
     this._user = this.authService.getUserInfo();
     this._listBackground = [
-      { backgroundUrl: 'https://ionicframework.com/dist/preview-app/www/assets/img/card-saopaolo.png' },
-      { backgroundUrl: 'https://ionicframework.com/dist/preview-app/www/assets/img/card-madison.png' },
-      { backgroundUrl: 'https://ionicframework.com/dist/preview-app/www/assets/img/card-sf.png' },
-      { backgroundUrl: 'https://ionicframework.com/dist/preview-app/www/assets/img/card-amsterdam.png' }
+      { backgroundUrl: 'assets/imgs/card-saopaolo.png' },
+      { backgroundUrl: 'assets/imgs/card-madison.png' },
+      { backgroundUrl: 'assets/imgs/card-sf.png' },
+      { backgroundUrl: 'assets/imgs/card-amsterdam.png' }
     ];
     let random = this.randomInt(0, this._listBackground.length - 1);
     this._backgroundRandom = this._listBackground[ random ].backgroundUrl;
-
-    // this.navCtrl.setRoot(HomePage);
-    // this.navCtrl.popToRoot();
   }
 
   //endregion

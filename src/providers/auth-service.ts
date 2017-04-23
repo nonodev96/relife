@@ -46,16 +46,17 @@ export class User {
     this.location = user && user.location || "";
     this.join_date = user && user.join_date || "";
     this.birth_date = user && user.birth_date || "";
-    this.profile_avatar = user && user.profile_avatar || "";
+    this.profile_avatar = user && (URL_IMAGE_USERS + user.profile_avatar) || "";
   }
 }
 
 const SERVER_URL = 'https://relifecloud-nonodev96.c9users.io/';
 const URL_IMAGE_USERS = "https://relifecloud-nonodev96.c9users.io/assets/images/users/";
-const URL_IMAGE_PRODUCTS = "https://relifecloud-nonodev96.c9users.io/assets/images/products/";
+// const URL_IMAGE_PRODUCTS = "https://relifecloud-nonodev96.c9users.io/assets/images/products/";
 
 @Injectable()
 export class AuthService {
+
   //region ATTRIBUTES
   private _currentUser: User;
   private _stringDataUser;
@@ -97,7 +98,7 @@ export class AuthService {
   //region CONTROLLER
   public login(credentials) {
     if (credentials.email === null || credentials.password === null) {
-      return Observable.throw("Please insert credentials");
+      return Observable.throw("Error en las credenciales.");
     } else {
       return Observable.create(
         observer => {
@@ -109,7 +110,6 @@ export class AuthService {
               // let json_meta = JSON.parse(data.text()).meta;
               let json_data = JSON.parse(data.text()).data;
               if (json_data.status == "succes") {
-                json_data.profile_avatar = URL_IMAGE_USERS + json_data.profile_avatar;
                 console.log(json_data);
                 this._currentUser = new User(json_data);
                 this._stringDataUser = JSON.stringify(this._currentUser);
@@ -135,14 +135,10 @@ export class AuthService {
     }
   }
 
-  /**
-   * Pendiente
-   * @param credentials
-   * @returns {any}
-   */
+
   public register(credentials) {
     if (credentials.email === null || credentials.password === null) {
-      return Observable.throw("Please insert credentials");
+      return Observable.throw("Error en las credenciales.");
     } else {
       return Observable.create(
         observer => {
@@ -162,7 +158,6 @@ export class AuthService {
         let link = SERVER_URL + 'api/user/' + id;
         let body = JSON.stringify(userObject);
         // console.log(link);
-        console.log(body);
 
         this.http.put(link, body, options).subscribe(
           response => {

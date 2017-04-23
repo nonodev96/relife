@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage';
 import { HomePage } from '../home/home';
 import { SlidesToolTipsPage } from '../slides-tool-tips/slides-tool-tips';
 import { AuthService } from '../../providers/auth-service';
+import { SharedService } from "../../providers/shared-service";
 /*
  Generated class for the Login page.
 
@@ -16,16 +17,18 @@ import { AuthService } from '../../providers/auth-service';
 })
 export class LoginPage {
   //region ATTRIBUTES
-  public loading: Loading;
+  private _loading: Loading;
   private _loging: string = "FALSE";
   private _registerCredentials = {
     email: '',
     password: ''
   };
+  public _user;
   //endregion
 
   //region CONSTRUCTOR
-  constructor(private auth: AuthService,
+  constructor(private sharedService: SharedService,
+              private auth: AuthService,
               private navController: NavController,
               private menuController: MenuController,
               private alertCtrl: AlertController,
@@ -33,22 +36,7 @@ export class LoginPage {
               private nativeStorage: NativeStorage,
               public platform: Platform,
               public storage: Storage) {
-    this.menuController = menuController;
-    this.menuController.get().enable(false);
-    this.storage.ready().then(() => {
-      this.storage.get("email").then(data => {
-        this._registerCredentials.email = data;
-      });
-      this.storage.get("password").then(data => {
-        this._registerCredentials.password = data;
-      });
-      this.storage.get("_loging").then(data => {
-        this._loging = data;
-        if (data == "TRUE") {
-          this.login(true);
-        }
-      });
-    });
+    this._user = {};
   }
 
   //endregion
@@ -70,7 +58,15 @@ export class LoginPage {
     this._loging = value;
   }
 
-  //endregion
+  get loading(): Loading {
+    return this._loading;
+  }
+
+  set loading(value: Loading) {
+    this._loading = value;
+  }
+
+//endregion
 
   //region CONTROLLER
   public login(changeNavController: boolean) {
@@ -79,13 +75,18 @@ export class LoginPage {
       allowed => {
         if (allowed) {
           setTimeout(() => {
+            console.log("Line 92 de login.ts");
             console.log(allowed);
-            this.loading.dismiss();
+            console.log("Line 94 de login.ts");
+            this._loading.dismiss();
+
             this.storage.ready().then(() => {
               this.storage.set("_email", this._registerCredentials.email);
               this.storage.set("_password", this._registerCredentials.password);
               this.storage.set("_loging", "TRUE");
             });
+            this.sharedService.setEmitterUser(this.auth.getUserInfo());
+            this.sharedService.getEmittedUser().subscribe(item => this._user = this.auth.getUserInfo());
             this.menuController.get().enable(true);
             if (changeNavController == true) {
               this.navController.setRoot(HomePage);
@@ -111,15 +112,15 @@ export class LoginPage {
 
   //region COMPONENTS
   showLoading() {
-    this.loading = this.loadingCtrl.create({
+    this._loading = this.loadingCtrl.create({
       content: 'Please wait...'
     });
-    this.loading.present();
+    this._loading.present();
   }
 
   showError(text) {
     setTimeout(() => {
-      this.loading.dismiss();
+      this._loading.dismiss();
     });
     let alert = this.alertCtrl.create({
       title: 'Error', subTitle: text, buttons: [ 'OK' ]

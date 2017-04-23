@@ -21,6 +21,7 @@ import { UserPage } from '../pages/user/user';
 import { RegisterPage } from '../pages/register/register';
 import { EditUserPage } from "../pages/edit-user/edit-user";
 import { SlidesToolTipsPage } from "../pages/slides-tool-tips/slides-tool-tips";
+import { SharedService } from "../providers/shared-service";
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { SlidesToolTipsPage } from "../pages/slides-tool-tips/slides-tool-tips";
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },
+    SharedService,
     AuthService,
     ProductsService,
     NativeStorage,

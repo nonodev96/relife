@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Nav, Platform, MenuController } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 import { Storage } from '@ionic/storage';
@@ -13,33 +13,62 @@ import { UserPage } from '../pages/user/user';
 import { LoginPage } from '../pages/login/login';
 import { SlidesToolTipsPage } from "../pages/slides-tool-tips/slides-tool-tips";
 import { AuthService } from "../providers/auth-service";
+import { SharedService } from "../providers/shared-service";
 
 @Component({
   templateUrl: 'app.html'
 })
-export class MyApp {
-
+export class MyApp implements OnInit {
   //region ATTRIBUTES
-  @ViewChild(Nav) nav: Nav;
-  public _user = { profile_avatar: '', nickname: 'Cargando...', email: 'Cargando...' };
-  //endregion
+  @ViewChild(Nav)
+  private nav: Nav;
   pages: Array<{ title: string, component: any, nav: string }>;
-
   rootPage: any = LoginPage;
+  public _user;
+  //endregion
 
   //region CONSTRUCTOR
-  constructor(public platform: Platform,
+  constructor(public sharedService: SharedService,
+              public platform: Platform,
               public auth: AuthService,
               public storage: Storage,
               public menuController: MenuController) {
-    this.initializeApp();
+    this._user = { profile_avatar: '', nickname: 'Cargando...', email: 'Cargando...' };
     this.pages = [
       { title: 'UserPage', component: UserPage, nav: 'push' },
       { title: 'Home', component: HomePage, nav: 'setRoot' },
       { title: 'AddProduct', component: AddProductPage, nav: 'push' },
       { title: 'Tool tips', component: SlidesToolTipsPage, nav: 'setRoot' },
     ];
+    this.initializeApp();
+    this.logingAppComponents();
 
+  }
+
+  //endregion
+
+  //region GETTER AND SETTER
+
+  get user(): { profile_avatar: string; nickname: string; email: string } {
+    return this._user;
+  }
+
+  set user(value: { profile_avatar: string; nickname: string; email: string }) {
+    this._user = value;
+  }
+
+//endregion
+
+  //region CONTROLLER
+  initializeApp() {
+    this.platform.ready().then(() => {
+      StatusBar.styleDefault();
+      Splashscreen.hide();
+      this.menuController.get().enable(false);
+    });
+  }
+
+  logingAppComponents() {
     this.storage.ready().then(() => {
       let credentials = { email: '', password: '', loging: '' };
       this.storage.get("_email").then(data => {
@@ -51,12 +80,13 @@ export class MyApp {
       this.storage.get("_loging").then(data => {
         credentials.loging = data;
         if (data == "TRUE") {
-          console.log("MECAGO EN TOOOO");
+          console.log("ME CAGO EN TOOOO");
           console.log(credentials);
           this.auth.login(credentials).subscribe(
             allowed => {
               if (allowed) {
                 setTimeout(() => {
+                  this.sharedService.setEmitterUser(this.auth.getUserInfo());
 
                   this._user.profile_avatar = this.auth.getUserInfo().profile_avatar;
                   this._user.nickname = this.auth.getUserInfo().nickname;
@@ -74,40 +104,6 @@ export class MyApp {
         }
       });
     });
-  }
-
-  //endregion
-
-  //region GETTER AND SETTER
-
-  //endregion
-
-  initializeApp() {
-    this.platform.ready().then(() => {
-      StatusBar.styleDefault();
-      Splashscreen.hide();
-    });
-  }
-
-  logingAppComponents(credentials) {
-    this.auth.login(credentials).subscribe(
-      allowed => {
-        if (allowed) {
-          setTimeout(() => {
-            this._user.profile_avatar = this.auth.getUserInfo().profile_avatar;
-            this._user.nickname = this.auth.getUserInfo().nickname;
-            this._user.email = this.auth.getUserInfo().email;
-            this.menuController.get().enable(true);
-            this.nav.setRoot(HomePage);
-          });
-        } else {
-          console.log("No allowed");
-        }
-      },
-      error => {
-        console.log(error);
-      }
-    );
   }
 
   openPage(page) {
@@ -139,4 +135,13 @@ export class MyApp {
       }
     );
   }
+
+  //endregion
+
+  //region IMPLEMENTS
+  ngOnInit(): void {
+    this.sharedService.getEmittedUser().subscribe(item => this._user = item);
+  }
+
+  //endregion
 }

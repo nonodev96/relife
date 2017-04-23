@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
+import { Component } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
 
 /*
  Generated class for the AddProduct page.
@@ -13,11 +13,16 @@ import {NavController, NavParams} from 'ionic-angular';
 })
 export class AddProductPage {
 
+  //region CONSTRUCTOR
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
+  //endregion
+
+  //region DEBUG
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddProductPage');
   }
 
+  //endregion
 }

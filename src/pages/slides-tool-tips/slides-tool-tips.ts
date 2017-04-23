@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
-import {NavController} from "ionic-angular";
-import {HomePage} from "../home/home";
+import { Component } from '@angular/core';
+import { NavController } from "ionic-angular";
+import { HomePage } from "../home/home";
 
 /*
  Generated class for the SlidesToolTips page.
@@ -13,6 +13,7 @@ import {HomePage} from "../home/home";
   templateUrl: 'slides-tool-tips.html'
 })
 export class SlidesToolTipsPage {
+
   //region ATTRIBUTES
   private _slides;
   //endregion

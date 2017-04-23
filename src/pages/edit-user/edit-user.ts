@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   ActionSheetController, AlertController, Loading, LoadingController, NavController,
   NavParams
@@ -7,6 +7,7 @@ import { AuthService, User } from '../../providers/auth-service';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { DatePicker, Camera, ImagePicker } from 'ionic-native';
+import { SharedService } from "../../providers/shared-service";
 
 /*
  Generated class for the EditUser page.
@@ -18,7 +19,12 @@ import { DatePicker, Camera, ImagePicker } from 'ionic-native';
   selector: 'page-edit-user',
   templateUrl: 'edit-user.html'
 })
-export class EditUserPage {
+export class EditUserPage implements OnInit {
+
+  ngOnInit(): void {
+    this.sharedS.getEmittedUser().subscribe(item => this._user = item);
+  }
+
   //region ATTRIBUTES
   private _user: User;
   private _userObject: User;
@@ -28,14 +34,16 @@ export class EditUserPage {
   //endregion
 
   //region CONSTRUCTOR
-  constructor(public navCtrl: NavController,
+  constructor(public sharedS: SharedService,
+              public navCtrl: NavController,
               private actionSheetCtrl: ActionSheetController,
               private alertCtrl: AlertController,
               private loadingCtrl: LoadingController,
               public navParams: NavParams,
               public domSanitizer: DomSanitizer,
               public authService: AuthService) {
-    this._user = JSON.parse(this.authService.getStringDataUser());
+
+    this._user = this.authService.getUserInfo();
     this._userObject = this._user;
     this._userObject.password = "Holamundo1";
     try {
@@ -129,6 +137,9 @@ export class EditUserPage {
             let response = JSON.parse(allowed.text());
 
             if (Object.keys(response.meta).length == 0) {
+              let userEvent: User = new User(response.data[ 0 ]);
+              this.sharedS.setEmitterUser(userEvent);
+
               let alert = this.alertCtrl.create({
                 title: 'Usuario ' + this._userObject.nickname + ' actualizado ',
                 subTitle: "Los datos del usuario han sido actualizados correctamente",
@@ -241,7 +252,7 @@ export class EditUserPage {
       (results) => {
         for (let i = 0; i < results.length; i++) {
           console.log('Image URI: ' + results[ i ]);
-          this._image = this.domSanitizer.bypassSecurityTrustResourceUrl(results[i]);
+          this._image = this.domSanitizer.bypassSecurityTrustResourceUrl(results[ i ]);
           this._base64Image = this.encodeImageUri(results[ i ]);
         }
       },
