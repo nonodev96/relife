@@ -1,7 +1,8 @@
 #Re Life - NonoDev96
 
-[![npm version](https://badge.fury.io/js/ionic-angular.svg)](https://badge.fury.io/js/ionic-angular)
-[![Circle CI](https://circleci.com/gh/driftyco/ionic.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/driftyco/ionic)
+[![npm version](https://badge.fury.io/js/ionic.svg)](https://badge.fury.io/js/ionic)
+
+[![Build Status](https://travis-ci.org/apache/cordova-cli.svg?branch=master)](https://travis-ci.org/apache/cordova-cli)
 
 ##Clone repo and run
 ```npm
