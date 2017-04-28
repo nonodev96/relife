@@ -61,13 +61,14 @@ providers
 
 ##PATH
 **LINUX** 
+[SDK Platform-Tools for Linux](https://dl.google.com/android/repository/platform-tools-latest-linux.zip)
 ```
 export HOME="/home/$(whoami)"
 export ANDROID_HOME="$HOME/Android/Sdk"
 ```
 
 **OS X** 
-[SDK Tools macosx tools_r25.2.3-macosx.zip](https://dl.google.com/android/repository/tools_r25.2.3-macosx.zip)
+[SDK Platform-Tools for Mac](https://dl.google.com/android/repository/platform-tools-latest-darwin.zip)
 ```
 sudo nano /etc/paths
 
@@ -76,7 +77,7 @@ sudo nano /etc/paths
 ```
 
 **WINDOWS** 
-[SDK Tools windows tools_r25.2.3-windows.zip](https://dl.google.com/android/repository/tools_r25.2.3-windows.zip)
+[SDK Platform-Tools for Windows](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)
 ```
 %USERPROFILE%\AppData\Local\Android\sdk\platform-tools
 ```
