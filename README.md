@@ -1,8 +1,13 @@
-#Install
+Re Life - NonoDev96
+=====================
+
+#Clone repo and run
 ```npm
 npm install
 npm install -g cordova ionic 
 ```
+
+#Install platforms with plugins
 ```
 ionic state reset
 ionic state restore
@@ -10,33 +15,26 @@ ionic state restore
 cordova telemetry on
 ```
 
-##Server
+##Run server
 ```
 ionic serve 
 ionic serve --lab
 ionic serve -lc -s -p 80
 ```
 
-##Run app in device
+##Run app in android device
 ```
 ionic run android --device
 ```
 
-
 ##Plugins 
 ```npm
 ionic plugin add cordova-plugin-camera
-ionic plugin add cordova-plugin-http
-ionic plugin add cordova-plugin-app-preferences
-ionic plugin add cordova-plugin-uniquedeviceid
-ionic plugin add cordova-base64-to-gallery
-ionic plugin add cordova-plugin-datepicker
-ionic plugin add cordova-plugin-firebase
-ionic plugin add de.appplant.cordova.plugin.local-notification
-ionic plugin add cordova-plugin-geolocation
+...
 ```
 ```npm
 npm install --save @ionic-native/geolocation
+...
 ```
 
 ##Create page 
