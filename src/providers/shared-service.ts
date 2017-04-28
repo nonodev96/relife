@@ -1,6 +1,5 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import 'rxjs/add/operator/map';
-import { User } from "./auth-service";
 
 /*
  Generated class for the SharedService provider.
