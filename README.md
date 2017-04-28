@@ -66,8 +66,7 @@ export HOME="/home/$(whoami)"
 export ANDROID_HOME="$HOME/Android/Sdk"
 ```
 
-**OS X**
-
+**OS X** 
 [SDK Tools macosx tools_r25.2.3-macosx.zip](https://dl.google.com/android/repository/tools_r25.2.3-macosx.zip)
 ```
 sudo nano /etc/paths
