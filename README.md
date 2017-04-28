@@ -1,13 +1,15 @@
-Re Life - NonoDev96
+#Re Life - NonoDev96
 =====================
+[![npm version](https://badge.fury.io/js/ionic-angular.svg)](https://badge.fury.io/js/ionic-angular)
+[![Circle CI](https://circleci.com/gh/driftyco/ionic.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/driftyco/ionic)
 
-#Clone repo and run
+##Clone repo and run
 ```npm
 npm install
 npm install -g cordova ionic 
 ```
 
-#Install platforms with plugins
+##Install platforms with plugins
 ```
 ionic state reset
 ionic state restore
