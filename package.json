@@ -61,7 +61,8 @@
     "https://github.com/Telerik-Verified-Plugins/ImagePicker"
   ],
   "cordovaPlatforms": [
-    "android"
+    "android@6.1.2",
+    "ios@4.2.1"
   ],
   "description": "ReLife: An Ionic project"
 }
