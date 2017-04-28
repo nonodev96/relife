@@ -67,6 +67,7 @@ export ANDROID_HOME="$HOME/Android/Sdk"
 ```
 
 **OS X**
+[https://dl.google.com/android/repository/tools_r25.2.3-macosx.zip](SDK Tools)
 ```
 $ echo "export PATH=\$PATH:/Users/${USER}/Library/Android/sdk/platform-tools/" >> ~/.bash_profile
 ```
