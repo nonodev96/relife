@@ -1,8 +1,6 @@
 #Re Life - NonoDev96
 
-[![npm version](https://badge.fury.io/js/ionic.svg)](https://badge.fury.io/js/ionic)
-
-[![Build Status](https://travis-ci.org/apache/cordova-cli.svg?branch=master)](https://travis-ci.org/apache/cordova-cli)
+[![npm version](https://badge.fury.io/js/ionic.svg)](https://badge.fury.io/js/ionic) [![Build Status](https://travis-ci.org/apache/cordova-cli.svg?branch=master)](https://travis-ci.org/apache/cordova-cli)
 
 ##Clone repo and run
 ```npm
@@ -10,7 +8,7 @@ npm install
 npm install -g cordova ionic 
 ```
 
-##Install platforms with plugins
+##Install platforms and plugins
 ```
 ionic state reset
 ionic state restore
