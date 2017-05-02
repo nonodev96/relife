@@ -5,7 +5,8 @@ page-edit-user {
 .item-profile {
   height: 150px;
   .item-avatar > img:first-child {
-    max-width: 100px;
+    width: 100%;
+    object-fit: cover;
     max-height: 100px;
   }
 }

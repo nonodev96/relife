@@ -2,14 +2,15 @@ page-user {
   #background-profile {
     position: relative;
     width: 100%;
+    #imgBackground {
+      width: 100% !important;
+      object-fit: cover;
+    }
     @media screen and (orientation: portrait) {
       height: 40%;
     }
     @media screen and (orientation: landscape) {
       height: 70%;
-      #imgBackground {
-        width: 100%;
-      }
     }
     overflow: hidden;
 

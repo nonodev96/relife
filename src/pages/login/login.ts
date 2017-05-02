@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
-import { MenuController, NavController, AlertController, LoadingController, Loading, Platform } from 'ionic-angular';
-import { NativeStorage } from '@ionic-native/native-storage';
-import { Storage } from '@ionic/storage';
-import { HomePage } from '../home/home';
-import { SlidesToolTipsPage } from '../slides-tool-tips/slides-tool-tips';
-import { AuthService } from '../../providers/auth-service';
-import { SharedService } from "../../providers/shared-service";
+import {Component} from '@angular/core';
+import {MenuController, NavController, AlertController, LoadingController, Loading, Platform} from 'ionic-angular';
+import {NativeStorage} from '@ionic-native/native-storage';
+import {Storage} from '@ionic/storage';
+import {HomePage} from '../home/home';
+import {SlidesToolTipsPage} from '../slides-tool-tips/slides-tool-tips';
+import {AuthService} from '../../providers/auth-service';
+import {SharedService} from "../../providers/shared-service";
 /*
  Generated class for the Login page.
 
@@ -66,7 +66,7 @@ export class LoginPage {
     this._loading = value;
   }
 
-//endregion
+  //endregion
 
   //region CONTROLLER
   public login(changeNavController: boolean) {
@@ -123,7 +123,7 @@ export class LoginPage {
       this._loading.dismiss();
     });
     let alert = this.alertCtrl.create({
-      title: 'Error', subTitle: text, buttons: [ 'OK' ]
+      title: 'Error', subTitle: text, buttons: ['OK']
     });
     alert.present(prompt);
   }
