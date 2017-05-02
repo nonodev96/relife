@@ -79,5 +79,8 @@ sudo nano /etc/paths
 **WINDOWS** 
 [SDK Platform-Tools for Windows](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)
 ```
-%USERPROFILE%\AppData\Local\Android\sdk\platform-tools
+ANDROID_HOME = %USERPROFILE%\AppData\Local\Android\sdk\
+
+PATH = %USERPROFILE%\AppData\Local\Android\sdk\platform-tools
+PATH = %USERPROFILE%\AppData\Local\Android\sdk\tools
 ```
