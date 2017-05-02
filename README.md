@@ -1,6 +1,6 @@
 #Re Life - NonoDev96
 
-[![npm version](https://badge.fury.io/js/ionic.svg)](https://badge.fury.io/js/ionic) [![Build Status](https://travis-ci.org/apache/cordova-cli.svg?branch=master)](https://travis-ci.org/apache/cordova-cli)
+[![npm version](https://badge.fury.io/js/ionic.svg)](https://badge.fury.io/js/ionic) 
 
 ##Install package
 ```npm
