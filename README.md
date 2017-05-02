@@ -1,6 +1,6 @@
 #Re Life - NonoDev96
 
-[![npm version](https://badge.fury.io/js/ionic.svg)](https://badge.fury.io/js/ionic) [![Build Status](https://travis-ci.org/apache/cordova-cli.svg?branch=master)](https://travis-ci.org/apache/cordova-cli)
+[![npm version](https://badge.fury.io/js/ionic.svg)](https://badge.fury.io/js/ionic) 
 
 ##Install package
 ```npm
@@ -79,5 +79,8 @@ sudo nano /etc/paths
 **WINDOWS** 
 [SDK Platform-Tools for Windows](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)
 ```
-%USERPROFILE%\AppData\Local\Android\sdk\platform-tools
+ANDROID_HOME = %USERPROFILE%\AppData\Local\Android\sdk\
+
+PATH = %USERPROFILE%\AppData\Local\Android\sdk\platform-tools
+PATH = %USERPROFILE%\AppData\Local\Android\sdk\tools
 ```
