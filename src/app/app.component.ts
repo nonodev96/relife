@@ -2,14 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Nav, Platform, MenuController } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 import { Storage } from '@ionic/storage';
-
 import { HomePage } from '../pages/home/home';
-// import {AjaxTestPage} from '../pages/ajax-test/ajax-test';
-// import {Page1Page} from '../pages/page1/page1';
-// import {Page2Page} from '../pages/page2/page2';
 import { AddProductPage } from '../pages/add-product/add-product';
 import { UserPage } from '../pages/user/user';
-// import {SearchPage} from '../pages/search/search';
 import { LoginPage } from '../pages/login/login';
 import { SlidesToolTipsPage } from "../pages/slides-tool-tips/slides-tool-tips";
 import { AuthService } from "../providers/auth-service";
@@ -33,12 +28,16 @@ export class MyApp implements OnInit {
               public auth: AuthService,
               public storage: Storage,
               public menuController: MenuController) {
-    this._user = { profile_avatar: '', nickname: 'Cargando...', email: 'Cargando...' };
+    this._user = {
+      profile_avatar: '',
+      nickname: 'Cargando...',
+      email: 'Cargando...'
+    };
     this.pages = [
-      { title: 'UserPage', component: UserPage, nav: 'push' },
-      { title: 'Home', component: HomePage, nav: 'setRoot' },
-      { title: 'AddProduct', component: AddProductPage, nav: 'push' },
-      { title: 'Tool tips', component: SlidesToolTipsPage, nav: 'setRoot' },
+      { title: 'Inicio', component: HomePage, nav: 'setRoot' },
+      { title: 'Perfil', component: UserPage, nav: 'push' },
+      { title: 'Añadir producto', component: AddProductPage, nav: 'push' },
+      { title: 'Consejos', component: SlidesToolTipsPage, nav: 'setRoot' },
     ];
     this.initializeApp();
     this.logingAppComponents();
@@ -80,8 +79,6 @@ export class MyApp implements OnInit {
       this.storage.get("_loging").then(data => {
         credentials.loging = data;
         if (data == "TRUE") {
-          console.log("ME CAGO EN TOOOO");
-          console.log(credentials);
           this.auth.login(credentials).subscribe(
             allowed => {
               if (allowed) {

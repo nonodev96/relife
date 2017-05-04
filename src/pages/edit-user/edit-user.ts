@@ -1,13 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
-  ActionSheetController, AlertController, Loading, LoadingController, NavController,
-  NavParams
+  ActionSheetController, AlertController, Loading, LoadingController, NavController
 } from 'ionic-angular';
-import {AuthService, User} from '../../providers/auth-service';
-import {DomSanitizer} from '@angular/platform-browser';
+import { AuthService, User } from '../../providers/auth-service';
+import { DomSanitizer } from '@angular/platform-browser';
 
-import {DatePicker, Camera, ImagePicker} from 'ionic-native';
-import {SharedService} from "../../providers/shared-service";
+import { DatePicker, Camera, ImagePicker } from 'ionic-native';
+import { SharedService } from "../../providers/shared-service";
 
 /*
  Generated class for the EditUser page.
@@ -39,7 +38,6 @@ export class EditUserPage implements OnInit {
               private actionSheetCtrl: ActionSheetController,
               private alertCtrl: AlertController,
               private loadingCtrl: LoadingController,
-              public navParams: NavParams,
               public domSanitizer: DomSanitizer,
               public authService: AuthService) {
 
@@ -138,13 +136,13 @@ export class EditUserPage implements OnInit {
             let response = JSON.parse(allowed.text());
 
             if (Object.keys(response.meta).length == 0) {
-              let userEvent: User = new User(response.data[0]);
+              let userEvent: User = new User(response.data[ 0 ]);
               this.sharedS.setEmitterUser(userEvent);
 
               let alert = this.alertCtrl.create({
                 title: 'Usuario ' + this._userObject.nickname + ' actualizado ',
                 subTitle: "Los datos del usuario han sido actualizados correctamente",
-                buttons: ['OK']
+                buttons: [ 'OK' ]
               });
               alert.present(prompt);
             } else {
@@ -172,7 +170,7 @@ export class EditUserPage implements OnInit {
           let alert = this.alertCtrl.create({
             title: 'Técnicamente',
             subTitle: "Algo salió mal",
-            buttons: ['OK']
+            buttons: [ 'OK' ]
           });
           alert.present(prompt);
         });
@@ -219,7 +217,7 @@ export class EditUserPage implements OnInit {
     let alert = this.alertCtrl.create({
       title: title,
       subTitle: text,
-      buttons: ['OK']
+      buttons: [ 'OK' ]
     });
     alert.present(prompt);
   }
@@ -242,13 +240,16 @@ export class EditUserPage implements OnInit {
       targetWidth: 1000,
       targetHeight: 1000
     };
-    Camera.getPicture(options).then((imageData) => {
-      // imageData is a base64 encoded string
-      this._base64Image = "data:image/png;base64," + imageData;
-      this._image = this._base64Image
-    }, (err) => {
-      console.log(err);
-    });
+    Camera.getPicture(options).then(
+      (imageData) => {
+        // imageData is a base64 encoded string
+        this._base64Image = "data:image/png;base64," + imageData;
+        this._image = this._base64Image
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
   public openGallery(): void {
@@ -262,9 +263,9 @@ export class EditUserPage implements OnInit {
     ImagePicker.getPictures(options).then(
       (results) => {
         for (let i = 0; i < results.length; i++) {
-          console.log('Image URI: ' + results[i]);
-          this._image = this.domSanitizer.bypassSecurityTrustResourceUrl(results[i]);
-          this._base64Image = this.encodeImageUri(results[i]);
+          console.log('Image URI: ' + results[ i ]);
+          this._image = this.domSanitizer.bypassSecurityTrustResourceUrl(results[ i ]);
+          this._base64Image = this.encodeImageUri(results[ i ]);
         }
       },
       (err) => {
@@ -285,7 +286,6 @@ export class EditUserPage implements OnInit {
     img.src = imageUri;
     return c.toDataURL("image/jpeg");
   }
-
 
   //endregion
 

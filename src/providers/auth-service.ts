@@ -110,7 +110,6 @@ export class AuthService {
               // let json_meta = JSON.parse(data.text()).meta;
               let json_data = JSON.parse(data.text()).data;
               if (json_data.status == "succes") {
-                console.log(json_data);
                 this._currentUser = new User(json_data);
                 this._stringDataUser = JSON.stringify(this._currentUser);
                 this._access = true;
@@ -122,10 +121,9 @@ export class AuthService {
                 observer.complete();
               }
             },
-            err => {
-              console.log(err);
+            error => {
               this._access = false;
-              observer.next(this._access);
+              observer.next(error);
               observer.complete();
             }
           );
@@ -156,17 +154,13 @@ export class AuthService {
 
         let link = SERVER_URL + 'api/user/' + id;
         let body = JSON.stringify(userObject);
-        // console.log(link);
 
         this.http.put(link, body, options).subscribe(
           response => {
-            console.log("HTTP PUT");
-            console.log(response);
             observer.next(response);
             observer.complete();
           },
           error => {
-            console.log("Error observer");
             observer.next(error);
             observer.complete();
           }

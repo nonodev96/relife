@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {Http, Headers, RequestOptions} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { Http, Headers, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 export class ProductOfToday {
   public id: string;
@@ -52,19 +52,22 @@ export class InsertProduct {
   private starting_price: string | number;
   private image: string;
   private location: string;
+  private category: number | string;
 
   constructor(id_user: string | number,
               title: string,
               description: string,
               starting_price: string | number,
               image: string,
-              location: string) {
+              location: string,
+              category: number | string) {
     this.id_user = id_user;
     this.title = title;
     this.description = description;
     this.starting_price = starting_price;
     this.image = image;
     this.location = location;
+    this.category = category;
   }
 }
 /*
@@ -130,12 +133,11 @@ export class ProductsService {
   public addProduct(productObject: InsertProduct) {
     return Observable.create(
       observer => {
-        let headers = new Headers({'Content-Type': 'application/json'});
-        let options = new RequestOptions({headers: headers});
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
 
         let link = API_URL + "product";
         let body = JSON.stringify(productObject);
-        // console.log(link);
 
         this.http.post(link, body, options).subscribe(
           response => {

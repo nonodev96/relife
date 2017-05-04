@@ -6,39 +6,46 @@
 -->
 <ion-header>
   <ion-navbar color="theme_color_secondary">
-    <ion-toolbar>
-      <ion-title>Tu producto</ion-title>
-      <ion-buttons end>
-        <button ion-button icon-only (click)="addProduct()">
-          <ion-icon name="checkmark"></ion-icon>
-        </button>
-      </ion-buttons>
-    </ion-toolbar>
+    <ion-title>Tu producto</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="addProduct()">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
+  <ion-toolbar class="bar-subheader md-tall md-primary toolbar-medium">
+    <img [src]="_image" alt="">
+  </ion-toolbar>
 </ion-header>
 
-
 <ion-content>
+  <ion-fab color="theme_color_secondary" top right edge #fab1>
+    <button ion-fab (click)="selectCameraOrImagePicker()">
+      <ion-icon name="camera"></ion-icon>
+    </button>
+  </ion-fab>
   <ion-list>
-
-    <ion-item class="item-profile">
-        <img [src]="_image" *ngIf="_image"/>
-    </ion-item>
-    <ion-item>
-      <button ion-button block outline >Subir imagen</button>
-    </ion-item>
     <ion-item>
       <ion-label color="primary" floating>Titulo</ion-label>
-      <ion-input></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" floating>Descripción</ion-label>
-      <ion-input></ion-input>
+      <ion-input type="text"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label color="primary" floating>Ubicación</ion-label>
-      <ion-input></ion-input>
+      <ion-input type="text"></ion-input>
     </ion-item>
-
+    <ion-item>
+      <ion-label color="primary" floating>Categorías</ion-label>
+      <ion-select [selectOptions]="_selectOptions"
+                  (ionCancel)="selectCategoryCancel()"
+                  okText="Añadir categoría"
+                  cancelText="Cancelar">
+        <ion-option value="0" selected>Otras Categorías</ion-option>
+        <ion-option *ngFor="let categorie of _categories" value="{{categorie.id}}">{{categorie.name}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" floating>Descripción</ion-label>
+      <ion-textarea name="description"></ion-textarea>
+    </ion-item>
   </ion-list>
 </ion-content>

@@ -7,6 +7,7 @@ import { LoginPage } from '../login/login';
 import { AuthService } from '../../providers/auth-service';
 import { ProductsService } from '../../providers/products-service';
 import { ProductPage } from "../product/product";
+import { AddProductPage } from "../add-product/add-product";
 
 //import {AddProductPage} from '../add-product/add-product';
 export class ProductOfToday {
@@ -65,6 +66,7 @@ export class ProductOfToday {
   templateUrl: 'home.html'
 })
 export class HomePage {
+
   //region ATTRIBUTES
   private _userInfo;
   private _name: string;
@@ -185,6 +187,10 @@ export class HomePage {
       buttons: [ 'ok' ]
     });
     alert.present();
+  }
+
+  public openAddProduct() {
+    this.navCtrl.push(AddProductPage);
   }
 
   public logout() {
