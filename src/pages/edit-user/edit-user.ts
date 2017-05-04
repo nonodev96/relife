@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {
   ActionSheetController, AlertController, Loading, LoadingController, NavController,
   NavParams
 } from 'ionic-angular';
-import { AuthService, User } from '../../providers/auth-service';
-import { DomSanitizer } from '@angular/platform-browser';
+import {AuthService, User} from '../../providers/auth-service';
+import {DomSanitizer} from '@angular/platform-browser';
 
-import { DatePicker, Camera, ImagePicker } from 'ionic-native';
-import { SharedService } from "../../providers/shared-service";
+import {DatePicker, Camera, ImagePicker} from 'ionic-native';
+import {SharedService} from "../../providers/shared-service";
 
 /*
  Generated class for the EditUser page.
@@ -45,13 +45,14 @@ export class EditUserPage implements OnInit {
 
     this._user = this.authService.getUserInfo();
     this._userObject = this._user;
-    this._userObject.password = "Holamundo1";
+    this._userObject.password = "";
     try {
       this._userObject.birth_date = new Date(this._user.birth_date).toISOString();
     } catch (error) {
       console.log(error);
       this._userObject.birth_date = new Date().toISOString();
     }
+
   }
 
   //endregion
@@ -137,24 +138,27 @@ export class EditUserPage implements OnInit {
             let response = JSON.parse(allowed.text());
 
             if (Object.keys(response.meta).length == 0) {
-              let userEvent: User = new User(response.data[ 0 ]);
+              let userEvent: User = new User(response.data[0]);
               this.sharedS.setEmitterUser(userEvent);
 
               let alert = this.alertCtrl.create({
                 title: 'Usuario ' + this._userObject.nickname + ' actualizado ',
                 subTitle: "Los datos del usuario han sido actualizados correctamente",
-                buttons: [ 'OK' ]
+                buttons: ['OK']
               });
               alert.present(prompt);
             } else {
               if (typeof response.meta.nickname !== 'undefined') {
-                this.showError((response.meta.nickname));
+                this.showError(response.meta.nickname, "Apodo");
+              }
+              if (typeof response.meta.profile_avatar !== 'undefined') {
+                this.showError(response.meta.profile_avatar, "Imagen");
               }
               if (typeof response.meta.email !== 'undefined') {
-                this.showError((response.meta.email));
+                this.showError(response.meta.email, "Correo electronico");
               }
               if (typeof response.meta.password !== 'undefined') {
-                this.showError(response.meta.password);
+                this.showError(response.meta.password, "Contraseña");
               }
             }
 
@@ -165,7 +169,12 @@ export class EditUserPage implements OnInit {
         console.log("Error updateDataUser");
         setTimeout(() => {
           this._loading.dismiss();
-          console.log("Error setTimeout");
+          let alert = this.alertCtrl.create({
+            title: 'Técnicamente',
+            subTitle: "Algo salió mal",
+            buttons: ['OK']
+          });
+          alert.present(prompt);
         });
       }
     );
@@ -183,12 +192,14 @@ export class EditUserPage implements OnInit {
           handler: () => {
             this.openCamera();
           }
-        }, {
-          text: 'Elegir foto existente',
-          handler: () => {
-            this.openGallery();
-          }
-        }, {
+        }, /*
+         {
+         text: 'Elegir foto existente',
+         handler: () => {
+         this.openGallery();
+         }
+         },*/
+        {
           text: 'Cancelar',
           role: 'cancel',
           handler: () => {
@@ -200,15 +211,15 @@ export class EditUserPage implements OnInit {
     actionSheet.present();
   }
 
-  public showError(text: string) {
+  public showError(text: string, title: string = "Error") {
     setTimeout(() => {
       this._loading.dismiss();
     });
 
     let alert = this.alertCtrl.create({
-      title: 'Error',
+      title: title,
       subTitle: text,
-      buttons: [ 'OK' ]
+      buttons: ['OK']
     });
     alert.present(prompt);
   }
@@ -251,9 +262,9 @@ export class EditUserPage implements OnInit {
     ImagePicker.getPictures(options).then(
       (results) => {
         for (let i = 0; i < results.length; i++) {
-          console.log('Image URI: ' + results[ i ]);
-          this._image = this.domSanitizer.bypassSecurityTrustResourceUrl(results[ i ]);
-          this._base64Image = this.encodeImageUri(results[ i ]);
+          console.log('Image URI: ' + results[i]);
+          this._image = this.domSanitizer.bypassSecurityTrustResourceUrl(results[i]);
+          this._base64Image = this.encodeImageUri(results[i]);
         }
       },
       (err) => {
@@ -278,7 +289,7 @@ export class EditUserPage implements OnInit {
 
   //endregion
 
-  //region Description
+  //region DEBUG
   ionViewDidLoad() {
     console.log('ionViewDidLoad EditUserPage');
   }

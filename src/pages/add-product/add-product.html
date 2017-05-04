@@ -5,14 +5,40 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>AddProduct</ion-title>
+  <ion-navbar color="theme_color_secondary">
+    <ion-toolbar>
+      <ion-title>Tu producto</ion-title>
+      <ion-buttons end>
+        <button ion-button icon-only (click)="addProduct()">
+          <ion-icon name="checkmark"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
   </ion-navbar>
-
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+  <ion-list>
 
+    <ion-item class="item-profile">
+        <img [src]="_image" *ngIf="_image"/>
+    </ion-item>
+    <ion-item>
+      <button ion-button block outline >Subir imagen</button>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" floating>Titulo</ion-label>
+      <ion-input></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" floating>Descripción</ion-label>
+      <ion-input></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" floating>Ubicación</ion-label>
+      <ion-input></ion-input>
+    </ion-item>
+
+  </ion-list>
 </ion-content>

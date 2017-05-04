@@ -15,7 +15,6 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-navbar>
-
 </ion-header>
 
 <ion-content>
@@ -47,7 +46,7 @@
     </ion-item>
     <ion-item>
       <ion-label color="primary" floating>Contraseña *</ion-label>
-      <ion-input [value]="_userObject.password" [(ngModel)]="_userObject.password"></ion-input>
+      <ion-input type="password" [value]="_userObject.password" [(ngModel)]="_userObject.password"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label floating>Cumpleaños</ion-label>

@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-
+import {Component} from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
+import {InsertProduct, ProductsService} from '../../providers/products-service';
 /*
  Generated class for the AddProduct page.
 
@@ -13,8 +13,50 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class AddProductPage {
 
+  //region ATTRIBUTES
+  private _productObject: InsertProduct;
+  private _image;
+  //endregion
+
   //region CONSTRUCTOR
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public productsService: ProductsService) {
+    this._image = "";
+  }
+
+  //endregion
+
+  //region GETTER AND SETTER
+
+  get productObject(): InsertProduct {
+    return this._productObject;
+  }
+
+  set productObject(value: InsertProduct) {
+    this._productObject = value;
+  }
+
+  get image() {
+    return this._image;
+  }
+
+  set image(value) {
+    this._image = value;
+  }
+
+//endregion
+
+  //region CONTROLLER
+  public addProduct() {
+    this.productsService.addProduct(this._productObject).subscribe(
+      allowed => {
+
+      },
+      error => {
+
+      }
+    );
   }
 
   //endregion
@@ -24,5 +66,5 @@ export class AddProductPage {
     console.log('ionViewDidLoad AddProductPage');
   }
 
-  //endregion
+//endregion
 }

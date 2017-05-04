@@ -135,7 +135,6 @@ export class AuthService {
     }
   }
 
-
   public register(credentials) {
     if (credentials.email === null || credentials.password === null) {
       return Observable.throw("Error en las credenciales.");
