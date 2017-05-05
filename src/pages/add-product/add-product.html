@@ -13,18 +13,18 @@
       </button>
     </ion-buttons>
   </ion-navbar>
-  <ion-toolbar class="bar-subheader md-tall md-primary toolbar-medium">
-    <img [src]="_image" alt="">
-  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-fab color="theme_color_secondary" top right edge #fab1>
-    <button ion-fab (click)="selectCameraOrImagePicker()">
-      <ion-icon name="camera"></ion-icon>
-    </button>
-  </ion-fab>
   <ion-list>
+    <ion-item class="item_image_toolbar">
+      <img [src]="_image" alt="">
+    </ion-item>
+    <ion-fab color="theme_color_secondary" class="ion_fab_add_image" right >
+      <button ion-fab (click)="selectCameraOrImagePicker()">
+        <ion-icon name="camera"></ion-icon>
+      </button>
+    </ion-fab>
     <ion-item>
       <ion-label color="primary" floating>Titulo</ion-label>
       <ion-input type="text"></ion-input>

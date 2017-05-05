@@ -2,11 +2,27 @@ page-edit-user {
 
 }
 
-.item-profile {
+.item_image_toolbar {
+
   height: 150px;
-  .item-avatar > img:first-child {
-    width: 100%;
-    object-fit: cover;
-    max-height: 100px;
+  padding: 0;
+  .item-inner {
+    padding: 0 !important;
+    .label.label-md {
+      margin: 0;
+      img {
+        width: 100%;
+        position: absolute;
+        top: -60px;
+        object-fit: cover;
+
+      }
+    }
   }
+  background: rgba(175, 175, 175, 0.42);
+}
+
+.ion_fab_add_image {
+  position: absolute;
+  top: 120px;
 }

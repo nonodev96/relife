@@ -51,7 +51,8 @@ export class User {
 }
 
 const SERVER_URL = 'https://relifecloud-nonodev96.c9users.io/';
-const URL_IMAGE_USERS = "https://relifecloud-nonodev96.c9users.io/assets/images/users/";
+const SERVER_URL_API = SERVER_URL + 'api/';
+const URL_IMAGE_USERS = SERVER_URL + "assets/images/users/";
 // const URL_IMAGE_PRODUCTS = "https://relifecloud-nonodev96.c9users.io/assets/images/products/";
 
 @Injectable()
@@ -72,7 +73,11 @@ export class AuthService {
 
   //region GETTER AND SETTER
   public getUserInfo(): User {
-    return this._currentUser;
+    let userTypeof = new User();
+    if (typeof this._currentUser != "undefined") {
+      userTypeof = this._currentUser;
+    }
+    return userTypeof;
   }
 
   public getStringDataUser(): string {
@@ -103,10 +108,11 @@ export class AuthService {
       return Observable.create(
         observer => {
           // At this point make a request to your backend to make a real check!
-          let link = SERVER_URL + 'api/user/login';
+          let link = SERVER_URL_API + 'user/login';
           let body = JSON.stringify({ email: credentials.email, password: credentials.password });
           this.http.post(link, body).subscribe(
             data => {
+
               // let json_meta = JSON.parse(data.text()).meta;
               let json_data = JSON.parse(data.text()).data;
               if (json_data.status == "succes") {
@@ -121,9 +127,9 @@ export class AuthService {
                 observer.complete();
               }
             },
-            error => {
+            err => {
               this._access = false;
-              observer.next(error);
+              observer.next(err);
               observer.complete();
             }
           );
@@ -152,7 +158,7 @@ export class AuthService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        let link = SERVER_URL + 'api/user/' + id;
+        let link = SERVER_URL_API + 'user/' + id;
         let body = JSON.stringify(userObject);
 
         this.http.put(link, body, options).subscribe(
@@ -170,11 +176,37 @@ export class AuthService {
   }
 
   public logout() {
-    return Observable.create(observer => {
-      this._currentUser = null;
-      observer.next(true);
-      observer.complete();
-    });
+    return Observable.create(
+      observer => {
+        this._currentUser = null;
+        observer.next(true);
+        observer.complete();
+      }
+    );
+  }
+
+  public serviceIsAvailable() {
+    return Observable.create(
+      observer => {
+        let link = SERVER_URL_API + 'user/1';
+        this.http.get(link).subscribe(
+          response => {
+            if(response.status >= 200 || response.status < 300) {
+              observer.next(true);
+              observer.complete();
+            } else {
+              observer.next(false);
+              observer.complete();
+            }
+          },
+          error => {
+            console.log(error);
+            observer.next(false);
+            observer.complete();
+          }
+        );
+      }
+    );
   }
 
   //endregion

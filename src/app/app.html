@@ -6,14 +6,14 @@
   </ion-header>
 
   <ion-content>
-    <ion-item>
-      <ion-avatar item-left>
-        <img src="{{_user.profile_avatar}}" >
-      </ion-avatar>
-      <h2>{{_user.nickname}}</h2>
-      <p>{{_user.email}}</p>
-    </ion-item>
     <ion-list>
+      <ion-item menuClose (click)="openProfile()">
+        <ion-avatar item-left>
+          <img src="{{user.profile_avatar}}" >
+        </ion-avatar>
+        <h2>{{user.nickname}}</h2>
+        <p>{{user.email}}</p>
+      </ion-item>
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
         {{p.title}}
       </button>

@@ -33,7 +33,7 @@ export class AddProductPage {
               private loadingCtrl: LoadingController,
               private actionSheetCtrl: ActionSheetController,
               public productsService: ProductsService) {
-    this._image = "assets/imgs/add-image.png";
+    this._image = "assets/imgs/camera-background-xhdpi-screen.png";
     this._selectOptions = {
       title: 'Categorías',
       subTitle: 'Selecciona una categoría'

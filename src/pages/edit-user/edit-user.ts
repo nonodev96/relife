@@ -40,7 +40,7 @@ export class EditUserPage implements OnInit {
               private loadingCtrl: LoadingController,
               public domSanitizer: DomSanitizer,
               public authService: AuthService) {
-
+    this._image = "";
     this._user = this.authService.getUserInfo();
     this._userObject = this._user;
     this._userObject.password = "";
@@ -50,7 +50,6 @@ export class EditUserPage implements OnInit {
       console.log(error);
       this._userObject.birth_date = new Date().toISOString();
     }
-
   }
 
   //endregion

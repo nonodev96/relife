@@ -2,10 +2,28 @@ page-add-product {
 
 }
 
-.bar-subheader.md-tall.md-primary.toolbar-medium {
+.item_image_toolbar {
 
   height: 150px;
+  padding: 0;
+  .item-inner {
+    padding: 0 !important;
+    .label.label-md {
+      margin: 0;
+      img {
+        width: 100%;
+        position: absolute;
+        top: -60px;
 
+      }
+    }
+  }
+  background: rgba(175, 175, 175, 0.42);
+}
+
+.ion_fab_add_image {
+  position: absolute;
+  top: 120px;
 }
 
 textarea {

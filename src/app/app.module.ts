@@ -6,9 +6,6 @@ import { IonicStorageModule } from '@ionic/storage';
 import { NativeStorage } from "@ionic-native/native-storage";
 import { Crop } from "ionic-native";
 
-import { AuthService } from "../providers/auth-service";
-import { ProductsService } from "../providers/products-service";
-
 import { AddProductPage } from '../pages/add-product/add-product';
 import { AjaxTestPage } from '../pages/ajax-test/ajax-test';
 import { HomePage } from '../pages/home/home';
@@ -22,6 +19,9 @@ import { RegisterPage } from '../pages/register/register';
 import { EditUserPage } from "../pages/edit-user/edit-user";
 import { SlidesToolTipsPage } from "../pages/slides-tool-tips/slides-tool-tips";
 import { SharedService } from "../providers/shared-service";
+
+import { AuthService } from "../providers/auth-service";
+import { ProductsService } from "../providers/products-service";
 
 @NgModule({
   declarations: [

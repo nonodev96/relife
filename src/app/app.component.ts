@@ -10,16 +10,22 @@ import { SlidesToolTipsPage } from "../pages/slides-tool-tips/slides-tool-tips";
 import { AuthService } from "../providers/auth-service";
 import { SharedService } from "../providers/shared-service";
 
+type UserApp = {
+  nickname: string,
+  profile_avatar: string,
+  email: string
+}
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp implements OnInit {
+
   //region ATTRIBUTES
   @ViewChild(Nav)
-  private nav: Nav;
-  pages: Array<{ title: string, component: any, nav: string }>;
-  rootPage: any = LoginPage;
-  public _user;
+  private _nav: Nav;
+  private _pages: Array<{ title: string, component: any, nav: string }>;
+  private _rootPage;
+  private _user: UserApp;
   //endregion
 
   //region CONSTRUCTOR
@@ -33,30 +39,52 @@ export class MyApp implements OnInit {
       nickname: 'Cargando...',
       email: 'Cargando...'
     };
-    this.pages = [
+    this._pages = [
       { title: 'Inicio', component: HomePage, nav: 'setRoot' },
-      { title: 'Perfil', component: UserPage, nav: 'push' },
       { title: 'Añadir producto', component: AddProductPage, nav: 'push' },
       { title: 'Consejos', component: SlidesToolTipsPage, nav: 'setRoot' },
     ];
     this.initializeApp();
     this.logingAppComponents();
-
   }
 
   //endregion
 
   //region GETTER AND SETTER
 
-  get user(): { profile_avatar: string; nickname: string; email: string } {
+  get nav(): Nav {
+    return this._nav;
+  }
+
+  set nav(value: Nav) {
+    this._nav = value;
+  }
+
+  get pages(): Array<{ title: string; component: any; nav: string }> {
+    return this._pages;
+  }
+
+  set pages(value: Array<{ title: string; component: any; nav: string }>) {
+    this._pages = value;
+  }
+
+  get rootPage(): any {
+    return this._rootPage;
+  }
+
+  set rootPage(value: any) {
+    this._rootPage = value;
+  }
+
+  get user(): { nickname: string; profile_avatar: string; email: string } {
     return this._user;
   }
 
-  set user(value: { profile_avatar: string; nickname: string; email: string }) {
+  set user(value: { nickname: string; profile_avatar: string; email: string }) {
     this._user = value;
   }
 
-//endregion
+  //endregion
 
   //region CONTROLLER
   initializeApp() {
@@ -68,54 +96,79 @@ export class MyApp implements OnInit {
   }
 
   logingAppComponents() {
-    this.storage.ready().then(() => {
-      let credentials = { email: '', password: '', loging: '' };
-      this.storage.get("_email").then(data => {
-        credentials.email = data;
-      });
-      this.storage.get("_password").then(data => {
-        credentials.password = data;
-      });
-      this.storage.get("_loging").then(data => {
-        credentials.loging = data;
-        if (data == "TRUE") {
-          this.auth.login(credentials).subscribe(
-            allowed => {
-              if (allowed) {
-                setTimeout(() => {
-                  this.sharedService.setEmitterUser(this.auth.getUserInfo());
-
-                  this._user.profile_avatar = this.auth.getUserInfo().profile_avatar;
-                  this._user.nickname = this.auth.getUserInfo().nickname;
-                  this._user.email = this.auth.getUserInfo().email;
-
-                  this.menuController.get().enable(true);
-                  this.nav.setRoot(HomePage);
-                });
-              }
-            },
-            error => {
-              console.log(error);
+    this.auth.serviceIsAvailable().subscribe(
+      allowed => {
+        if (allowed == true) {
+          this.storage.ready().then(
+            () => {
+              let credentials = {
+                email: '',
+                password: '',
+                loging: ''
+              };
+              this.storage.get("_email").then(
+                data => {
+                  credentials.email = data;
+                }
+              );
+              this.storage.get("_password").then(
+                data => {
+                  credentials.password = data;
+                }
+              );
+              this.storage.get("_loging").then(
+                data => {
+                  credentials.loging = data;
+                  if (data == "TRUE") {
+                    this.auth.login(credentials).subscribe(
+                      allowed => {
+                        if (allowed) {
+                          setTimeout(() => {
+                            this.sharedService.setEmitterUser(this.auth.getUserInfo());
+                            this._user = this.auth.getUserInfo();
+                            this.menuController.get().enable(true);
+                            this._nav.setRoot(HomePage);
+                          });
+                        } else {
+                          this._rootPage = LoginPage;
+                        }
+                      },
+                      error => {
+                        console.log(error);
+                      }
+                    );
+                  } else {
+                    this._rootPage = LoginPage;
+                  }
+                }
+              );
             }
           );
+        } else {
+          this._rootPage = LoginPage;
         }
-      });
-    });
+      }
+    );
+  }
+
+  openProfile() {
+    this.openPage({ title: 'Perfil', component: UserPage, nav: 'push' })
   }
 
   openPage(page) {
+    console.log(page);
     switch (page.nav) {
       case 'setRoot':
-        this.nav.setRoot(page.component);
+        this._nav.setRoot(page.component);
         break;
       case 'push':
-        this.nav.push(page.component);
+        this._nav.push(page.component);
         break;
       case 'pop':
-        this.nav.pop(page.component);
+        this._nav.pop(page.component);
         break;
       default:
-        this.nav.setRoot(page.component);
+        this._nav.setRoot(page.component);
         break;
     }
   }
@@ -125,7 +178,7 @@ export class MyApp implements OnInit {
       allowed => {
         this.storage.set("_loging", "FALSE");
         this.menuController.get().enable(false);
-        this.nav.setRoot(LoginPage);
+        this._nav.setRoot(LoginPage);
       },
       error => {
         console.log(error);
@@ -137,7 +190,16 @@ export class MyApp implements OnInit {
 
   //region IMPLEMENTS
   ngOnInit(): void {
-    this.sharedService.getEmittedUser().subscribe(item => this._user = item);
+    this.sharedService.getEmittedUser().subscribe(
+      item => {
+        if (typeof item != 'undefined') {
+          this._user = item;
+        }
+      },
+      error => {
+        console.log(error)
+      }
+    );
   }
 
   //endregion

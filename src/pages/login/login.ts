@@ -16,6 +16,7 @@ import {SharedService} from "../../providers/shared-service";
   selector: 'page-login', templateUrl: 'login.html'
 })
 export class LoginPage {
+
   //region ATTRIBUTES
   private _loading: Loading;
   private _loging: string = "FALSE";

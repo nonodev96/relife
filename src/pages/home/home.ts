@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
-import { NativeStorage } from '@ionic-native/native-storage';
+import { NavController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import { LoginPage } from '../login/login';
@@ -77,8 +76,6 @@ export class HomePage {
   constructor(private authService: AuthService,
               private prodService: ProductsService,
               public navCtrl: NavController,
-              public navParams: NavParams,
-              public nativeStorage: NativeStorage,
               public alertCtrl: AlertController,
               public storage: Storage) {
 
@@ -172,31 +169,16 @@ export class HomePage {
     }
   }
 
-  public clickStorage() {
-    // set a key/value
-    this.storage.set('_name', 'Max');
-
-    // Or to get a key/value pair
-    this.storage.get('_name').then((data) => {
-      this._name = data;
-    });
-
-    let alert = this.alertCtrl.create({
-      title: 'The name is ' + this._name,
-      subTitle: 'The ionic database is working',
-      buttons: [ 'ok' ]
-    });
-    alert.present();
-  }
-
   public openAddProduct() {
     this.navCtrl.push(AddProductPage);
   }
 
   public logout() {
-    this.authService.logout().subscribe(succ => {
-      this.navCtrl.setRoot(LoginPage)
-    });
+    this.authService.logout().subscribe(
+      allowed => {
+        this.navCtrl.setRoot(LoginPage)
+      }
+    );
   }
 
   //endregion
