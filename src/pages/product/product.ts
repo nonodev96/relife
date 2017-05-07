@@ -19,6 +19,7 @@ export class ProductPage {
               public navParams: NavParams,
               public http: Http) {
     this.product = navParams.get('product');
+    console.log("Product page");
     console.log(this.product);
   }
 

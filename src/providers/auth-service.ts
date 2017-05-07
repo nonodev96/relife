@@ -3,13 +3,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-/*
- Generated class for the AuthService provider.
-
- See https://angular.io/docs/ts/latest/guide/dependency-injection.html
- for more info on providers and Angular 2 DI.
- */
-interface iUser {
+interface InterfaceUser {
   id: string;
   nickname: string;
   first_name: string;
@@ -21,8 +15,7 @@ interface iUser {
   birth_date: any;
   profile_avatar: string;
 }
-
-export class User {
+export class User implements InterfaceUser {
   public id: string;
   public nickname: string;
   public first_name: string;
@@ -35,7 +28,7 @@ export class User {
   public profile_avatar: string;
 
   constructor();
-  constructor(user: iUser);
+  constructor(user: InterfaceUser);
   constructor(user?: any) {
     this.id = user && user.id || "";
     this.nickname = user && user.nickname || "";
@@ -53,7 +46,6 @@ export class User {
 const SERVER_URL = 'https://relifecloud-nonodev96.c9users.io/';
 const SERVER_URL_API = SERVER_URL + 'api/';
 const URL_IMAGE_USERS = SERVER_URL + "assets/images/users/";
-// const URL_IMAGE_PRODUCTS = "https://relifecloud-nonodev96.c9users.io/assets/images/products/";
 
 @Injectable()
 export class AuthService {
@@ -109,7 +101,7 @@ export class AuthService {
         observer => {
           // At this point make a request to your backend to make a real check!
           let link = SERVER_URL_API + 'user/login';
-          let body = JSON.stringify({ email: credentials.email, password: credentials.password });
+          let body = JSON.stringify({email: credentials.email, password: credentials.password});
           this.http.post(link, body).subscribe(
             data => {
 
@@ -139,24 +131,20 @@ export class AuthService {
     }
   }
 
-  public register(credentials) {
-    if (credentials.email === null || credentials.password === null) {
-      return Observable.throw("Error en las credenciales.");
-    } else {
-      return Observable.create(
-        observer => {
-          observer.next(true);
-          observer.complete();
-        }
-      );
-    }
+  public register() {
+    return Observable.create(
+      observer => {
+        observer.next(true);
+        observer.complete();
+      }
+    );
   }
 
   public updateDataUser(userObject, id) {
     return Observable.create(
       observer => {
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+        let headers = new Headers({'Content-Type': 'application/json'});
+        let options = new RequestOptions({headers: headers});
 
         let link = SERVER_URL_API + 'user/' + id;
         let body = JSON.stringify(userObject);
@@ -191,7 +179,7 @@ export class AuthService {
         let link = SERVER_URL_API + 'user/1';
         this.http.get(link).subscribe(
           response => {
-            if(response.status >= 200 || response.status < 300) {
+            if (response.status >= 200 && response.status < 300) {
               observer.next(true);
               observer.complete();
             } else {
@@ -212,11 +200,11 @@ export class AuthService {
   //endregion
 
   //region DEBUG
-  logError(err) {
+  static logError(err) {
     console.log(err);
   }
 
-  handleError(error) {
+  static handleError(error) {
     console.log(error);
     return error.json().message || 'Server error, please try again later';
   }

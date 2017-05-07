@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, AlertController, ModalController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import { LoginPage } from '../login/login';
@@ -76,6 +76,7 @@ export class HomePage {
   constructor(private authService: AuthService,
               private prodService: ProductsService,
               public navCtrl: NavController,
+              public modalCtrl: ModalController,
               public alertCtrl: AlertController,
               public storage: Storage) {
 
@@ -258,6 +259,8 @@ export class HomePage {
   }
 
   public viewProduct(product) {
+    let modal = this.modalCtrl.create(ProductPage, { product: product });
+    modal.present();
     this.navCtrl.push(ProductPage, { product: product });
   }
 

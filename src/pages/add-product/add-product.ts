@@ -2,12 +2,7 @@ import { Component } from '@angular/core';
 import { AlertController, NavController, Loading, LoadingController, ActionSheetController } from 'ionic-angular';
 import { InsertProduct, ProductsService } from '../../providers/products-service';
 import { Camera } from 'ionic-native';
-/*
- Generated class for the AddProduct page.
 
- See http://ionicframework.com/docs/v2/components/#navigation for more info on
- Ionic pages and navigation.
- */
 type Category = {
   id: number,
   name: string
@@ -55,7 +50,7 @@ export class AddProductPage {
     ];
     this._categories = [];
     for (let key in categories) {
-      let value = categories[ key ];
+      let value = categories[key];
       let id = parseInt(key) + 1;
       this._categories.push({
         id: id,
@@ -148,7 +143,7 @@ export class AddProductPage {
     let alert = this.alertCtrl.create({
       title: title,
       subTitle: text,
-      buttons: [ 'OK' ]
+      buttons: ['OK']
     });
     alert.present(prompt);
   }
@@ -171,12 +166,15 @@ export class AddProductPage {
       targetWidth: 1000,
       targetHeight: 1000
     };
-    Camera.getPicture(options).then((imageData) => {
-      // imageData is a base64 encoded string
-      this._image = "data:image/png;base64," + imageData;
-    }, (err) => {
-      console.log(err);
-    });
+    Camera.getPicture(options).then(
+      (imageData) => {
+        // imageData is a base64 encoded string
+        this._image = "data:image/png;base64," + imageData;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
   //endregion

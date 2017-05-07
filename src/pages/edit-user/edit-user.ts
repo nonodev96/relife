@@ -8,12 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { DatePicker, Camera, ImagePicker } from 'ionic-native';
 import { SharedService } from "../../providers/shared-service";
 
-/*
- Generated class for the EditUser page.
 
- See http://ionicframework.com/docs/v2/components/#navigation for more info on
- Ionic pages and navigation.
- */
 @Component({
   selector: 'page-edit-user',
   templateUrl: 'edit-user.html'
@@ -223,7 +218,7 @@ export class EditUserPage implements OnInit {
 
   public showLoading() {
     this._loading = this.loadingCtrl.create({
-      content: 'Please wait...'
+      content: 'Paciencia joven padawan...'
     });
     this._loading.present();
   }
@@ -264,26 +259,13 @@ export class EditUserPage implements OnInit {
         for (let i = 0; i < results.length; i++) {
           console.log('Image URI: ' + results[ i ]);
           this._image = this.domSanitizer.bypassSecurityTrustResourceUrl(results[ i ]);
-          this._base64Image = this.encodeImageUri(results[ i ]);
+          this._base64Image = this.domSanitizer.bypassSecurityTrustResourceUrl(results[ i ]);
         }
       },
       (err) => {
         this.showError(err);
       }
     );
-  }
-
-  private encodeImageUri(imageUri) {
-    let c = document.createElement('canvas');
-    let ctx = c.getContext("2d");
-    let img = new Image();
-    img.onload = function () {
-      c.width = this.width;
-      c.height = this.height;
-      ctx.drawImage(img, 0, 0);
-    };
-    img.src = imageUri;
-    return c.toDataURL("image/jpeg");
   }
 
   //endregion

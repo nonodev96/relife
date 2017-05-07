@@ -1,17 +1,15 @@
-import {Component} from '@angular/core';
-import {MenuController, NavController, AlertController, LoadingController, Loading, Platform} from 'ionic-angular';
-import {NativeStorage} from '@ionic-native/native-storage';
-import {Storage} from '@ionic/storage';
-import {HomePage} from '../home/home';
-import {SlidesToolTipsPage} from '../slides-tool-tips/slides-tool-tips';
-import {AuthService} from '../../providers/auth-service';
-import {SharedService} from "../../providers/shared-service";
-/*
- Generated class for the Login page.
+import { Component } from '@angular/core';
+import {
+  MenuController, NavController, AlertController, LoadingController, Loading, Platform,
+  ToastController
+} from 'ionic-angular';
+import { NativeStorage } from '@ionic-native/native-storage';
+import { Storage } from '@ionic/storage';
+import { HomePage } from '../home/home';
+import { SlidesToolTipsPage } from '../slides-tool-tips/slides-tool-tips';
+import { AuthService } from '../../providers/auth-service';
+import { SharedService } from "../../providers/shared-service";
 
- See http://ionicframework.com/docs/v2/components/#navigation for more info on
- Ionic pages and navigation.
- */
 @Component({
   selector: 'page-login', templateUrl: 'login.html'
 })
@@ -33,6 +31,7 @@ export class LoginPage {
               private navController: NavController,
               private menuController: MenuController,
               private alertCtrl: AlertController,
+              private toastCtrl: ToastController,
               private loadingCtrl: LoadingController,
               private nativeStorage: NativeStorage,
               public platform: Platform,
@@ -71,38 +70,44 @@ export class LoginPage {
 
   //region CONTROLLER
   public login(changeNavController: boolean) {
-    this.showLoading();
-    this.auth.login(this._registerCredentials).subscribe(
+    this.auth.serviceIsAvailable().subscribe(
       allowed => {
         if (allowed) {
-          setTimeout(() => {
-            console.log("Line 92 de login.ts");
-            console.log(allowed);
-            console.log("Line 94 de login.ts");
-            this._loading.dismiss();
+          this.showLoading();
+          this.auth.login(this._registerCredentials).subscribe(
+            allowed => {
+              if (allowed) {
+                setTimeout(() => {
+                  this._loading.dismiss();
 
-            this.storage.ready().then(() => {
-              this.storage.set("_email", this._registerCredentials.email);
-              this.storage.set("_password", this._registerCredentials.password);
-              this.storage.set("_loging", "TRUE");
-            });
-            this.sharedService.setEmitterUser(this.auth.getUserInfo());
-            this.sharedService.getEmittedUser().subscribe(item => this._user = this.auth.getUserInfo());
-            this.menuController.get().enable(true);
-            if (changeNavController == true) {
-              this.navController.setRoot(HomePage);
-            } else {
-              this.navController.setRoot(SlidesToolTipsPage);
+                  this.storage.ready().then(() => {
+                    this.storage.set("_email", this._registerCredentials.email);
+                    this.storage.set("_password", this._registerCredentials.password);
+                    this.storage.set("_loging", "TRUE");
+                  });
+                  this.sharedService.setEmitterUser(this.auth.getUserInfo());
+                  this.sharedService.getEmittedUser().subscribe(item => this._user = this.auth.getUserInfo());
+                  this.menuController.get().enable(true);
+                  if (changeNavController == true) {
+                    this.navController.setRoot(HomePage);
+                  } else {
+                    this.navController.setRoot(SlidesToolTipsPage);
+                  }
+                });
+              } else {
+                this.showError("Acceso denegado");
+              }
+            },
+            error => {
+              this.showError(error);
             }
-          });
+          );
         } else {
-          this.showError("Acceso denegado");
+          this.presentToast('El servicio no está disponible');
         }
-      },
-      error => {
-        this.showError(error);
       }
     );
+
   }
 
   public createAccount() {
@@ -133,6 +138,14 @@ export class LoginPage {
     this.nativeStorage.getItem('_registerCredentials').then(data => {
       console.log(data);
     });
+  }
+
+  private presentToast(message) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000
+    });
+    toast.present();
   }
 
   //endregion
