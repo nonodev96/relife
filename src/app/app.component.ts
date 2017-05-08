@@ -9,6 +9,7 @@ import { LoginPage } from '../pages/login/login';
 import { SlidesToolTipsPage } from "../pages/slides-tool-tips/slides-tool-tips";
 import { AuthService } from "../providers/auth-service";
 import { SharedService } from "../providers/shared-service";
+import { ServerService } from "../providers/server-service";
 
 type UserApp = {
   nickname: string,
@@ -31,7 +32,8 @@ export class MyApp implements OnInit {
   //region CONSTRUCTOR
   constructor(public sharedService: SharedService,
               public platform: Platform,
-              public auth: AuthService,
+              public server: ServerService,
+              public authService: AuthService,
               public storage: Storage,
               public menuController: MenuController) {
     this._user = {
@@ -96,7 +98,7 @@ export class MyApp implements OnInit {
   }
 
   logingAppComponents() {
-    this.auth.serviceIsAvailable().subscribe(
+    this.server.serviceIsAvailable().subscribe(
       allowed => {
         if (allowed == true) {
           this.storage.ready().then(
@@ -120,14 +122,15 @@ export class MyApp implements OnInit {
                 data => {
                   credentials.loging = data;
                   if (data == "TRUE") {
-                    this.auth.login(credentials).subscribe(
+                    this.authService.login(credentials).subscribe(
                       allowed => {
                         if (allowed) {
                           setTimeout(() => {
-                            this.sharedService.setEmitterUser(this.auth.getUserInfo());
-                            this._user = this.auth.getUserInfo();
+                            this.sharedService.setEmitterUser(this.authService.getUserInfo());
+                            this._user = this.authService.getUserInfo();
                             this.menuController.get().enable(true);
-                            this._nav.setRoot(HomePage);
+                            let ret = this._nav.setRoot(HomePage);
+                            if (ret) console.log(ret);
                           });
                         } else {
                           this._rootPage = LoginPage;
@@ -156,29 +159,33 @@ export class MyApp implements OnInit {
   }
 
   openPage(page) {
-    console.log(page);
+    let ret: any;
     switch (page.nav) {
       case 'setRoot':
-        this._nav.setRoot(page.component);
+        ret = this._nav.setRoot(page.component);
         break;
       case 'push':
-        this._nav.push(page.component);
+        ret = this._nav.push(page.component);
         break;
       case 'pop':
-        this._nav.pop(page.component);
+        ret = this._nav.pop(page.component);
         break;
       default:
-        this._nav.setRoot(page.component);
+        ret = this._nav.setRoot(page.component);
         break;
     }
+    console.log(ret);
   }
 
   logOutMenuButton() {
-    this.auth.logout().subscribe(
-      allowed => {
-        this.storage.set("_loging", "FALSE");
+    this.authService.logout().subscribe(
+      () => {
+        let ret: any;
+        ret = this.storage.set("_loging", "FALSE");
+        if (ret) console.log();
         this.menuController.get().enable(false);
-        this._nav.setRoot(LoginPage);
+        ret = this._nav.setRoot(LoginPage);
+        if (ret) console.log();
       },
       error => {
         console.log(error);

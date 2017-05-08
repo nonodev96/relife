@@ -173,29 +173,6 @@ export class AuthService {
     );
   }
 
-  public serviceIsAvailable() {
-    return Observable.create(
-      observer => {
-        let link = SERVER_URL_API + 'user/1';
-        this.http.get(link).subscribe(
-          response => {
-            if (response.status >= 200 && response.status < 300) {
-              observer.next(true);
-              observer.complete();
-            } else {
-              observer.next(false);
-              observer.complete();
-            }
-          },
-          error => {
-            console.log(error);
-            observer.next(false);
-            observer.complete();
-          }
-        );
-      }
-    );
-  }
 
   //endregion
 

@@ -1,51 +1,49 @@
-<!--
-  Generated template for the AddProduct page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
   <ion-navbar color="theme_color_secondary">
-    <ion-title>Tu producto</ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="addProduct()">
-        <ion-icon name="checkmark"></ion-icon>
-      </button>
-    </ion-buttons>
+    <ion-title>Que vendes...</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item class="item_image_toolbar">
-      <img [src]="_image" alt="">
-    </ion-item>
-    <ion-fab color="theme_color_secondary" class="ion_fab_add_image" right >
-      <button ion-fab (click)="selectCameraOrImagePicker()">
-        <ion-icon name="camera"></ion-icon>
-      </button>
-    </ion-fab>
-    <ion-item>
-      <ion-label color="primary" floating>Titulo</ion-label>
-      <ion-input type="text"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" floating>Ubicación</ion-label>
-      <ion-input type="text"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" floating>Categorías</ion-label>
-      <ion-select [selectOptions]="_selectOptions"
-                  (ionCancel)="selectCategoryCancel()"
-                  okText="Añadir categoría"
-                  cancelText="Cancelar">
-        <ion-option value="0" selected>Otras Categorías</ion-option>
-        <ion-option *ngFor="let categorie of _categories" value="{{categorie.id}}">{{categorie.name}}</ion-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" floating>Descripción</ion-label>
-      <ion-textarea name="description"></ion-textarea>
-    </ion-item>
-  </ion-list>
+  <form [formGroup]="insertProduct" (ngSubmit)="addProduct()">
+    <ion-list>
+      <ion-item class="item_image_toolbar">
+        <img [src]="_image" alt="">
+        <input type="hidden" formControlName="user_id">
+      </ion-item>
+      <ion-fab color="theme_color_secondary" class="ion_fab_add_image" right>
+        <button ion-fab (click)="selectCameraOrImagePicker()">
+          <ion-icon name="camera"></ion-icon>
+        </button>
+      </ion-fab>
+      <ion-item>
+        <ion-label color="primary" floating>Titulo</ion-label>
+        <ion-input type="text" formControlName="title"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>Precio</ion-label>
+        <ion-input type="number" formControlName="starting_price"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>Ubicación</ion-label>
+        <ion-input type="text" formControlName="location"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>Categorías</ion-label>
+        <ion-select formControlName="category"
+                    [selectOptions]="_selectOptions"
+                    (ionCancel)="selectCategoryCancel()"
+                    okText="Añadir categoría"
+                    cancelText="Cancelar">
+          <ion-option value="0" selected>Otras Categorías</ion-option>
+          <ion-option *ngFor="let categorie of _categories" value="{{categorie.id}}">{{categorie.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>Descripción</ion-label>
+        <ion-textarea formControlName="description"></ion-textarea>
+      </ion-item>
+    </ion-list>
+    <button ion-button type="submit" full [disabled]="!insertProduct.valid">Subir producto</button>
+  </form>
 </ion-content>

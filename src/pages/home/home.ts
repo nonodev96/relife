@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, ModalController } from 'ionic-angular';
+import { NavController, AlertController, ModalController, ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import { LoginPage } from '../login/login';
@@ -7,6 +7,7 @@ import { AuthService } from '../../providers/auth-service';
 import { ProductsService } from '../../providers/products-service';
 import { ProductPage } from "../product/product";
 import { AddProductPage } from "../add-product/add-product";
+import { ServerService } from "../../providers/server-service";
 
 //import {AddProductPage} from '../add-product/add-product';
 export class ProductOfToday {
@@ -74,8 +75,10 @@ export class HomePage {
 
   //region CONSTRUCTOR
   constructor(private authService: AuthService,
+              private serverService: ServerService,
               private prodService: ProductsService,
               public navCtrl: NavController,
+              public toastCtrl: ToastController,
               public modalCtrl: ModalController,
               public alertCtrl: AlertController,
               public storage: Storage) {
@@ -185,47 +188,16 @@ export class HomePage {
   //endregion
 
   //region COMPONENTS
-  /**
-   * Pendiente
-   */
-  public presentPrompt() {
-    let alert = this.alertCtrl.create({
-      title: 'Login',
-      inputs: [
-        {
-          name: 'username',
-          placeholder: 'Username',
-          type: 'email'
-        },
-        {
-          name: 'password',
-          placeholder: 'Password',
-          type: 'password'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Login',
-          handler: data => {
-            if (data.username != "") {
-              // logged in!
-              console.log("handler->login true");
-            } else {
-              // invalid login
-              console.log("handler->login false");
-            }
-          }
-        }
-      ]
-    });
-    alert.present();
+  private presentToast(message, duration = 3000) {
+    let toast = this.toastCtrl.create(
+      {
+        message: message,
+        duration: duration,
+        position: 'bottom',
+        dismissOnPageChange: true,
+      }
+    );
+    toast.present();
   }
 
   public searchPush() {
@@ -238,22 +210,31 @@ export class HomePage {
   }
 
   public doRefresh(refresher) {
-    this.prodService.getProductsOfToday().subscribe(
+    this.serverService.serviceIsAvailable().subscribe(
       allowed => {
-        let json_data = JSON.parse(allowed.text()).data;
-        this._listProductsOfToday = [];
+        if (allowed) {
+          this.prodService.getProductsOfToday().subscribe(
+            allowed => {
+              let json_data = JSON.parse(allowed.text()).data;
+              this._listProductsOfToday = [];
 
-        for (let product of json_data) {
-          product.time_left = product.datetime_product;
-          this.countDown(product);
-          this._listProductsOfToday.push(product);
+              for (let product of json_data) {
+                product.time_left = product.datetime_product;
+                this.countDown(product);
+                this._listProductsOfToday.push(product);
+              }
+
+              refresher.complete();
+            },
+            error => {
+              console.log("GetProductsOfToday error");
+              refresher.cancel();
+            }
+          );
+        } else {
+          this.presentToast('El servicio no está disponible');
+          refresher.complete();
         }
-
-        refresher.complete();
-      },
-      error => {
-        console.log("GetProductsOfToday error");
-        refresher.cancel();
       }
     );
   }

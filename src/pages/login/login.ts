@@ -9,6 +9,7 @@ import { HomePage } from '../home/home';
 import { SlidesToolTipsPage } from '../slides-tool-tips/slides-tool-tips';
 import { AuthService } from '../../providers/auth-service';
 import { SharedService } from "../../providers/shared-service";
+import { ServerService } from "../../providers/server-service";
 
 @Component({
   selector: 'page-login', templateUrl: 'login.html'
@@ -27,7 +28,8 @@ export class LoginPage {
 
   //region CONSTRUCTOR
   constructor(private sharedService: SharedService,
-              private auth: AuthService,
+              private authService: AuthService,
+              private serverService: ServerService,
               private navController: NavController,
               private menuController: MenuController,
               private alertCtrl: AlertController,
@@ -70,11 +72,11 @@ export class LoginPage {
 
   //region CONTROLLER
   public login(changeNavController: boolean) {
-    this.auth.serviceIsAvailable().subscribe(
+    this.serverService.serviceIsAvailable().subscribe(
       allowed => {
         if (allowed) {
           this.showLoading();
-          this.auth.login(this._registerCredentials).subscribe(
+          this.authService.login(this._registerCredentials).subscribe(
             allowed => {
               if (allowed) {
                 setTimeout(() => {
@@ -85,8 +87,8 @@ export class LoginPage {
                     this.storage.set("_password", this._registerCredentials.password);
                     this.storage.set("_loging", "TRUE");
                   });
-                  this.sharedService.setEmitterUser(this.auth.getUserInfo());
-                  this.sharedService.getEmittedUser().subscribe(item => this._user = this.auth.getUserInfo());
+                  this.sharedService.setEmitterUser(this.authService.getUserInfo());
+                  this.sharedService.getEmittedUser().subscribe(item => this._user = this.authService.getUserInfo());
                   this.menuController.get().enable(true);
                   if (changeNavController == true) {
                     this.navController.setRoot(HomePage);
@@ -107,7 +109,6 @@ export class LoginPage {
         }
       }
     );
-
   }
 
   public createAccount() {

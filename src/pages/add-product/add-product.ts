@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AlertController, NavController, Loading, LoadingController, ActionSheetController } from 'ionic-angular';
-import { InsertProduct, ProductsService } from '../../providers/products-service';
 import { Camera } from 'ionic-native';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 type Category = {
   id: number,
@@ -14,7 +14,7 @@ type Category = {
 export class AddProductPage {
 
   //region ATTRIBUTES
-  private _productObject: InsertProduct;
+  private insertProduct: FormGroup;
   private _image;
   private _categories: Array<Category>;
   private _selectOptions;
@@ -23,11 +23,21 @@ export class AddProductPage {
   //endregion
 
   //region CONSTRUCTOR
-  constructor(public navCtrl: NavController,
+  constructor(private formBuilder: FormBuilder,
+              public navCtrl: NavController,
               public alertCtrl: AlertController,
               private loadingCtrl: LoadingController,
-              private actionSheetCtrl: ActionSheetController,
-              public productsService: ProductsService) {
+              private actionSheetCtrl: ActionSheetController) {
+    this.insertProduct = this.formBuilder.group(
+      {
+        user_id: [ '' ],
+        title: [ '', Validators.required ],
+        description: [ '', Validators.required ],
+        location: [ '', Validators.required ],
+        category: [ '', ],
+        starting_price: [ '', ],
+      }
+    );
     this._image = "assets/imgs/camera-background-xhdpi-screen.png";
     this._selectOptions = {
       title: 'Categorías',
@@ -50,7 +60,7 @@ export class AddProductPage {
     ];
     this._categories = [];
     for (let key in categories) {
-      let value = categories[key];
+      let value = categories[ key ];
       let id = parseInt(key) + 1;
       this._categories.push({
         id: id,
@@ -62,14 +72,6 @@ export class AddProductPage {
   //endregion
 
   //region GETTER AND SETTER
-  get productObject(): InsertProduct {
-    return this._productObject;
-  }
-
-  set productObject(value: InsertProduct) {
-    this._productObject = value;
-  }
-
   get image() {
     return this._image;
   }
@@ -90,14 +92,8 @@ export class AddProductPage {
 
   //region CONTROLLER
   public addProduct() {
-    this.productsService.addProduct(this._productObject).subscribe(
-      allowed => {
-
-      },
-      error => {
-
-      }
-    );
+    console.log(this.insertProduct);
+    console.log(this.insertProduct.value);
   }
 
   public selectCategoryCancel() {
@@ -143,7 +139,7 @@ export class AddProductPage {
     let alert = this.alertCtrl.create({
       title: title,
       subTitle: text,
-      buttons: ['OK']
+      buttons: [ 'OK' ]
     });
     alert.present(prompt);
   }

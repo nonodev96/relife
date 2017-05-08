@@ -3,13 +3,9 @@ import { NavController, NavParams } from 'ionic-angular';
 import { AuthService, User } from '../../providers/auth-service';
 import { EditUserPage } from "../edit-user/edit-user";
 import { SharedService } from "../../providers/shared-service";
+import * as moment from 'moment';
 
-/*
- Generated class for the User page.
 
- See http://ionicframework.com/docs/v2/components/#navigation for more info on
- Ionic pages and navigation.
- */
 @Component({
   selector: 'page-user',
   templateUrl: 'user.html'
@@ -27,6 +23,7 @@ export class UserPage implements OnInit {
   private _user: User;
   private _listBackground;
   private _backgroundRandom;
+  private _birth_date;
 
   //endregion
 
@@ -36,14 +33,18 @@ export class UserPage implements OnInit {
               public navCtrl: NavController,
               public navParams: NavParams) {
     this._user = this.authService.getUserInfo();
+    let birthDateMoment = moment(this._user.birth_date);
+    this._birth_date = birthDateMoment.locale("es").format("D [de] MMMM [del] YYYY");
     this._listBackground = [
       { backgroundUrl: 'assets/imgs/card-saopaolo.png' },
       { backgroundUrl: 'assets/imgs/card-madison.png' },
       { backgroundUrl: 'assets/imgs/card-sf.png' },
       { backgroundUrl: 'assets/imgs/card-amsterdam.png' }
     ];
-    let random = this.randomInt(0, this._listBackground.length - 1);
-    this._backgroundRandom = this._listBackground[ random ].backgroundUrl;
+    let
+      random = this.randomInt(0, this._listBackground.length - 1);
+    this
+      ._backgroundRandom = this._listBackground[ random ].backgroundUrl;
   }
 
   //endregion
@@ -74,14 +75,16 @@ export class UserPage implements OnInit {
     this._backgroundRandom = value;
   }
 
-//endregion
+  //endregion
 
   //region CONTROLLER
-  private randomInt(min, max) {
+  private
+  randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  public openEditUser() {
+  public
+  openEditUser() {
     this.navCtrl.push(EditUserPage);
   }
 
