@@ -14,7 +14,11 @@ export class UserPage implements OnInit {
 
   //region IMPLEMENTS
   ngOnInit(): void {
-    this.sharedService.getEmittedUser().subscribe(item => this._user = item);
+    this.sharedService.getEmittedUser().subscribe(
+      item => {
+        this._user = item
+      }
+    );
   }
 
   //endregion
@@ -32,7 +36,8 @@ export class UserPage implements OnInit {
               private sharedService: SharedService,
               public navCtrl: NavController,
               public navParams: NavParams) {
-    this._user = this.authService.getUserInfo();
+    this._user = this.authService.getUser();
+    console.log(this._user);
     let birthDateMoment = moment(this._user.birth_date);
     this._birth_date = birthDateMoment.locale("es").format("D [de] MMMM [del] YYYY");
     this._listBackground = [

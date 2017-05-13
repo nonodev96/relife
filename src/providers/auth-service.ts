@@ -16,17 +16,21 @@ interface InterfaceUser {
   profile_avatar: string;
 }
 export class User implements InterfaceUser {
-  public id: string;
-  public nickname: string;
-  public first_name: string;
-  public last_name: string;
-  public email: string;
-  public password: string;
-  public location: string;
-  public join_date: any;
-  public birth_date: any;
-  public profile_avatar: string;
+  //region ATTRIBUTES
+  id: string;
+  nickname: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+  location: string;
+  join_date: any;
+  birth_date: any;
+  profile_avatar: string;
 
+  //endregion
+
+  //region CONSTRUCTOR
   constructor();
   constructor(user: InterfaceUser);
   constructor(user?: any) {
@@ -41,6 +45,8 @@ export class User implements InterfaceUser {
     this.birth_date = user && user.birth_date || "";
     this.profile_avatar = user && (URL_IMAGE_USERS + user.profile_avatar) || "";
   }
+
+  //endregion
 }
 
 const SERVER_URL = 'https://relifecloud-nonodev96.c9users.io/';
@@ -64,12 +70,8 @@ export class AuthService {
   //endregion
 
   //region GETTER AND SETTER
-  public getUserInfo(): User {
-    let userTypeof = new User();
-    if (typeof this._currentUser != "undefined") {
-      userTypeof = this._currentUser;
-    }
-    return userTypeof;
+  public getUser(): User {
+    return this._currentUser;
   }
 
   public getStringDataUser(): string {
@@ -80,7 +82,7 @@ export class AuthService {
     return Observable.create(
       observer => {
         if (this._access) {
-          observer.next(this.getUserInfo());
+          observer.next(this.getUser());
           observer.complete();
         } else {
           observer.next("Error en getUserInfoObservable");
@@ -101,14 +103,26 @@ export class AuthService {
         observer => {
           // At this point make a request to your backend to make a real check!
           let link = SERVER_URL_API + 'user/login';
-          let body = JSON.stringify({email: credentials.email, password: credentials.password});
+          let body = JSON.stringify({ email: credentials.email, password: credentials.password });
           this.http.post(link, body).subscribe(
             data => {
 
               // let json_meta = JSON.parse(data.text()).meta;
-              let json_data = JSON.parse(data.text()).data;
-              if (json_data.status == "succes") {
-                this._currentUser = new User(json_data);
+              let userObjectJSON = JSON.parse(data.text()).data;
+              if (userObjectJSON.status == "succes") {
+                let userObject = {
+                  id: userObjectJSON.id,
+                  nickname: userObjectJSON.nickname,
+                  first_name: userObjectJSON.first_name,
+                  last_name: userObjectJSON.last_name,
+                  email: userObjectJSON.email,
+                  password: userObjectJSON.password,
+                  location: userObjectJSON.location,
+                  join_date: userObjectJSON.join_date,
+                  birth_date: userObjectJSON.birth_date,
+                  profile_avatar: userObjectJSON.profile_avatar,
+                };
+                this._currentUser = new User(userObject);
                 this._stringDataUser = JSON.stringify(this._currentUser);
                 this._access = true;
                 observer.next(this._access);
@@ -143,8 +157,8 @@ export class AuthService {
   public updateDataUser(userObject, id) {
     return Observable.create(
       observer => {
-        let headers = new Headers({'Content-Type': 'application/json'});
-        let options = new RequestOptions({headers: headers});
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
 
         let link = SERVER_URL_API + 'user/' + id;
         let body = JSON.stringify(userObject);

@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="insertProduct" (ngSubmit)="addProduct()">
+  <form [formGroup]="_insertProduct" (ngSubmit)="addProduct()">
     <ion-list>
       <ion-item class="item_image_toolbar">
         <img [src]="_image" alt="">
@@ -31,12 +31,11 @@
       <ion-item>
         <ion-label color="primary" floating>Categorías</ion-label>
         <ion-select formControlName="category"
-                    [selectOptions]="_selectOptions"
-                    (ionCancel)="selectCategoryCancel()"
+                    [(ngModel)]="_selected"
+                    [selectOptions]="selectOptions"
                     okText="Añadir categoría"
                     cancelText="Cancelar">
-          <ion-option value="0" selected>Otras Categorías</ion-option>
-          <ion-option *ngFor="let categorie of _categories" value="{{categorie.id}}">{{categorie.name}}</ion-option>
+          <ion-option *ngFor="let option of categories()" value="{{option.value}}">{{option.name}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>

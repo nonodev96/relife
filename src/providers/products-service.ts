@@ -62,13 +62,13 @@ interface InterfaceInsertProduct {
   category: number | string;
 }
 export class InsertProduct implements InterfaceInsertProduct {
-  public id_user: string|number;
-  public title: string;
-  public description: string;
-  public starting_price: string|number;
-  public image: string;
-  public location: string;
-  public category: number|string;
+  id_user: string | number;
+  title: string;
+  description: string;
+  starting_price: string | number;
+  image: string;
+  location: string;
+  category: number | string;
 
   constructor();
   constructor(insertProduct: InterfaceInsertProduct);
@@ -90,6 +90,7 @@ export class ProductsService {
 
   //region ATTRIBUTES
   private _listProductsOfToday: Array<ProductOfToday>;
+
   //endregion
 
   //region CONSTRUCTOR
@@ -133,8 +134,8 @@ export class ProductsService {
   public addProduct(productObject: InsertProduct) {
     return Observable.create(
       observer => {
-        let headers = new Headers({'Content-Type': 'application/json'});
-        let options = new RequestOptions({headers: headers});
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
 
         let link = SERVER_URL_API + "product";
         let body = JSON.stringify(productObject);
@@ -157,8 +158,8 @@ export class ProductsService {
   public deleteProduct(productObject: InsertProduct) {
     return Observable.create(
       observer => {
-        let headers = new Headers({'Content-Type': 'application/json'});
-        let options = new RequestOptions({headers: headers});
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
 
         let link = SERVER_URL_API + "product";
         let body = JSON.stringify(productObject);

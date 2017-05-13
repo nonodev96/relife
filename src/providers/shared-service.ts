@@ -16,15 +16,13 @@ export class SharedService {
 
   //region CONSTRUCTOR
   constructor() {
-    console.log('shared service started');
+
   }
 
   //endregion
 
   //region GETTER AND SETTER
   setEmitterUser(_user) {
-    console.log('setEmitterUser started');
-    console.log(_user);
     this._userEvent.emit(_user);
   }
 

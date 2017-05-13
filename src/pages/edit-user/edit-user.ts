@@ -15,9 +15,12 @@ import { SharedService } from "../../providers/shared-service";
 })
 export class EditUserPage implements OnInit {
 
+  //region IMPLEMENTS
   ngOnInit(): void {
     this.sharedS.getEmittedUser().subscribe(item => this._user = item);
   }
+
+  //endregion
 
   //region ATTRIBUTES
   private _user: User;
@@ -36,13 +39,12 @@ export class EditUserPage implements OnInit {
               public domSanitizer: DomSanitizer,
               public authService: AuthService) {
     this._image = "";
-    this._user = this.authService.getUserInfo();
+    this._user = this.authService.getUser();
     this._userObject = this._user;
     this._userObject.password = "";
     try {
       this._userObject.birth_date = new Date(this._user.birth_date).toISOString();
     } catch (error) {
-      console.log(error);
       this._userObject.birth_date = new Date().toISOString();
     }
   }
@@ -110,7 +112,7 @@ export class EditUserPage implements OnInit {
   public updateUser() {
     this.showLoading();
     this._userObject.birth_date = (new Date(this._userObject.birth_date)).toISOString().substring(0, 19).replace('T', ' ');
-    let userDataToUpdate = {
+    let userUpdate = {
       id: this._userObject.id,
       nickname: this._userObject.nickname,
       first_name: this._userObject.first_name,
@@ -122,7 +124,7 @@ export class EditUserPage implements OnInit {
       profile_avatar: this._base64Image
     };
     let ID_USER = this._userObject.id;
-    this.authService.updateDataUser(userDataToUpdate, ID_USER).subscribe(
+    this.authService.updateDataUser(userUpdate, ID_USER).subscribe(
       allowed => {
         if (allowed) {
           setTimeout(() => {

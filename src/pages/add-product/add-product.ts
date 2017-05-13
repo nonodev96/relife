@@ -1,12 +1,11 @@
+///<reference path="../../providers/products-service.ts"/>
 import { Component } from '@angular/core';
 import { AlertController, NavController, Loading, LoadingController, ActionSheetController } from 'ionic-angular';
 import { Camera } from 'ionic-native';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { InsertProduct } from "../../providers/products-service";
+import { AuthService } from "../../providers/auth-service";
 
-type Category = {
-  id: number,
-  name: string
-}
 @Component({
   selector: 'page-add-product',
   templateUrl: 'add-product.html'
@@ -14,21 +13,23 @@ type Category = {
 export class AddProductPage {
 
   //region ATTRIBUTES
-  private insertProduct: FormGroup;
+  private _insertProduct: FormGroup;
   private _image;
-  private _categories: Array<Category>;
-  private _selectOptions;
+  private _base64Image;
   private _loading: Loading;
+  selectOptions;
+  _selected: string = "0";
 
   //endregion
 
   //region CONSTRUCTOR
-  constructor(private formBuilder: FormBuilder,
+  constructor(private authService: AuthService,
+              private formBuilder: FormBuilder,
               public navCtrl: NavController,
               public alertCtrl: AlertController,
               private loadingCtrl: LoadingController,
               private actionSheetCtrl: ActionSheetController) {
-    this.insertProduct = this.formBuilder.group(
+    this._insertProduct = this.formBuilder.group(
       {
         user_id: [ '' ],
         title: [ '', Validators.required ],
@@ -39,10 +40,86 @@ export class AddProductPage {
       }
     );
     this._image = "assets/imgs/camera-background-xhdpi-screen.png";
-    this._selectOptions = {
+    this.selectOptions = {
       title: 'Categorías',
       subTitle: 'Selecciona una categoría'
     };
+
+  }
+
+  //endregion
+
+  //region GETTER AND SETTER
+  get insertProduct(): FormGroup {
+    return this._insertProduct;
+  }
+
+  set insertProduct(value: FormGroup) {
+    this._insertProduct = value;
+  }
+
+  get image() {
+    return this._image;
+  }
+
+  set image(value) {
+    this._image = value;
+  }
+
+  get base64Image() {
+    return this._base64Image;
+  }
+
+  set base64Image(value) {
+    this._base64Image = value;
+  }
+
+  get loading(): Loading {
+    return this._loading;
+  }
+
+  set loading(value: Loading) {
+    this._loading = value;
+  }
+
+  get selected(): string {
+    return this._selected;
+  }
+
+  set selected(value: string) {
+    this._selected = value;
+  }
+
+  //endregion
+
+  //region CONTROLLER
+  public addProduct() {
+    let insertProduct = this.getInsertProduct();
+    console.log(insertProduct);
+  }
+
+  public getInsertProduct(): InsertProduct {
+    let id_user = this.authService.getUser().id;
+    let title = this.insertProduct.value.title;
+    let description = this.insertProduct.value.description;
+    let starting_price = this.insertProduct.value.starting_price;
+    let image = this.insertProduct.value.image;
+    let location = this.insertProduct.value.location;
+    let category = this.insertProduct.value.category;
+    let insertProductObject = {
+      id_user: id_user,
+      title: title,
+      description: description,
+      starting_price: starting_price,
+      image: image,
+      location: location,
+      category: category
+    };
+    return new InsertProduct(insertProductObject);
+  }
+
+  //noinspection JSMethodCanBeStatic
+  public categories() {
     let categories = [
       "Coches",
       "Motor y Accesorios",
@@ -56,48 +133,21 @@ export class AddProductPage {
       "Inmobiliaria",
       "Electrodomésticos",
       "Servicios",
-      "Otros",
+      "Otros"
     ];
-    this._categories = [];
+    let categoriesReturn = [ {
+      value: 0,
+      name: "Otras Categorías",
+    } ];
     for (let key in categories) {
-      let value = categories[ key ];
-      let id = parseInt(key) + 1;
-      this._categories.push({
-        id: id,
-        name: value
+      let value = parseInt(key) + 1;
+      let name = categories[ key ];
+      categoriesReturn.push({
+        value: value,
+        name: name
       });
     }
-  }
-
-  //endregion
-
-  //region GETTER AND SETTER
-  get image() {
-    return this._image;
-  }
-
-  set image(value) {
-    this._image = value;
-  }
-
-  get categories(): Array<Category> {
-    return this._categories;
-  }
-
-  set categories(value: Array<Category>) {
-    this._categories = value;
-  }
-
-  //endregion
-
-  //region CONTROLLER
-  public addProduct() {
-    console.log(this.insertProduct);
-    console.log(this.insertProduct.value);
-  }
-
-  public selectCategoryCancel() {
-    console.log('Gaming Select, Cancel');
+    return categoriesReturn;
   }
 
   //endregion
@@ -105,20 +155,14 @@ export class AddProductPage {
   //region COMPONENTS
   public selectCameraOrImagePicker() {
     let actionSheet = this.actionSheetCtrl.create({
-      title: 'Actualizar tu foto de perfil',
+      title: 'Seleccionar una foto de...',
       buttons: [
         {
           text: 'Tomar foto',
           handler: () => {
             this.openCamera();
           }
-        }, /*
-         {
-         text: 'Elegir foto existente',
-         handler: () => {
-         this.openGallery();
-         }
-         },*/
+        },
         {
           text: 'Cancelar',
           role: 'cancel',
@@ -128,11 +172,13 @@ export class AddProductPage {
         }
       ]
     });
+    //noinspection JSIgnoredPromiseFromCall
     actionSheet.present();
   }
 
   public showError(text: string, title: string = "Error") {
     setTimeout(() => {
+      //noinspection JSIgnoredPromiseFromCall
       this._loading.dismiss();
     });
 
@@ -176,6 +222,7 @@ export class AddProductPage {
   //endregion
 
   //region DEBUG
+  //noinspection JSMethodCanBeStatic
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddProductPage');
   }

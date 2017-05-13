@@ -87,8 +87,8 @@ export class LoginPage {
                     this.storage.set("_password", this._registerCredentials.password);
                     this.storage.set("_loging", "TRUE");
                   });
-                  this.sharedService.setEmitterUser(this.authService.getUserInfo());
-                  this.sharedService.getEmittedUser().subscribe(item => this._user = this.authService.getUserInfo());
+                  this.sharedService.setEmitterUser(this.authService.getUser());
+                  this.sharedService.getEmittedUser().subscribe(item => this._user = this.authService.getUser());
                   this.menuController.get().enable(true);
                   if (changeNavController == true) {
                     this.navController.setRoot(HomePage);

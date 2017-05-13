@@ -126,8 +126,8 @@ export class MyApp implements OnInit {
                       allowed => {
                         if (allowed) {
                           setTimeout(() => {
-                            this.sharedService.setEmitterUser(this.authService.getUserInfo());
-                            this._user = this.authService.getUserInfo();
+                            this.sharedService.setEmitterUser(this.authService.getUser());
+                            this._user = this.authService.getUser();
                             this.menuController.get().enable(true);
                             let ret = this._nav.setRoot(HomePage);
                             if (ret) console.log(ret);

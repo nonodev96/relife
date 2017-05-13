@@ -83,7 +83,7 @@ export class HomePage {
               public alertCtrl: AlertController,
               public storage: Storage) {
 
-    this._userInfo = this.authService.getUserInfo();
+    this._userInfo = this.authService.getUser();
     this._listProductsOfToday = [];
     this.updateHome();
   }
@@ -240,8 +240,6 @@ export class HomePage {
   }
 
   public viewProduct(product) {
-    let modal = this.modalCtrl.create(ProductPage, { product: product });
-    modal.present();
     this.navCtrl.push(ProductPage, { product: product });
   }
 
