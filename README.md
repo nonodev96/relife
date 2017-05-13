@@ -60,6 +60,9 @@ providers
 ```
 
 ##PATH
+[Obtener solo las herramientas de línea de comando
+](https://developer.android.com/studio/index.html#downloads)
+
 **LINUX** 
 [SDK Platform-Tools for Linux](https://dl.google.com/android/repository/platform-tools-latest-linux.zip)
 ```
