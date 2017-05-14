@@ -137,7 +137,7 @@ export class ProductsService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        let link = SERVER_URL_API + "product";
+        let link = SERVER_URL_API + "product/";
         let body = JSON.stringify(productObject);
 
         this.http.post(link, body, options).subscribe(

@@ -16,7 +16,9 @@ export class UserPage implements OnInit {
   ngOnInit(): void {
     this.sharedService.getEmittedUser().subscribe(
       item => {
-        this._user = item
+        this._user = item;
+        let birthDateMoment = moment(this._user.birth_date);
+        this._birth_date = birthDateMoment.locale("es").format("D [de] MMMM [del] YYYY");
       }
     );
   }

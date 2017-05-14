@@ -18,15 +18,26 @@
       </ion-fab>
       <ion-item>
         <ion-label color="primary" floating>Titulo</ion-label>
-        <ion-input type="text" formControlName="title"></ion-input>
+        <ion-input type="text"
+                   formControlName="title"
+                   autocomplete="on"
+                   autocorrect="on"
+                   autocapitalize="on"
+                   spellcheck="true"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label color="primary" floating>Precio</ion-label>
-        <ion-input type="number" formControlName="starting_price"></ion-input>
+        <ion-input type="number"
+                   formControlName="starting_price"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label color="primary" floating>Ubicación</ion-label>
-        <ion-input type="text" formControlName="location"></ion-input>
+        <ion-input type="text"
+                   formControlName="location"
+                   autocomplete="on"
+                   autocorrect="on"
+                   autocapitalize="on"
+                   spellcheck="true"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label color="primary" floating>Categorías</ion-label>
@@ -40,9 +51,15 @@
       </ion-item>
       <ion-item>
         <ion-label color="primary" floating>Descripción</ion-label>
-        <ion-textarea formControlName="description"></ion-textarea>
+        <ion-textarea formControlName="description"
+                      autocomplete="on"
+                      autocorrect="on"
+                      autocapitalize="on"
+                      spellcheck="true"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <button ion-button type="submit" full [disabled]="!insertProduct.valid">Subir producto</button>
       </ion-item>
     </ion-list>
-    <button ion-button type="submit" full [disabled]="!insertProduct.valid">Subir producto</button>
   </form>
 </ion-content>

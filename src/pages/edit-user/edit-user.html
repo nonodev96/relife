@@ -29,31 +29,65 @@
     </ion-fab>
     <ion-item>
       <ion-label color="primary" floating>Nickname *</ion-label>
-      <ion-input [value]="_userObject.nickname" [(ngModel)]="_userObject.nickname"></ion-input>
+      <ion-input type="text"
+                 [value]="_userObject.nickname"
+                 [(ngModel)]="_userObject.nickname"
+                 autocomplete="on"
+                 autocorrect="on"
+                 autocapitalize="on"
+                 spellcheck="true"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label color="primary" floating>Nombre</ion-label>
-      <ion-input [value]="_userObject.first_name" [(ngModel)]="_userObject.first_name"></ion-input>
+      <ion-input type="text"
+                 [value]="_userObject.first_name"
+                 [(ngModel)]="_userObject.first_name"
+                 autocomplete="on"
+                 autocorrect="on"
+                 autocapitalize="on"
+                 spellcheck="true"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label color="primary" floating>Apellidos</ion-label>
-      <ion-input [value]="_userObject.last_name" [(ngModel)]="_userObject.last_name"></ion-input>
+      <ion-input type="text"
+                 [value]="_userObject.last_name"
+                 [(ngModel)]="_userObject.last_name"
+                 autocomplete="on"
+                 autocorrect="on"
+                 autocapitalize="on"
+                 spellcheck="true"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label color="primary" floating>Email *</ion-label>
-      <ion-input [value]="_userObject.email"></ion-input>
+      <ion-input type="email"
+                 [value]="_userObject.email"
+                 autocomplete="on"
+                 autocorrect="on"
+                 autocapitalize="on"
+                 spellcheck="true"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label color="primary" floating>Contraseña *</ion-label>
-      <ion-input type="password" [value]="_userObject.password" [(ngModel)]="_userObject.password"></ion-input>
+      <ion-input type="password"
+                 [value]="_userObject.password"
+                 [(ngModel)]="_userObject.password"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label floating>Cumpleaños</ion-label>
-      <ion-datetime displayFormat="DDDD D MMM \d\e\l YYYY" [(ngModel)]="_userObject.birth_date"></ion-datetime>
+      <ion-datetime displayFormat="DDDD D MMM \d\e\l YYYY"
+                    [(ngModel)]="_userObject.birth_date"
+                    cancelText="Cancelar"
+                    doneText="Fechar"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label color="primary" floating>Ubicacion</ion-label>
-      <ion-input [value]="_userObject.location" [(ngModel)]="_userObject.location"></ion-input>
+      <ion-input type="text"
+                 [value]="_userObject.location"
+                 [(ngModel)]="_userObject.location"
+                 autocomplete="on"
+                 autocorrect="on"
+                 autocapitalize="on"
+                 spellcheck="true"></ion-input>
     </ion-item>
 
   </ion-list>

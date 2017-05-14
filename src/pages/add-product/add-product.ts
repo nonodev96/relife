@@ -1,10 +1,14 @@
 ///<reference path="../../providers/products-service.ts"/>
 import { Component } from '@angular/core';
-import { AlertController, NavController, Loading, LoadingController, ActionSheetController } from 'ionic-angular';
+import {
+  AlertController, NavController, Loading, LoadingController, ActionSheetController,
+  ToastController
+} from 'ionic-angular';
 import { Camera } from 'ionic-native';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { InsertProduct } from "../../providers/products-service";
+import { InsertProduct, ProductsService } from "../../providers/products-service";
 import { AuthService } from "../../providers/auth-service";
+import { ServerService } from "../../providers/server-service";
 
 @Component({
   selector: 'page-add-product',
@@ -14,9 +18,9 @@ export class AddProductPage {
 
   //region ATTRIBUTES
   private _insertProduct: FormGroup;
+  private _loading: Loading;
   private _image;
   private _base64Image;
-  private _loading: Loading;
   selectOptions;
   _selected: string = "0";
 
@@ -24,8 +28,11 @@ export class AddProductPage {
 
   //region CONSTRUCTOR
   constructor(private authService: AuthService,
+              private productsService: ProductsService,
+              private serverService: ServerService,
               private formBuilder: FormBuilder,
               public navCtrl: NavController,
+              public toastCtrl: ToastController,
               public alertCtrl: AlertController,
               private loadingCtrl: LoadingController,
               private actionSheetCtrl: ActionSheetController) {
@@ -66,14 +73,6 @@ export class AddProductPage {
     this._image = value;
   }
 
-  get base64Image() {
-    return this._base64Image;
-  }
-
-  set base64Image(value) {
-    this._base64Image = value;
-  }
-
   get loading(): Loading {
     return this._loading;
   }
@@ -90,12 +89,41 @@ export class AddProductPage {
     this._selected = value;
   }
 
+  get base64Image() {
+    return this._base64Image;
+  }
+
+  set base64Image(value) {
+    this._base64Image = value;
+  }
+
   //endregion
 
   //region CONTROLLER
   public addProduct() {
-    let insertProduct = this.getInsertProduct();
-    console.log(insertProduct);
+    this.serverService.serviceIsAvailable().subscribe(
+      allowed => {
+        if (allowed) {
+          this.showLoading();
+          let insertProduct = this.getInsertProduct();
+          console.log(insertProduct);
+          this.productsService.addProduct(insertProduct).subscribe(
+            allowed => {
+              if (allowed) {
+                setTimeout(() => {
+                  this._loading.dismiss();
+                  console.log(allowed);
+                  this.navCtrl.canGoBack();
+                  this.navCtrl.last();
+                });
+              }
+            }
+          );
+        } else {
+          this.presentToast('El servicio no está disponible');
+        }
+      }
+    );
   }
 
   public getInsertProduct(): InsertProduct {
@@ -103,7 +131,7 @@ export class AddProductPage {
     let title = this.insertProduct.value.title;
     let description = this.insertProduct.value.description;
     let starting_price = this.insertProduct.value.starting_price;
-    let image = this.insertProduct.value.image;
+    let image = this._base64Image;
     let location = this.insertProduct.value.location;
     let category = this.insertProduct.value.category;
     let insertProductObject = {
@@ -187,14 +215,22 @@ export class AddProductPage {
       subTitle: text,
       buttons: [ 'OK' ]
     });
-    alert.present(prompt);
+    return alert.present(prompt);
   }
 
   public showLoading() {
     this._loading = this.loadingCtrl.create({
-      content: 'Please wait...'
+      content: 'Subiendo producto...'
     });
     this._loading.present();
+  }
+
+  private presentToast(message) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000
+    });
+    return toast.present();
   }
 
   //endregion
@@ -212,6 +248,7 @@ export class AddProductPage {
       (imageData) => {
         // imageData is a base64 encoded string
         this._image = "data:image/png;base64," + imageData;
+        this._base64Image = "data:image/png;base64," + imageData;
       },
       (err) => {
         console.log(err);
