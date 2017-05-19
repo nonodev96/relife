@@ -121,14 +121,13 @@ export class HomePage {
   public updateHome() {
     this.prodService.getProductsOfToday().subscribe(
       allowed => {
-        let json_data = JSON.parse(allowed.text()).data;
+        let jsonProductsOfToday_data = JSON.parse(allowed.text()).data;
         this._listProductsOfToday = [];
-
-        for (let product of json_data) {
-          product.time_left = product.datetime_product;
-          this.countDown(product);
+        for (let productOfToday of jsonProductsOfToday_data) {
+          productOfToday.time_left = productOfToday.datetime_product;
+          this.countDown(productOfToday);
           setTimeout(() => {
-            this._listProductsOfToday.push(product);
+            this._listProductsOfToday.push(productOfToday);
           }, 200);
         }
       },
@@ -138,24 +137,24 @@ export class HomePage {
     );
   }
 
-  public countDown(product) {
-    let datetime = product.time_left;
+  public countDown(productOfToday) {
+    let datetime = productOfToday.time_left;
     let object_datetime_deadline = null;
     let datetime_format = null;
     let tmp = new Date(datetime);
     tmp.setDate(new Date(datetime).getDate() + 1);
     object_datetime_deadline = tmp.getTime();
-    product.sInterval = setInterval(
+    productOfToday.sInterval = setInterval(
       () => {
         let now = new Date().getTime();
         datetime_format = object_datetime_deadline - now;
         datetime_format = new Date(datetime_format);
         datetime_format = datetime_format.toISOString().substr(0, 19).replace("T", " ").toString();
-        product.time_left = datetime_format;
+        productOfToday.time_left = datetime_format;
         if (now >= object_datetime_deadline) {
-          clearInterval(product.sInterval);
-          product.time_left = "1970-01-01 00:00:00";
-          this.removeProduct(product);
+          clearInterval(productOfToday.sInterval);
+          productOfToday.time_left = "1970-01-01 00:00:00";
+          this.removeProductOfToday(productOfToday);
         }
       },
       1000
@@ -163,8 +162,8 @@ export class HomePage {
 
   }
 
-  public removeProduct(product) {
-    let to_remove = this._listProductsOfToday.indexOf(product);
+  public removeProductOfToday(productOfToday) {
+    let to_remove = this._listProductsOfToday.indexOf(productOfToday);
     if (to_remove > -1) {
       console.log("Borrado o eso creo");
       this._listProductsOfToday.splice(to_remove, 1);
@@ -239,8 +238,8 @@ export class HomePage {
     );
   }
 
-  public viewProduct(product) {
-    this.navCtrl.push(ProductPage, { product: product });
+  public viewProductOfToday(productOfToday) {
+    this.navCtrl.push(ProductPage, { product: productOfToday });
   }
 
   //endregion

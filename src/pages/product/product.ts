@@ -1,26 +1,45 @@
-import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
-import {Http} from "@angular/http";
+import { Component } from "@angular/core";
+import { NavController, NavParams } from "ionic-angular";
+import { Http } from "@angular/http";
+import { Product, ProductsService } from "../../providers/products-service";
 
-/*
- Generated class for the Product page.
-
- See http://ionicframework.com/docs/v2/components/#navigation for more info on
- Ionic pages and navigation.
- */
 @Component({
-  selector: 'page-product',
-  templateUrl: 'product.html'
+  selector: "page-product",
+  templateUrl: "product.html"
 })
 export class ProductPage {
-  public product: any;
 
-  constructor(public navCtrl: NavController,
+  //region ATTRIBUTTES
+  public productParams: Product;
+  public product: Product;
+  //endregion
+
+  //region CONSTRUCTOR
+  constructor(public productService: ProductsService,
+              public navCtrl: NavController,
               public navParams: NavParams,
               public http: Http) {
-    this.product = navParams.get('product');
-    console.log("Product page");
-    console.log(this.product);
+    this.productParams = navParams.get("product");
+    this.product = this.productParams;
+    console.log(this.productParams);
+    this.getProduct(this.productParams.id);
   }
 
+  //endregion
+
+  //region CONTROLLERS
+  private getProduct(id) {
+    this.productService.getProduct(id).subscribe(
+      allowed => {
+        console.log(JSON.parse(allowed.text()).data);
+        this.product = JSON.parse(allowed.text()).data;
+      }
+    );
+  }
+
+  public pujar() {
+
+  }
+
+  //endregion
 }

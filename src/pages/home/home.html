@@ -32,17 +32,17 @@
   </ion-refresher>
 
   <ion-list>
-    <ion-item-sliding *ngFor="let product of listProductsOfToday">
-      <ion-item (click)="viewProduct(product)">
+    <ion-item-sliding *ngFor="let productOfToday of listProductsOfToday">
+      <ion-item (click)="viewProductOfToday(productOfToday)">
         <ion-thumbnail item-left>
-          <img src="https://relifecloud-nonodev96.c9users.io/assets/images/products/{{product.image}}" alt="">
+          <img src="https://relifecloud-nonodev96.c9users.io/assets/images/products/{{productOfToday.image}}" alt="">
         </ion-thumbnail>
-        <h2>{{product.title}}</h2>
-        <p>{{product.starting_price}}€</p>
-        <ion-note item-right>{{product.time_left | date:'H:mm:ss'}}</ion-note>
+        <h2>{{productOfToday.title}}</h2>
+        <p>{{productOfToday.starting_price}}€</p>
+        <ion-note item-right>{{productOfToday.time_left | date:'H:mm:ss'}}</ion-note>
       </ion-item>
       <ion-item-options side="right">
-        <button ion-button color="danger" (click)="removeProduct(product)">
+        <button ion-button color="danger" (click)="removeProductOfToday(productOfToday)">
           <ion-icon name="trash"></ion-icon>
           Borrar
         </button>

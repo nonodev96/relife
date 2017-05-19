@@ -1,7 +1,57 @@
-import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import { Injectable } from "@angular/core";
+import { Http, Headers, RequestOptions } from "@angular/http";
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/operator/map";
+
+interface sale {
+  id: string;
+  id_user: string;
+  bid: string;
+  datatime_sale: string;
+}
+
+interface InterfaceProduct {
+  id: string;
+  id_user: string;
+  title: string;
+  description: string;
+  starting_price: string;
+  image: string;
+  datetime_product: string;
+  location: string;
+  max: sale;
+  min: sale;
+  sale: Array<sale>;
+}
+export class Product implements InterfaceProduct {
+  id: string;
+  id_user: string;
+  title: string;
+  description: string;
+  starting_price: string;
+  image: string;
+  datetime_product: string;
+  location: string;
+  max: sale;
+  min: sale;
+  sale: Array<sale>;
+
+  constructor();
+  constructor(product: InterfaceProduct);
+  constructor(product?: any) {
+    this.id = product && product.id || "";
+    this.id_user = product && product.id_user || "";
+    this.title = product && product.title || "";
+    this.description = product && product.description || "";
+    this.starting_price = product && product.starting_price || "";
+    this.image = product && product.image || "";
+    this.datetime_product = product && product.datetime_product || "";
+    this.location = product && product.location || "";
+    this.max = product && product.max || "";
+    this.min = product && product.min || "";
+    this.sale = product && product.sale || "";
+  }
+}
 
 interface InterfaceProductOfToday {
   id: string;
@@ -17,21 +67,27 @@ interface InterfaceProductOfToday {
   last_name: string;
   email: string;
   profile_avatar: string;
+  max: sale;
+  min: sale;
+  sales: Array<sale>;
 }
 export class ProductOfToday implements InterfaceProductOfToday {
-  public id: string;
-  public id_user: string;
-  public title: string;
-  public description: string;
-  public starting_price: string;
-  public image: string;
-  public datetime_product: string;
-  public location: string;
-  public nickname: string;
-  public first_name: string;
-  public last_name: string;
-  public email: string;
-  public profile_avatar: string;
+  id: string;
+  id_user: string;
+  title: string;
+  description: string;
+  starting_price: string;
+  image: string;
+  datetime_product: string;
+  location: string;
+  nickname: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  profile_avatar: string;
+  max: sale;
+  min: sale;
+  sales: Array<sale>;
 
   constructor();
   constructor(productOfToday: InterfaceProductOfToday);
@@ -49,6 +105,9 @@ export class ProductOfToday implements InterfaceProductOfToday {
     this.last_name = productOfToday && productOfToday.last_name || "";
     this.email = productOfToday && productOfToday.email || "";
     this.profile_avatar = productOfToday && productOfToday.profile_avatar || "";
+    this.max = productOfToday && productOfToday.max || "";
+    this.min = productOfToday && productOfToday.min || "";
+    this.sales = productOfToday && productOfToday.sales || "";
   }
 }
 
@@ -83,7 +142,7 @@ export class InsertProduct implements InterfaceInsertProduct {
   }
 }
 
-const SERVER_URL = 'https://relifecloud-nonodev96.c9users.io/';
+const SERVER_URL = "https://relifecloud-nonodev96.c9users.io/";
 const SERVER_URL_API = SERVER_URL + "api/";
 @Injectable()
 export class ProductsService {
@@ -115,7 +174,26 @@ export class ProductsService {
   public getProductsOfToday() {
     return Observable.create(
       observer => {
-        let link = SERVER_URL_API + 'product/getProductsOfToday';
+        let link = SERVER_URL_API + "product/getProductsOfToday";
+        this.http.get(link).subscribe(
+          data => {
+            observer.next(data);
+            observer.complete();
+          },
+          error => {
+            console.log(error);
+            observer.next(false);
+            observer.complete();
+          }
+        );
+      }
+    );
+  }
+
+  public getProduct(id = 0) {
+    return Observable.create(
+      observer => {
+        let link = SERVER_URL_API + "product/" + id;
         this.http.get(link).subscribe(
           data => {
             observer.next(data);
@@ -134,10 +212,10 @@ export class ProductsService {
   public addProduct(productObject: InsertProduct) {
     return Observable.create(
       observer => {
-        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let headers = new Headers({ "Content-Type": "application/json" });
         let options = new RequestOptions({ headers: headers });
 
-        let link = SERVER_URL_API + "product/";
+        let link = SERVER_URL_API + "product";
         let body = JSON.stringify(productObject);
 
         this.http.post(link, body, options).subscribe(
@@ -158,7 +236,7 @@ export class ProductsService {
   public deleteProduct(productObject: InsertProduct) {
     return Observable.create(
       observer => {
-        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let headers = new Headers({ "Content-Type": "application/json" });
         let options = new RequestOptions({ headers: headers });
 
         let link = SERVER_URL_API + "product";

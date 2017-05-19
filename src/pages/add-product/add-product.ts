@@ -47,6 +47,7 @@ export class AddProductPage {
       }
     );
     this._image = "assets/imgs/camera-background-xhdpi-screen.png";
+    this._base64Image = "";
     this.selectOptions = {
       title: 'Categorías',
       subTitle: 'Selecciona una categoría'
@@ -107,18 +108,22 @@ export class AddProductPage {
           this.showLoading();
           let insertProduct = this.getInsertProduct();
           console.log(insertProduct);
-          this.productsService.addProduct(insertProduct).subscribe(
-            allowed => {
-              if (allowed) {
-                setTimeout(() => {
-                  this._loading.dismiss();
-                  console.log(allowed);
-                  this.navCtrl.canGoBack();
-                  this.navCtrl.last();
-                });
+          let insertProductValid = this.isValidInsertProduct(insertProduct);
+          if (insertProductValid) {
+            this.productsService.addProduct(insertProduct).subscribe(
+              allowed => {
+                if (allowed) {
+                  setTimeout(() => {
+                    this._loading.dismiss();
+                    console.log(allowed);
+                    this.navCtrl.popAll();
+                  });
+                }
               }
-            }
-          );
+            );
+          } else {
+            this.showError("Es necesaria la imagen del producto", "");
+          }
         } else {
           this.presentToast('El servicio no está disponible');
         }
@@ -126,7 +131,7 @@ export class AddProductPage {
     );
   }
 
-  public getInsertProduct(): InsertProduct {
+  private getInsertProduct(): InsertProduct {
     let id_user = this.authService.getUser().id;
     let title = this.insertProduct.value.title;
     let description = this.insertProduct.value.description;
@@ -134,7 +139,7 @@ export class AddProductPage {
     let image = this._base64Image;
     let location = this.insertProduct.value.location;
     let category = this.insertProduct.value.category;
-    let insertProductObject = {
+    let insertProductObject: InsertProduct = {
       id_user: id_user,
       title: title,
       description: description,
@@ -144,6 +149,10 @@ export class AddProductPage {
       category: category
     };
     return new InsertProduct(insertProductObject);
+  }
+
+  private isValidInsertProduct(insertProduct: InsertProduct): boolean {
+    return insertProduct.image != "";
   }
 
   //noinspection JSMethodCanBeStatic
@@ -204,7 +213,7 @@ export class AddProductPage {
     actionSheet.present();
   }
 
-  public showError(text: string, title: string = "Error") {
+  public showError(subTitle: string, title: string = "Error") {
     setTimeout(() => {
       //noinspection JSIgnoredPromiseFromCall
       this._loading.dismiss();
@@ -212,7 +221,7 @@ export class AddProductPage {
 
     let alert = this.alertCtrl.create({
       title: title,
-      subTitle: text,
+      subTitle: subTitle,
       buttons: [ 'OK' ]
     });
     return alert.present(prompt);

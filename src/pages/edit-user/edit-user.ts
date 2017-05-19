@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 import {
   ActionSheetController, AlertController, Loading, LoadingController, NavController
-} from 'ionic-angular';
-import { AuthService, User } from '../../providers/auth-service';
-import { DomSanitizer } from '@angular/platform-browser';
+} from "ionic-angular";
+import { AuthService, User } from "../../providers/auth-service";
+import { DomSanitizer } from "@angular/platform-browser";
 
-import { DatePicker, Camera, ImagePicker } from 'ionic-native';
+import { DatePicker, Camera, ImagePicker } from "ionic-native";
 import { SharedService } from "../../providers/shared-service";
 
 
 @Component({
-  selector: 'page-edit-user',
-  templateUrl: 'edit-user.html'
+  selector: "page-edit-user",
+  templateUrl: "edit-user.html"
 })
 export class EditUserPage implements OnInit {
 
@@ -98,20 +98,20 @@ export class EditUserPage implements OnInit {
   public editBirthDay() {
     DatePicker.show({
       date: new Date(),
-      mode: 'date',
+      mode: "date",
       androidTheme: 5
     }).then(
       date => {
         this._userObject.birth_date = date;
       },
       err => {
-        console.log('Error occurred while getting date: ', err);
+        console.log("Error occurred while getting date: ", err);
       });
   }
 
   public updateUser() {
     this.showLoading();
-    this._userObject.birth_date = (new Date(this._userObject.birth_date)).toISOString().substring(0, 19).replace('T', ' ');
+    this._userObject.birth_date = (new Date(this._userObject.birth_date)).toISOString().substring(0, 19).replace("T", " ");
     let userUpdate = {
       id: this._userObject.id,
       nickname: this._userObject.nickname,
@@ -136,22 +136,22 @@ export class EditUserPage implements OnInit {
               this.sharedS.setEmitterUser(userEvent);
 
               let alert = this.alertCtrl.create({
-                title: 'Usuario ' + this._userObject.nickname + ' actualizado ',
+                title: "Usuario " + this._userObject.nickname + " actualizado ",
                 subTitle: "Los datos del usuario han sido actualizados correctamente",
-                buttons: [ 'OK' ]
+                buttons: [ "OK" ]
               });
               alert.present(prompt);
             } else {
-              if (typeof response.meta.nickname !== 'undefined') {
+              if (typeof response.meta.nickname !== "undefined") {
                 this.showError(response.meta.nickname, "Apodo");
               }
-              if (typeof response.meta.profile_avatar !== 'undefined') {
+              if (typeof response.meta.profile_avatar !== "undefined") {
                 this.showError(response.meta.profile_avatar, "Imagen");
               }
-              if (typeof response.meta.email !== 'undefined') {
+              if (typeof response.meta.email !== "undefined") {
                 this.showError(response.meta.email, "Correo electronico");
               }
-              if (typeof response.meta.password !== 'undefined') {
+              if (typeof response.meta.password !== "undefined") {
                 this.showError(response.meta.password, "Contraseña");
               }
             }
@@ -164,9 +164,9 @@ export class EditUserPage implements OnInit {
         setTimeout(() => {
           this._loading.dismiss();
           let alert = this.alertCtrl.create({
-            title: 'Técnicamente',
+            title: "Técnicamente",
             subTitle: "Algo salió mal",
-            buttons: [ 'OK' ]
+            buttons: [ "OK" ]
           });
           alert.present(prompt);
         });
@@ -179,10 +179,10 @@ export class EditUserPage implements OnInit {
   //region COMPONENTS
   public selectCameraOrImagePicker() {
     let actionSheet = this.actionSheetCtrl.create({
-      title: 'Actualizar tu foto de perfil',
+      title: "Actualizar tu foto de perfil",
       buttons: [
         {
-          text: 'Tomar foto',
+          text: "Tomar foto",
           handler: () => {
             this.openCamera();
           }
@@ -194,10 +194,10 @@ export class EditUserPage implements OnInit {
          }
          },*/
         {
-          text: 'Cancelar',
-          role: 'cancel',
+          text: "Cancelar",
+          role: "cancel",
           handler: () => {
-            console.log('Cancel clicked');
+            console.log("Cancel clicked");
           }
         }
       ]
@@ -213,14 +213,14 @@ export class EditUserPage implements OnInit {
     let alert = this.alertCtrl.create({
       title: title,
       subTitle: text,
-      buttons: [ 'OK' ]
+      buttons: [ "OK" ]
     });
     alert.present(prompt);
   }
 
   public showLoading() {
     this._loading = this.loadingCtrl.create({
-      content: 'Paciencia joven padawan...'
+      content: "Paciencia joven padawan..."
     });
     this._loading.present();
   }
@@ -240,7 +240,7 @@ export class EditUserPage implements OnInit {
       (imageData) => {
         // imageData is a base64 encoded string
         this._base64Image = "data:image/png;base64," + imageData;
-        this._image = this._base64Image
+        this._image = this._base64Image;
       },
       (err) => {
         console.log(err);
@@ -253,13 +253,13 @@ export class EditUserPage implements OnInit {
       maximumImagesCount: 1,
       quality: 100,
       height: 250,
-      width: 250,
+      width: 250
       // outputType: 1
     };
     ImagePicker.getPictures(options).then(
       (results) => {
         for (let i = 0; i < results.length; i++) {
-          console.log('Image URI: ' + results[ i ]);
+          console.log("Image URI: " + results[ i ]);
           this._image = this.domSanitizer.bypassSecurityTrustResourceUrl(results[ i ]);
           this._base64Image = this.domSanitizer.bypassSecurityTrustResourceUrl(results[ i ]);
         }
@@ -274,7 +274,7 @@ export class EditUserPage implements OnInit {
 
   //region DEBUG
   ionViewDidLoad() {
-    console.log('ionViewDidLoad EditUserPage');
+    console.log("ionViewDidLoad EditUserPage");
   }
 
   //endregion
