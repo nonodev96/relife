@@ -2,12 +2,14 @@ import { Injectable } from "@angular/core";
 import { Http, Headers, RequestOptions } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
+import { User } from "./auth-service";
 
 interface sale {
   id: string;
   id_user: string;
   bid: string;
-  datatime_sale: string;
+  datetime_sale: string;
+  user: User;
 }
 
 interface InterfaceProduct {
@@ -69,7 +71,7 @@ interface InterfaceProductOfToday {
   profile_avatar: string;
   max: sale;
   min: sale;
-  sales: Array<sale>;
+  sale: Array<sale>;
 }
 export class ProductOfToday implements InterfaceProductOfToday {
   id: string;
@@ -87,7 +89,7 @@ export class ProductOfToday implements InterfaceProductOfToday {
   profile_avatar: string;
   max: sale;
   min: sale;
-  sales: Array<sale>;
+  sale: Array<sale>;
 
   constructor();
   constructor(productOfToday: InterfaceProductOfToday);
@@ -107,7 +109,7 @@ export class ProductOfToday implements InterfaceProductOfToday {
     this.profile_avatar = productOfToday && productOfToday.profile_avatar || "";
     this.max = productOfToday && productOfToday.max || "";
     this.min = productOfToday && productOfToday.min || "";
-    this.sales = productOfToday && productOfToday.sales || "";
+    this.sale = productOfToday && productOfToday.sale || "";
   }
 }
 
