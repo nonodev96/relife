@@ -8,6 +8,7 @@ import { ProductsService } from '../../providers/products-service';
 import { ProductPage } from "../product/product";
 import { AddProductPage } from "../add-product/add-product";
 import { ServerService } from "../../providers/server-service";
+import { SearchPage } from "../search/search";
 
 //import {AddProductPage} from '../add-product/add-product';
 export class ProductOfToday {
@@ -55,12 +56,7 @@ export class ProductOfToday {
     this.time_left = datetime_product;
   }
 }
-/*
- Generated class for the Home page.
 
- See http://ionicframework.com/docs/v2/components/#navigation for more info on
- Ionic pages and navigation.
- */
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -200,12 +196,14 @@ export class HomePage {
   }
 
   public searchPush() {
-    let alert = this.alertCtrl.create({
-      title: 'This page not finish',
-      subTitle: 'Sorry',
-      buttons: [ 'Dismiss' ]
-    });
-    alert.present();
+    this.navCtrl.push(SearchPage);
+
+    // let alert = this.alertCtrl.create({
+    //   title: 'This page not finish',
+    //   subTitle: 'Sorry',
+    //   buttons: [ 'Dismiss' ]
+    // });
+    // alert.present();
   }
 
   public doRefresh(refresher) {

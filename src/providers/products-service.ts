@@ -4,39 +4,58 @@ import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import { User } from "./auth-service";
 
-interface sale {
-  id: string;
-  id_user: string;
-  bid: string;
+interface InterfaceSale {
+  id: string | number;
+  id_user: string | number;
+  bid: string | number;
   datetime_sale: string;
   user: User;
 }
 
-interface InterfaceProduct {
-  id: string;
-  id_user: string;
-  title: string;
-  description: string;
-  starting_price: string;
-  image: string;
-  datetime_product: string;
-  location: string;
-  max: sale;
-  min: sale;
-  sale: Array<sale>;
+export class Sale implements InterfaceSale {
+  id: string | number;
+  id_user: string | number;
+  bid: string | number;
+  datetime_sale: string;
+  user: User;
+
+  constructor();
+  constructor(sale: InterfaceProduct);
+  constructor(sale?: any) {
+    this.id = sale && sale.id || "";
+    this.id_user = sale && sale.id_user || "";
+    this.bid = sale && sale.bid || "";
+    this.datetime_sale = sale && sale.datetime_sale || "";
+    this.user = sale && sale.user || "";
+  }
 }
-export class Product implements InterfaceProduct {
-  id: string;
-  id_user: string;
+
+interface InterfaceProduct {
+  id: string | number;
+  id_user: string | number;
   title: string;
   description: string;
   starting_price: string;
   image: string;
   datetime_product: string;
   location: string;
-  max: sale;
-  min: sale;
-  sale: Array<sale>;
+  max?: Sale;
+  min?: Sale;
+  sale?: Array<Sale>;
+}
+
+export class Product implements InterfaceProduct {
+  id: string | number;
+  id_user: string | number;
+  title: string;
+  description: string;
+  starting_price: string;
+  image: string;
+  datetime_product: string;
+  location: string;
+  max?: Sale;
+  min?: Sale;
+  sale?: Array<Sale>;
 
   constructor();
   constructor(product: InterfaceProduct);
@@ -69,10 +88,11 @@ interface InterfaceProductOfToday {
   last_name: string;
   email: string;
   profile_avatar: string;
-  max: sale;
-  min: sale;
-  sale: Array<sale>;
+  max: InterfaceSale;
+  min: InterfaceSale;
+  sale: Array<InterfaceSale>;
 }
+
 export class ProductOfToday implements InterfaceProductOfToday {
   id: string;
   id_user: string;
@@ -87,9 +107,9 @@ export class ProductOfToday implements InterfaceProductOfToday {
   last_name: string;
   email: string;
   profile_avatar: string;
-  max: sale;
-  min: sale;
-  sale: Array<sale>;
+  max: InterfaceSale;
+  min: InterfaceSale;
+  sale: Array<InterfaceSale>;
 
   constructor();
   constructor(productOfToday: InterfaceProductOfToday);
@@ -122,6 +142,7 @@ interface InterfaceInsertProduct {
   location: string;
   category: number | string;
 }
+
 export class InsertProduct implements InterfaceInsertProduct {
   id_user: string | number;
   title: string;
@@ -146,6 +167,7 @@ export class InsertProduct implements InterfaceInsertProduct {
 
 const SERVER_URL = "https://relifecloud-nonodev96.c9users.io/";
 const SERVER_URL_API = SERVER_URL + "api/";
+
 @Injectable()
 export class ProductsService {
 

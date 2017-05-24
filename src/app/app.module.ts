@@ -26,6 +26,7 @@ import { ServerService } from "../providers/server-service";
 import { AuthService } from "../providers/auth-service";
 import { SharedService } from "../providers/shared-service";
 import { ProductsService } from "../providers/products-service";
+import { FavoritesPage } from "../pages/favorites/favorites";
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { ProductsService } from "../providers/products-service";
     UserPage,
     RegisterPage,
     EditUserPage,
-    SlidesToolTipsPage
+    SlidesToolTipsPage,
+    FavoritesPage
   ],
   imports: [
     BrowserModule,
@@ -70,7 +72,8 @@ import { ProductsService } from "../providers/products-service";
     UserPage,
     RegisterPage,
     EditUserPage,
-    SlidesToolTipsPage
+    SlidesToolTipsPage,
+    FavoritesPage
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },

@@ -10,6 +10,7 @@ import { SlidesToolTipsPage } from "../pages/slides-tool-tips/slides-tool-tips";
 import { AuthService } from "../providers/auth-service";
 import { SharedService } from "../providers/shared-service";
 import { ServerService } from "../providers/server-service";
+import { FavoritesPage } from "../pages/favorites/favorites";
 
 type UserApp = {
   nickname: string,
@@ -44,6 +45,7 @@ export class MyApp implements OnInit {
     this._pages = [
       { title: 'Inicio', component: HomePage, nav: 'setRoot' },
       { title: 'Añadir producto', component: AddProductPage, nav: 'push' },
+      { title: 'Favoritos', component: FavoritesPage, nav: 'push' },
       { title: 'Consejos', component: SlidesToolTipsPage, nav: 'setRoot' },
     ];
     this.initializeApp();
@@ -180,12 +182,11 @@ export class MyApp implements OnInit {
   logOutMenuButton() {
     this.authService.logout().subscribe(
       () => {
-        let ret: any;
-        ret = this.storage.set("_loging", "FALSE");
-        if (ret) console.log();
+
+        this.storage.set("_loging", "FALSE");
         this.menuController.get().enable(false);
-        ret = this._nav.setRoot(LoginPage);
-        if (ret) console.log();
+        this._nav.setRoot(LoginPage);
+
       },
       error => {
         console.log(error);

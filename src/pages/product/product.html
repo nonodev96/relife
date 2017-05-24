@@ -11,24 +11,27 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <img src="https://relifecloud-nonodev96.c9users.io/assets/images/products/{{product.image}}" alt="">
-  <h2>{{product.title}}</h2>
-  <p>{{product.description}}</p>
-  <p>{{product.datetime_product}}</p>
-  <p>{{product.id_user}}</p>
-  <h4><small>Pujas:</small></h4>
-  <p *ngFor="let sale of product.sale">
-    {{sale.bid}}€
-  </p>
+  <img src="{{ SERVER_URL + ASSETS_IMG_PRODUCTS }}{{ product.image ? product.image : IMG_PRODUCTS_DEFAULT }}" alt="">
+  <h2>{{ product.title }}</h2>
+  <p>{{ product.description }}</p>
+  <p>{{ product.datetime_product }}</p>
+  <p><strong>Precio de salída: </strong>{{ product.starting_price }}</p>
+  <h4>
+    <small>{{ product.max.bid ? "Puja más alta: " + product.max.bid : "No hay pujas" }}€</small>
+    <br>
+    <small>{{ product.min.bid ? "Puja más baja: " + product.min.bid  : "" }}€</small>
+  </h4>
 
   <ion-list>
     <ion-item-sliding *ngFor="let sale of product.sale">
       <ion-item>
         <ion-thumbnail item-left>
-          <img src="https://relifecloud-nonodev96.c9users.io/assets/images/products/{{sale.user.profile_avatar}}" alt="">
+          <img
+            src="{{ SERVER_URL + ASSETS_IMG_USERS }}{{ sale.user.profile_avatar ? sale.user.profile_avatar : IMG_USERS_DEFAULT }}"
+            alt="">
         </ion-thumbnail>
-        <h2>{{sale.user.nickname}}</h2>
-        <p>{{sale.bid}}€</p>
+        <h2>{{ sale.user.nickname }}</h2>
+        <p>{{ sale.bid }}€</p>
       </ion-item>
     </ion-item-sliding>
   </ion-list>
