@@ -29,6 +29,8 @@
       <ion-item>
         <ion-label color="primary" floating>Precio</ion-label>
         <ion-input type="number"
+                   min="0"
+                   max="1000"
                    formControlName="starting_price"></ion-input>
       </ion-item>
       <ion-item>
@@ -43,10 +45,10 @@
       <ion-item>
         <ion-label color="primary" floating>Categorías</ion-label>
         <ion-select formControlName="category"
-                    [(ngModel)]="_selected"
-                    [selectOptions]="selectOptions"
                     okText="Añadir categoría"
-                    cancelText="Cancelar">
+                    cancelText="Cancelar"
+                    [(ngModel)]="_selected"
+                    [selectOptions]="selectOptions">
           <ion-option *ngFor="let option of categories()" value="{{option.value}}">{{option.name}}</ion-option>
         </ion-select>
       </ion-item>

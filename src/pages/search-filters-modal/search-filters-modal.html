@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar color="theme_color_secondary">
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()" strong>Aplicar</button>
+    </ion-buttons>
+    <ion-title>Filtros de búsqueda</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      Precio de lanzamiento:
+      <ion-icon small name="logo-euro"></ion-icon>
+      <ion-badge item-right>
+        {{ filtersData.starting_price.lower }}
+      </ion-badge>
+      <ion-badge item-right>
+        {{ filtersData.starting_price.upper }}
+      </ion-badge>
+    </ion-list-header>
+    <ion-item>
+      <ion-range dualKnobs="true"
+                 min="0"
+                 max="1000"
+                 step="1"
+                 [(ngModel)]="filtersData.starting_price"></ion-range>
+    </ion-item>
+
+    <ion-list-header>
+      Fecha de lanzamiento:
+    </ion-list-header>
+    <ion-item>
+      <ion-datetime displayFormat="DDDD D MMM \d\e\l YYYY"
+                    cancelText="Cancelar"
+                    doneText="Fechar"
+                    [(ngModel)]="filtersData.datetime_product"></ion-datetime>
+    </ion-item>
+  </ion-list>
+</ion-content>

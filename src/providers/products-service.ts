@@ -214,6 +214,54 @@ export class ProductsService {
     );
   }
 
+  public getAllProducts() {
+    return Observable.create(
+      observer => {
+        let link = SERVER_URL_API + "product";
+        this.http.get(link).subscribe(
+          data => {
+            observer.next(data);
+            observer.complete();
+          },
+          error => {
+            console.log(error);
+            observer.next(false);
+            observer.complete();
+          }
+        );
+      }
+    );
+  }
+
+  public getProductsSearch(filtersData) {
+    let data = {
+      min: filtersData.starting_price.lower,
+      max: filtersData.starting_price.upper,
+      datetime_product: filtersData.datetime_product
+    };
+    let headers = new Headers({ "Content-Type": "application/json" });
+    let options = new RequestOptions({ headers: headers });
+
+    let link = SERVER_URL_API + "product/getProductsSearch";
+    let body = JSON.stringify(data);
+
+    return Observable.create(
+      observer => {
+        this.http.post(link, body, options).subscribe(
+          data => {
+            observer.next(data);
+            observer.complete();
+          },
+          error => {
+            console.log(error);
+            observer.next(false);
+            observer.complete();
+          }
+        );
+      }
+    );
+  }
+
   public getProduct(id = 0) {
     return Observable.create(
       observer => {

@@ -27,6 +27,7 @@ import { AuthService } from "../providers/auth-service";
 import { SharedService } from "../providers/shared-service";
 import { ProductsService } from "../providers/products-service";
 import { FavoritesPage } from "../pages/favorites/favorites";
+import { SearchFiltersModal } from "../pages/search-filters-modal/search-filters-modal";
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { FavoritesPage } from "../pages/favorites/favorites";
     RegisterPage,
     EditUserPage,
     SlidesToolTipsPage,
-    FavoritesPage
+    FavoritesPage,
+    SearchFiltersModal
   ],
   imports: [
     BrowserModule,
@@ -73,7 +75,8 @@ import { FavoritesPage } from "../pages/favorites/favorites";
     RegisterPage,
     EditUserPage,
     SlidesToolTipsPage,
-    FavoritesPage
+    FavoritesPage,
+    SearchFiltersModal
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },

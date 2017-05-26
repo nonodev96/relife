@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
-import { NavController, NavParams } from "ionic-angular";
-import { Product } from "../../providers/products-service";
+import { NavController, ModalController } from "ionic-angular";
+import { Product, ProductsService } from "../../providers/products-service";
+import { SearchFiltersModal } from "../search-filters-modal/search-filters-modal";
 
 
 @Component({
@@ -11,26 +12,44 @@ export class SearchPage {
 
   //region ATRIBUTTES
   public productList: Product[];
-
+  public filtersData = {
+    starting_price: { lower: 0, upper: 1000 },
+    datetime_product: new Date().toISOString().substring(0, 19).replace("T", " ")
+  };
   //endregion
 
   //region CONSTRUCTOR
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public productService: ProductsService,
+              public navCtrl: NavController,
+              public modalCtrl: ModalController) {
     this.productList = [];
-    this.initializeProducts();
+    this.getAllProducts();
   }
 
   //endregion
 
   //region CONTROLLERS
   onInput(ev: any) {
-    this.initializeProducts();
     let val = ev.target.value;
+    console.log(val);
+    if (val.length >= 3 || val.length == 0) {
+      console.log(this.filtersData);
+      this.productService.getProductsSearch(this.filtersData).subscribe(
+        data => {
+          if (data) {
+            setTimeout(() => {
+              let response = JSON.parse(data.text());
+              this.productList = response.data;
 
-    if (val && val.trim() != "") {
-      this.productList = this.productList.filter(
-        (product) => {
-          return (product.title.toLowerCase().indexOf(val.toLowerCase()) > -1);
+              if (val && val.trim() != "") {
+                this.productList = this.productList.filter(
+                  (product) => {
+                    return (product.title.toLowerCase().indexOf(val.toLowerCase()) > -1);
+                  }
+                );
+              }
+            });
+          }
         }
       );
     }
@@ -40,29 +59,26 @@ export class SearchPage {
 
   }
 
-  initializeProducts() {
-    this.productList = [];
-    let product = new Product();
-    for (let i = 0; i < 10; i++) {
-      let pro: Product = {
-        id: i,
-        id_user: i,
-        title: "Product " + i,
-        description: "Lorem ipsum",
-        starting_price: "",
-        image: "",
-        datetime_product: "",
-        location: ""
-      };
-      product = new Product(pro);
-      console.log(product);
-      this.productList.push(product);
-    }
+  public getAllProducts() {
+    this.productService.getAllProducts().subscribe(
+      data => {
+        if (data) {
+          setTimeout(() => {
+            let response = JSON.parse(data.text());
+            this.productList = response.data;
+          });
+        }
+      }
+    );
+  }
+
+  openOptions() {
+    let profileModal = this.modalCtrl.create(SearchFiltersModal);
+    profileModal.onDidDismiss(data => {
+      this.filtersData = data;
+    });
+    profileModal.present();
   }
 
   //endregion
-
-  ionViewDidLoad() {
-    console.log("ionViewDidLoad SearchPage");
-  }
 }
