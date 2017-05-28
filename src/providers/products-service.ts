@@ -11,7 +11,6 @@ interface InterfaceSale {
   datetime_sale: string;
   user: User;
 }
-
 export class Sale implements InterfaceSale {
   id: string | number;
   id_user: string | number;
@@ -43,7 +42,6 @@ interface InterfaceProduct {
   min?: Sale;
   sale?: Array<Sale>;
 }
-
 export class Product implements InterfaceProduct {
   id: string | number;
   id_user: string | number;
@@ -92,7 +90,6 @@ interface InterfaceProductOfToday {
   min: InterfaceSale;
   sale: Array<InterfaceSale>;
 }
-
 export class ProductOfToday implements InterfaceProductOfToday {
   id: string;
   id_user: string;
@@ -142,7 +139,6 @@ interface InterfaceInsertProduct {
   location: string;
   category: number | string;
 }
-
 export class InsertProduct implements InterfaceInsertProduct {
   id_user: string | number;
   title: string;
@@ -162,6 +158,34 @@ export class InsertProduct implements InterfaceInsertProduct {
     this.image = insertProduct && insertProduct.image || "";
     this.location = insertProduct && insertProduct.location || "";
     this.category = insertProduct && insertProduct.category || "";
+  }
+}
+
+interface InterfaceProductsSearch {
+  title: string;
+  description: string;
+  starting_price: { lower: string; upper: string; };
+  datetime_product: string;
+  location: string;
+  category: string;
+}
+export class ProductSearch implements InterfaceProductsSearch {
+  title: string;
+  description: string;
+  starting_price: { lower: string; upper: string };
+  datetime_product: string;
+  location: string;
+  category: string;
+
+  constructor();
+  constructor(productSearch: InterfaceProductsSearch);
+  constructor(productSearch?: any) {
+    this.title = productSearch && productSearch.title || "";
+    this.description = productSearch && productSearch.description || "";
+    this.starting_price = productSearch && productSearch.starting_price || "";
+    this.datetime_product = productSearch && productSearch.datetime_product || "";
+    this.location = productSearch && productSearch.location || "";
+    this.category = productSearch && productSearch.category || "";
   }
 }
 
@@ -233,17 +257,12 @@ export class ProductsService {
     );
   }
 
-  public getProductsSearch(filtersData) {
-    let data = {
-      min: filtersData.starting_price.lower,
-      max: filtersData.starting_price.upper,
-      datetime_product: filtersData.datetime_product
-    };
-    let headers = new Headers({ "Content-Type": "application/json" });
-    let options = new RequestOptions({ headers: headers });
+  public getProductsSearch(productSearch: ProductSearch) {
+    let headers = new Headers({"Content-Type": "application/json"});
+    let options = new RequestOptions({headers: headers});
 
     let link = SERVER_URL_API + "product/getProductsSearch";
-    let body = JSON.stringify(data);
+    let body = JSON.stringify(productSearch);
 
     return Observable.create(
       observer => {
@@ -284,8 +303,8 @@ export class ProductsService {
   public addProduct(productObject: InsertProduct) {
     return Observable.create(
       observer => {
-        let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });
+        let headers = new Headers({"Content-Type": "application/json"});
+        let options = new RequestOptions({headers: headers});
 
         let link = SERVER_URL_API + "product";
         let body = JSON.stringify(productObject);
@@ -308,8 +327,8 @@ export class ProductsService {
   public deleteProduct(productObject: InsertProduct) {
     return Observable.create(
       observer => {
-        let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });
+        let headers = new Headers({"Content-Type": "application/json"});
+        let options = new RequestOptions({headers: headers});
 
         let link = SERVER_URL_API + "product";
         let body = JSON.stringify(productObject);
