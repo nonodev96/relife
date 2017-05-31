@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
-import { IonicPage, NavController, ViewController } from "ionic-angular";
+import { IonicPage, NavController, NavParams, ViewController } from "ionic-angular";
 import { ProductSearch } from "../../providers/products-service";
+import { FormBuilder, FormGroup } from "@angular/forms";
 
 @IonicPage()
 @Component({
@@ -9,26 +10,41 @@ import { ProductSearch } from "../../providers/products-service";
 })
 export class SearchFiltersModal {
   public productSearch: ProductSearch;
+  private productSearchFormGroup: FormGroup;
   selectOptions;
-  select;
 
-  constructor(public navCtrl: NavController,
+  constructor(private formBuilder: FormBuilder,
+              public navCtrl: NavController,
+              public navParams: NavParams,
               public viewCtrl: ViewController) {
-    this.productSearch = new ProductSearch();
-    this.productSearch.datetime_product = new Date().toISOString().substring(0, 19).replace("T", " ");
+    let searchParams = this.navParams.get("searchParams");
+    console.log(searchParams);
+    this.productSearch = new ProductSearch(searchParams);
+    this.productSearch.datetime_product = new Date(this.productSearch.datetime_product).toISOString().slice(0, 10);
 
+    console.log(this.productSearch);
+    this.productSearchFormGroup = this.formBuilder.group(
+      {
+        title: [ this.productSearch.title ],
+        description: [ this.productSearch.description ],
+        starting_price: [ this.productSearch.starting_price ],
+        datetime_product: [ this.productSearch.datetime_product ],
+        location: [ this.productSearch.location ],
+        category: [ this.productSearch.category ]
+      }
+    )
+    ;
     this.selectOptions = {
-      title: 'Categorías',
-      subTitle: 'Selecciona una categoría'
+      title: "Categorías",
+      subTitle: "Selecciona una categoría"
     };
-    this.select = "0";
   }
 
+
   dismiss() {
-    this.productSearch.datetime_product = (new Date(this.productSearch.datetime_product)).toISOString()
-      .substring(0, 19)
-      .replace("T", " ");
-    this.viewCtrl.dismiss(this.productSearch);
+    let datetime_product = new Date(this.productSearchFormGroup.value.datetime_product);
+    this.productSearchFormGroup.value.datetime_product = datetime_product.toISOString().slice(0, 10);
+    this.viewCtrl.dismiss(this.productSearchFormGroup.value);
   }
 
   public categories() {
@@ -47,13 +63,15 @@ export class SearchFiltersModal {
       "Servicios",
       "Otros"
     ];
-    let categoriesReturn = [{
-      value: 0,
-      name: "Otras Categorías",
-    }];
+    let categoriesReturn = [
+      {
+        value: 0,
+        name: "Otras Categorías"
+      }
+    ];
     for (let key in categories) {
       let value = parseInt(key) + 1;
-      let name = categories[key];
+      let name = categories[ key ];
       categoriesReturn.push({
         value: value,
         name: name

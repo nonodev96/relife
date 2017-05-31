@@ -2,7 +2,7 @@
   <ion-navbar color="theme_color_secondary">
     <ion-title>Buscar productos</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="openOptions()">
+      <button ion-button icon-only (click)="openSearchFiltersModal()">
         <ion-icon name="options"></ion-icon>
       </button>
     </ion-buttons>
@@ -21,7 +21,7 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let product of productList">
+    <ion-item *ngFor="let product of productList" (click)="openProductPage(product)">
       {{ product.title }}<br>
       <small>{{ product.description }}</small>
     </ion-item>

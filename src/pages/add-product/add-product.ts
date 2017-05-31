@@ -43,7 +43,7 @@ export class AddProductPage {
         description: [ '', Validators.required ],
         location: [ '', Validators.required ],
         category: [ '', ],
-        starting_price: [ '', ],
+        starting_price: [ '', Validators.required ],
       }
     );
     this._image = "assets/imgs/camera-background-xhdpi-screen.png";
@@ -268,7 +268,6 @@ export class AddProductPage {
   //endregion
 
   //region DEBUG
-  //noinspection JSMethodCanBeStatic
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddProductPage');
   }

@@ -1,10 +1,10 @@
 <ion-header>
   <ion-navbar color="theme_color_secondary">
     <ion-toolbar>
-      <ion-title>Editar usuario</ion-title>
+      <ion-title>{{ product.title }}</ion-title>
       <ion-buttons end>
         <button ion-button icon-only (click)="pujar()">
-          <ion-icon name="cash"></ion-icon>
+          <ion-icon name="logo-usd"></ion-icon>
         </button>
       </ion-buttons>
     </ion-toolbar>
@@ -17,22 +17,24 @@
   <p>{{ product.datetime_product }}</p>
   <p><strong>Precio de salída: </strong>{{ product.starting_price }}</p>
   <h4>
-    <small>{{ product.max.bid ? "Puja más alta: " + product.max.bid : "No hay pujas" }}€</small>
+    <small>{{ product.max.bid ? "Puja más alta: " + product.max.bid + "€" : "Sé el primero en pujar " }}</small>
     <br>
-    <small>{{ product.min.bid ? "Puja más baja: " + product.min.bid  : "" }}€</small>
+    <small>{{ product.min.bid ? "Puja más baja: " + product.min.bid + "€" : "" }}</small>
   </h4>
 
-  <ion-list>
-    <ion-item-sliding *ngFor="let sale of product.sale">
-      <ion-item>
-        <ion-thumbnail item-left>
-          <img
-            src="{{ SERVER_URL + ASSETS_IMG_USERS }}{{ sale.user.profile_avatar ? sale.user.profile_avatar : IMG_USERS_DEFAULT }}"
-            alt="">
-        </ion-thumbnail>
-        <h2>{{ sale.user.nickname }}</h2>
-        <p>{{ sale.bid }}€</p>
-      </ion-item>
-    </ion-item-sliding>
-  </ion-list>
+  <div *ngIf="product.sale">
+    <ion-list>
+      <ion-item-sliding *ngFor="let sale of product.sale">
+        <ion-item>
+          <ion-thumbnail item-left>
+            <img
+              src="{{ SERVER_URL + ASSETS_IMG_USERS }}{{ sale.user.profile_avatar ? sale.user.profile_avatar : IMG_USERS_DEFAULT }}"
+              alt="">
+          </ion-thumbnail>
+          <h2>{{ sale.user.nickname }}</h2>
+          <p>{{ sale.bid }}€</p>
+        </ion-item>
+      </ion-item-sliding>
+    </ion-list>
+  </div>
 </ion-content>

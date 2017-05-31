@@ -11,6 +11,7 @@ interface InterfaceSale {
   datetime_sale: string;
   user: User;
 }
+
 export class Sale implements InterfaceSale {
   id: string | number;
   id_user: string | number;
@@ -42,6 +43,7 @@ interface InterfaceProduct {
   min?: Sale;
   sale?: Array<Sale>;
 }
+
 export class Product implements InterfaceProduct {
   id: string | number;
   id_user: string | number;
@@ -90,6 +92,7 @@ interface InterfaceProductOfToday {
   min: InterfaceSale;
   sale: Array<InterfaceSale>;
 }
+
 export class ProductOfToday implements InterfaceProductOfToday {
   id: string;
   id_user: string;
@@ -139,6 +142,7 @@ interface InterfaceInsertProduct {
   location: string;
   category: number | string;
 }
+
 export class InsertProduct implements InterfaceInsertProduct {
   id_user: string | number;
   title: string;
@@ -164,15 +168,22 @@ export class InsertProduct implements InterfaceInsertProduct {
 interface InterfaceProductsSearch {
   title: string;
   description: string;
-  starting_price: { lower: string; upper: string; };
+  starting_price: {
+    upper: string;
+    lower: string;
+  };
   datetime_product: string;
   location: string;
   category: string;
 }
+
 export class ProductSearch implements InterfaceProductsSearch {
   title: string;
   description: string;
-  starting_price: { lower: string; upper: string };
+  starting_price: {
+    upper: string
+    lower: string;
+  };
   datetime_product: string;
   location: string;
   category: string;
@@ -183,6 +194,8 @@ export class ProductSearch implements InterfaceProductsSearch {
     this.title = productSearch && productSearch.title || "";
     this.description = productSearch && productSearch.description || "";
     this.starting_price = productSearch && productSearch.starting_price || "";
+    // this.starting_price.upper = productSearch && productSearch.starting_price.upper || "";
+    // this.starting_price.lower = productSearch && productSearch.starting_price.lower || "";
     this.datetime_product = productSearch && productSearch.datetime_product || "";
     this.location = productSearch && productSearch.location || "";
     this.category = productSearch && productSearch.category || "";
@@ -191,6 +204,10 @@ export class ProductSearch implements InterfaceProductsSearch {
 
 const SERVER_URL = "https://relifecloud-nonodev96.c9users.io/";
 const SERVER_URL_API = SERVER_URL + "api/";
+const SERVER_URL_PRODUCT = SERVER_URL_API + "product";
+const SERVER_URL_PRODUCTS_ALL = SERVER_URL_API + "product/getAllProducts";
+const SERVER_URL_PRODUCT_SEARCH = SERVER_URL_API + "product/search";
+const SERVER_URL_PRODUCTS_OF_TODAY = SERVER_URL_API + "product/getProductsOfToday";
 
 @Injectable()
 export class ProductsService {
@@ -219,17 +236,16 @@ export class ProductsService {
   //endregion
 
   //region CONTROLLER
-  public getProductsOfToday() {
+  public getAllProducts() {
+    let link = SERVER_URL_PRODUCTS_ALL;
     return Observable.create(
       observer => {
-        let link = SERVER_URL_API + "product/getProductsOfToday";
         this.http.get(link).subscribe(
           data => {
             observer.next(data);
             observer.complete();
           },
           error => {
-            console.log(error);
             observer.next(false);
             observer.complete();
           }
@@ -238,17 +254,16 @@ export class ProductsService {
     );
   }
 
-  public getAllProducts() {
+  public getProductsOfToday() {
+    let link = SERVER_URL_PRODUCTS_OF_TODAY;
     return Observable.create(
       observer => {
-        let link = SERVER_URL_API + "product";
         this.http.get(link).subscribe(
           data => {
             observer.next(data);
             observer.complete();
           },
           error => {
-            console.log(error);
             observer.next(false);
             observer.complete();
           }
@@ -258,12 +273,14 @@ export class ProductsService {
   }
 
   public getProductsSearch(productSearch: ProductSearch) {
-    let headers = new Headers({"Content-Type": "application/json"});
-    let options = new RequestOptions({headers: headers});
+    let headers = new Headers();
+    headers.append("Content-Type", "application/json" );
+    headers.append('Access-Control-Allow-Headers', '*');
 
-    let link = SERVER_URL_API + "product/getProductsSearch";
+    let options = new RequestOptions({ headers: headers });
+
+    let link = SERVER_URL_PRODUCT_SEARCH;
     let body = JSON.stringify(productSearch);
-
     return Observable.create(
       observer => {
         this.http.post(link, body, options).subscribe(
@@ -272,7 +289,6 @@ export class ProductsService {
             observer.complete();
           },
           error => {
-            console.log(error);
             observer.next(false);
             observer.complete();
           }
@@ -281,17 +297,16 @@ export class ProductsService {
     );
   }
 
-  public getProduct(id = 0) {
+  public getProductById(id: string | number = 0) {
+    let link = SERVER_URL_PRODUCT + "/" + id;
     return Observable.create(
       observer => {
-        let link = SERVER_URL_API + "product/" + id;
         this.http.get(link).subscribe(
           data => {
             observer.next(data);
             observer.complete();
           },
           error => {
-            console.log(error);
             observer.next(false);
             observer.complete();
           }
@@ -301,17 +316,15 @@ export class ProductsService {
   }
 
   public addProduct(productObject: InsertProduct) {
+    let headers = new Headers({ "Content-Type": "application/json" });
+    let options = new RequestOptions({ headers: headers });
+
+    let link = SERVER_URL_API + "product";
+    let body = JSON.stringify(productObject);
     return Observable.create(
       observer => {
-        let headers = new Headers({"Content-Type": "application/json"});
-        let options = new RequestOptions({headers: headers});
-
-        let link = SERVER_URL_API + "product";
-        let body = JSON.stringify(productObject);
-
         this.http.post(link, body, options).subscribe(
           response => {
-            console.log(response);
             observer.next(response);
             observer.complete();
           },
@@ -324,31 +337,27 @@ export class ProductsService {
     );
   }
 
-  public deleteProduct(productObject: InsertProduct) {
-    return Observable.create(
-      observer => {
-        let headers = new Headers({"Content-Type": "application/json"});
-        let options = new RequestOptions({headers: headers});
-
-        let link = SERVER_URL_API + "product";
-        let body = JSON.stringify(productObject);
-
-        this.http.post(link, body, options).subscribe(
-          response => {
-            console.log("HTTP PUT");
-            console.log(response);
-            observer.next(response);
-            observer.complete();
-          },
-          error => {
-            console.log("Error observer");
-            observer.next(error);
-            observer.complete();
-          }
-        );
-      }
-    );
-  }
+  // public deleteProduct(id: string | number) {
+  //   return Observable.create(
+  //     observer => {
+  //       let headers = new Headers({ "Content-Type": "application/json" });
+  //       let options = new RequestOptions({ headers: headers });
+  //
+  //       let link = SERVER_URL_PRODUCT + "/" + id;
+  //
+  //       this.http.delete(link, options).subscribe(
+  //         response => {
+  //           observer.next(response);
+  //           observer.complete();
+  //         },
+  //         error => {
+  //           observer.next(error);
+  //           observer.complete();
+  //         }
+  //       );
+  //     }
+  //   );
+  // }
 
   //endregion
 }

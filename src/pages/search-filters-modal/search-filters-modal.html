@@ -1,58 +1,69 @@
 <ion-header>
   <ion-toolbar color="theme_color_secondary">
     <ion-buttons end>
-      <button ion-button (click)="dismiss()" strong>Aplicar</button>
+      <button (click)="dismiss()" ion-button strong [disabled]="!productSearchFormGroup.valid">Aplicar</button>
     </ion-buttons>
     <ion-title>Filtros de búsqueda</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-list-header>
-      Precio de lanzamiento:
-      <ion-icon small name="logo-euro"></ion-icon>
-      <ion-badge item-right>
-        {{ productSearch.starting_price.lower }}
-      </ion-badge>
-      <ion-badge item-right>
-        {{ productSearch.starting_price.upper }}
-      </ion-badge>
-    </ion-list-header>
-    <ion-item>
-      <ion-range dualKnobs="true"
-                 min="0"
-                 max="1000"
-                 step="1"
-                 [(ngModel)]="productSearch.starting_price"></ion-range>
-    </ion-item>
+  <form [formGroup]="productSearchFormGroup" (ngSubmit)="dismiss()">
 
-    <ion-list-header>
-      Fecha de lanzamiento:
-    </ion-list-header>
-    <ion-item>
-      <ion-datetime displayFormat="DDDD D MMM \d\e\l YYYY"
+    <ion-list>
+      <ion-list-header>
+        Precio de lanzamiento:
+        <ion-icon small name="logo-euro"></ion-icon>
+        <ion-badge item-right>
+          {{ productSearchFormGroup.value.starting_price.lower }}
+        </ion-badge>
+        <ion-badge item-right>
+          {{ productSearchFormGroup.value.starting_price.upper }}
+        </ion-badge>
+      </ion-list-header>
+      <ion-item>
+        <ion-range dualKnobs="true"
+                   min="0"
+                   max="1000"
+                   step="1"
+                   formControlName="starting_price"></ion-range>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>Fecha de lanzamiento</ion-label>
+        <ion-datetime displayFormat="DDDD D MMM \d\e\l YYYY"
+                      [(ngModel)]="productSearchFormGroup.value.datetime_product"
+                      cancelText="Cancelar"
+                      doneText="Fechar"
+                      formControlName="datetime_product"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>Ubicación</ion-label>
+        <ion-input type="text"
+                   formControlName="location"
+                   [(ngModel)]="productSearchFormGroup.value.location"
+                   autocomplete="on"
+                   autocorrect="on"
+                   autocapitalize="on"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>Categorías</ion-label>
+        <ion-select okText="Añadir categoría"
                     cancelText="Cancelar"
-                    doneText="Fechar"
-                    [(ngModel)]="productSearch.datetime_product"></ion-datetime>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" floating>Ubicación</ion-label>
-      <ion-input type="text"
-                 [(ngModel)]="productSearch.location"
-                 autocomplete="on"
-                 autocorrect="on"
-                 autocapitalize="on"
-                 spellcheck="true"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" floating>Categorías</ion-label>
-      <ion-select okText="Añadir categoría"
-                  cancelText="Cancelar"
-                  [(ngModel)]="productSearch.category"
-                  [selectOptions]="productSearch.category">
-        <ion-option *ngFor="let option of categories()" value="{{option.value}}">{{option.name}}</ion-option>
-      </ion-select>
-    </ion-item>
-  </ion-list>
+                    formControlName="category"
+                    [(ngModel)]="productSearchFormGroup.value.category"
+                    [selectOptions]="selectOptions">
+          <ion-option *ngFor="let option of categories()" value="{{option.value}}">{{option.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>Descripción</ion-label>
+        <ion-textarea formControlName="description"
+                      autocomplete="on"
+                      autocorrect="on"
+                      [(ngModel)]="productSearchFormGroup.value.description"
+                      autocapitalize="on"
+                      spellcheck="true"></ion-textarea>
+      </ion-item>
+    </ion-list>
+  </form>
 </ion-content>

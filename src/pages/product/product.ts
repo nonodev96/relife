@@ -38,7 +38,7 @@ export class ProductPage {
 
   //region CONTROLLERS
   private getProduct(id) {
-    this.productService.getProduct(id).subscribe(
+    this.productService.getProductById(id).subscribe(
       allowed => {
         this.product = JSON.parse(allowed.text()).data;
         console.log(this.product);
