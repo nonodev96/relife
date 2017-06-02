@@ -55,7 +55,6 @@ export class MyApp implements OnInit {
   //endregion
 
   //region GETTER AND SETTER
-
   get nav(): Nav {
     return this._nav;
   }
@@ -176,17 +175,14 @@ export class MyApp implements OnInit {
         ret = this._nav.setRoot(page.component);
         break;
     }
-    console.log(ret);
   }
 
   logOutMenuButton() {
     this.authService.logout().subscribe(
       () => {
-
         this.storage.set("_loging", "FALSE");
         this.menuController.get().enable(false);
         this._nav.setRoot(LoginPage);
-
       },
       error => {
         console.log(error);

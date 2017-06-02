@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
-import { NavController, AlertController, ModalController, ToastController } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
+import { Component } from "@angular/core";
+import { NavController, ToastController } from "ionic-angular";
+import { Storage } from "@ionic/storage";
 
-import { LoginPage } from '../login/login';
-import { AuthService } from '../../providers/auth-service';
-import { ProductsService } from '../../providers/products-service';
+import { AuthService } from "../../providers/auth-service";
+import { ProductsService } from "../../providers/products-service";
 import { ProductPage } from "../product/product";
 import { AddProductPage } from "../add-product/add-product";
 import { ServerService } from "../../providers/server-service";
@@ -58,8 +57,8 @@ export class ProductOfToday {
 }
 
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+  selector: "page-home",
+  templateUrl: "home.html"
 })
 export class HomePage {
 
@@ -75,8 +74,6 @@ export class HomePage {
               private prodService: ProductsService,
               public navCtrl: NavController,
               public toastCtrl: ToastController,
-              public modalCtrl: ModalController,
-              public alertCtrl: AlertController,
               public storage: Storage) {
 
     this._userInfo = this.authService.getUser();
@@ -168,44 +165,17 @@ export class HomePage {
     }
   }
 
-  public openAddProduct() {
+  public openAddProductPage() {
     this.navCtrl.push(AddProductPage);
   }
 
-  public logout() {
-    this.authService.logout().subscribe(
-      allowed => {
-        this.navCtrl.setRoot(LoginPage)
-      }
-    );
+  public openSearchPage() {
+    this.navCtrl.push(SearchPage);
   }
 
   //endregion
 
   //region COMPONENTS
-  private presentToast(message, duration = 3000) {
-    let toast = this.toastCtrl.create(
-      {
-        message: message,
-        duration: duration,
-        position: 'bottom',
-        dismissOnPageChange: true,
-      }
-    );
-    toast.present();
-  }
-
-  public searchPush() {
-    this.navCtrl.push(SearchPage);
-
-    // let alert = this.alertCtrl.create({
-    //   title: 'This page not finish',
-    //   subTitle: 'Sorry',
-    //   buttons: [ 'Dismiss' ]
-    // });
-    // alert.present();
-  }
-
   public doRefresh(refresher) {
     this.serverService.serviceIsAvailable().subscribe(
       allowed => {
@@ -229,7 +199,7 @@ export class HomePage {
             }
           );
         } else {
-          this.presentToast('El servicio no está disponible');
+          this.presentToast("El servicio no está disponible");
           refresher.complete();
         }
       }
@@ -240,12 +210,18 @@ export class HomePage {
     this.navCtrl.push(ProductPage, { product: productOfToday });
   }
 
-  //endregion
-
-  //region DEBUG
-  static ionViewDidLoad() {
-    console.log('ionViewDidLoad HomePage');
+  private presentToast(message, duration = 3000) {
+    let toast = this.toastCtrl.create(
+      {
+        message: message,
+        duration: duration,
+        position: "bottom",
+        dismissOnPageChange: true
+      }
+    );
+    toast.present();
   }
 
   //endregion
+
 }

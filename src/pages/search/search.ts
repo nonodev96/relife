@@ -76,7 +76,7 @@ export class SearchPage {
   }
 
   openSearchFiltersModal() {
-    let defaultsParamsProductSearch = this.defaultsParametersProductSearch(this.productSearch);
+    let defaultsParamsProductSearch = SearchPage.defaultsParametersProductSearch(this.productSearch);
 
     let profileModal = this.modalCtrl.create(
       SearchFiltersModal,
@@ -92,7 +92,7 @@ export class SearchPage {
     profileModal.present();
   }
 
-  defaultsParametersProductSearch(productSearch) {
+  private static defaultsParametersProductSearch(productSearch): ProductSearch {
     let defaultsProductSearch = productSearch;
     if (defaultsProductSearch.datetime_product != "") {
       defaultsProductSearch.datetime_product = new Date(defaultsProductSearch.datetime_product).toISOString().slice(0, 10);
@@ -114,7 +114,7 @@ export class SearchPage {
     return defaultsProductSearch;
   }
 
-  public openProductPage(product){
+  public openProductPage(product) {
     this.navCtrl.push(ProductPage, { product: product });
   }
 

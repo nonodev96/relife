@@ -3,13 +3,13 @@ import {
   MenuController, NavController, AlertController, LoadingController, Loading, Platform,
   ToastController
 } from 'ionic-angular';
-import { NativeStorage } from '@ionic-native/native-storage';
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../home/home';
 import { SlidesToolTipsPage } from '../slides-tool-tips/slides-tool-tips';
 import { AuthService } from '../../providers/auth-service';
 import { SharedService } from "../../providers/shared-service";
 import { ServerService } from "../../providers/server-service";
+import { SignUpPage } from "../sign-up/sign-up";
 
 @Component({
   selector: 'page-login', templateUrl: 'login.html'
@@ -35,7 +35,6 @@ export class LoginPage {
               private alertCtrl: AlertController,
               private toastCtrl: ToastController,
               private loadingCtrl: LoadingController,
-              private nativeStorage: NativeStorage,
               public platform: Platform,
               public storage: Storage) {
     this._user = {};
@@ -112,7 +111,7 @@ export class LoginPage {
   }
 
   public createAccount() {
-    console.log("pendiente createAccount");
+    this.navController.push(SignUpPage);
   }
 
   //endregion
@@ -133,12 +132,6 @@ export class LoginPage {
       title: 'Error', subTitle: text, buttons: ['OK']
     });
     alert.present(prompt);
-  }
-
-  rememberMe() {
-    this.nativeStorage.getItem('_registerCredentials').then(data => {
-      console.log(data);
-    });
   }
 
   private presentToast(message) {
