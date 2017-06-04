@@ -3,6 +3,7 @@ import {
   ActionSheetController, AlertController, Loading, LoadingController, NavController
 } from "ionic-angular";
 import { DomSanitizer } from "@angular/platform-browser";
+
 import { Camera } from "@ionic-native/camera";
 import { DatePicker } from "@ionic-native/date-picker";
 import { ImagePicker } from "@ionic-native/image-picker";
@@ -42,7 +43,7 @@ export class EditUserPage implements OnInit {
               private loadingCtrl: LoadingController,
               public domSanitizer: DomSanitizer,
               public authService: AuthService) {
-    this._image = "";
+    this._image = "assets/imgs/camera-background-xhdpi-screen.png";
     this._user = this.authService.getUser();
     this._userObject = this._user;
     this._userObject.password = "";
@@ -243,8 +244,8 @@ export class EditUserPage implements OnInit {
     this.camera.getPicture(options).then(
       (imageData) => {
         // imageData is a base64 encoded string
+        this._image = "data:image/png;base64," + imageData;
         this._base64Image = "data:image/png;base64," + imageData;
-        this._image = this._base64Image;
       },
       (err) => {
         console.log(err);

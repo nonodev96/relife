@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { NavParams } from "ionic-angular";
 import { Http } from "@angular/http";
 import { Product, ProductsService } from "../../providers/products-service";
+import * as moment from 'moment';
 
 const SERVER_URL = "https://relifecloud-nonodev96.c9users.io/";
 const ASSETS_IMG_USERS = "assets/images/users/";
@@ -41,6 +42,8 @@ export class ProductPage {
     this.productService.getProductById(id).subscribe(
       allowed => {
         this.product = JSON.parse(allowed.text()).data;
+        let datetime_product_moment = moment(this.product.datetime_product);
+        this.product.datetime_product = datetime_product_moment.locale("es").format("D [de] MMMM [del] YYYY");
         console.log(this.product);
       }
     );

@@ -10,29 +10,43 @@
     </ion-toolbar>
   </ion-navbar>
 </ion-header>
-<ion-content padding>
-  <img src="{{ SERVER_URL + ASSETS_IMG_PRODUCTS }}{{ product.image ? product.image : IMG_PRODUCTS_DEFAULT }}" alt="">
-  <h2>{{ product.title }}</h2>
-  <p>{{ product.description }}</p>
-  <p>{{ product.datetime_product }}</p>
-  <p><strong>Precio de salída: </strong>{{ product.starting_price }}</p>
-  <h4>
-    <small>{{ product.max.bid ? "Puja más alta: " + product.max.bid + "€" : "Sé el primero en pujar " }}</small>
-    <br>
-    <small>{{ product.min.bid ? "Puja más baja: " + product.min.bid + "€" : "" }}</small>
-  </h4>
-
+<ion-content>
+  <img src="{{ SERVER_URL + ASSETS_IMG_PRODUCTS }}{{ product.image ? product.image : IMG_PRODUCTS_DEFAULT }}" alt="product" class="cover">
+  <div padding>
+    <h1 class="font_family product_detail_starting_price" text-nowrap>{{ product.starting_price }}€</h1>
+    <p class="font_family product_detail_title" text-nowrap>{{ product.title }}</p>
+    <p class="font_family product_detail_description" text-justify>{{ product.description }}</p>
+    <p class="font_family product_detail_datetime_product">Publicado el {{ product.datetime_product }}</p>
+    <div *ngIf="product.max.bid">
+      <ion-grid class="font_family product_detail_max_and_min_bid" text-center>
+        <ion-row>
+          <ion-col>
+            <p>Puja más alta: </p>
+            {{ product.max.bid ? "" + product.max.bid + "€" : "" }}
+          </ion-col>
+          <ion-col>
+            <p>Puja más baja: </p>
+            {{ product.min.bid ? "" + product.min.bid + "€" : "" }}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <div *ngIf="!product.max.bid" text-center>
+      <h4 class="font_family">
+        <p>Sé el primero en pujar</p>
+      </h4>
+    </div>
+  </div>
   <div *ngIf="product.sale">
     <ion-list>
       <ion-item-sliding *ngFor="let sale of product.sale">
         <ion-item>
           <ion-thumbnail item-left>
             <img
-              src="{{ SERVER_URL + ASSETS_IMG_USERS }}{{ sale.user.profile_avatar ? sale.user.profile_avatar : IMG_USERS_DEFAULT }}"
-              alt="">
+            src="{{ SERVER_URL + ASSETS_IMG_USERS }}{{ sale.user.profile_avatar ? sale.user.profile_avatar : IMG_USERS_DEFAULT }}" alt="users">
           </ion-thumbnail>
-          <h2>{{ sale.user.nickname }}</h2>
-          <p>{{ sale.bid }}€</p>
+          <h2 class="font_family">{{ sale.user.nickname }}</h2>
+          <p class="font_family">{{ sale.bid }}€</p>
         </ion-item>
       </ion-item-sliding>
     </ion-list>

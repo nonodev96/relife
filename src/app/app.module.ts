@@ -11,6 +11,8 @@ import { SplashScreen } from "@ionic-native/splash-screen";
 import { IonicStorageModule } from '@ionic/storage';
 import { NativeStorage } from "@ionic-native/native-storage";
 import { Crop } from "@ionic-native/crop";
+import { DatePicker } from "@ionic-native/date-picker";
+import { ImagePicker } from "@ionic-native/image-picker";
 
 import { AddProductPage } from '../pages/add-product/add-product';
 import { AjaxTestPage } from '../pages/ajax-test/ajax-test';
@@ -91,6 +93,8 @@ import { SignUpPage } from "../pages/sign-up/sign-up";
     NativeStorage,
     IonicStorageModule,
     Crop,
+    DatePicker,
+    ImagePicker,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     ServerService,
     AuthService,

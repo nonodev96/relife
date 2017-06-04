@@ -3,8 +3,10 @@ import {
   AlertController, NavController, Loading, LoadingController, ActionSheetController,
   ToastController
 } from 'ionic-angular';
+
 import { Camera } from '@ionic-native/camera';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+
 import { InsertProduct, ProductsService } from "../../providers/products-service";
 import { AuthService } from "../../providers/auth-service";
 import { ServerService } from "../../providers/server-service";

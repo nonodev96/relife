@@ -1,3 +1,44 @@
-page-product {
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
 
+page-product {
+  .font_family {
+    font-family: 'Montserrat', sans-serif;
+  }
+  .product_detail_starting_price{
+    font-size: 2.4em;
+    line-height: 1.2em;
+    margin: 0 0 0.1em;
+    color: color($colors, dark);
+  }
+  .product_detail_title{
+    font-size: 1.3em;
+    line-height: 1.5em;
+    margin: 0 0 0.1em;
+    color: color($colors, secondary);
+  }
+  .product_detail_description {
+    font-size: 1.1em;
+    line-height: 1.1em;
+    margin: 0 0 0.2em;
+    color: color($colors, subtle);
+  }
+  .product_detail_datetime_product {
+    font-size: 1.4rem;
+    margin: 0;
+    color: color($colors, subtle_secondary);
+  }
+  .product_detail_max_and_min_bid {
+    font-size: 1.8em;
+    margin: 0;
+  }
+  .product_detail_max_and_min_bid p {
+    font-size: 1.4rem;
+    margin: 0;
+    color: color($colors, subtle_secondary);
+  }
+  .cover {
+    height: 300px;
+    object-fit: cover;
+    width: 100%;
+  }
 }

@@ -5,7 +5,6 @@ import { EditUserPage } from "../edit-user/edit-user";
 import { SharedService } from "../../providers/shared-service";
 import * as moment from 'moment';
 
-
 @Component({
   selector: 'page-user',
   templateUrl: 'user.html'
