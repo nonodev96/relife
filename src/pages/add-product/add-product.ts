@@ -1,10 +1,9 @@
-///<reference path="../../providers/products-service.ts"/>
 import { Component } from '@angular/core';
 import {
   AlertController, NavController, Loading, LoadingController, ActionSheetController,
   ToastController
 } from 'ionic-angular';
-import { Camera } from 'ionic-native';
+import { Camera } from '@ionic-native/camera';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { InsertProduct, ProductsService } from "../../providers/products-service";
 import { AuthService } from "../../providers/auth-service";
@@ -27,7 +26,8 @@ export class AddProductPage {
   //endregion
 
   //region CONSTRUCTOR
-  constructor(private authService: AuthService,
+  constructor(public camera: Camera,
+              private authService: AuthService,
               private productsService: ProductsService,
               private serverService: ServerService,
               private formBuilder: FormBuilder,
@@ -247,13 +247,13 @@ export class AddProductPage {
   //region NATIVE
   public openCamera(): void {
     let options = {
-      destinationType: Camera.PictureSourceType.PHOTOLIBRARY,
-      encodingType: Camera.EncodingType.PNG,
+      destinationType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      encodingType: this.camera.EncodingType.PNG,
       saveToPhotoAlbum: true,
       targetWidth: 1000,
       targetHeight: 1000
     };
-    Camera.getPicture(options).then(
+    this.camera.getPicture(options).then(
       (imageData) => {
         // imageData is a base64 encoded string
         this._image = "data:image/png;base64," + imageData;

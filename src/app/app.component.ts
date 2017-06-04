@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Nav, Platform, MenuController } from 'ionic-angular';
-import { StatusBar, Splashscreen } from 'ionic-native';
+
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../pages/home/home';
 import { AddProductPage } from '../pages/add-product/add-product';
@@ -33,6 +36,8 @@ export class MyApp implements OnInit {
   //region CONSTRUCTOR
   constructor(public sharedService: SharedService,
               public platform: Platform,
+              public statusBar: StatusBar,
+              public splashScreen: SplashScreen,
               public server: ServerService,
               public authService: AuthService,
               public storage: Storage,
@@ -92,8 +97,8 @@ export class MyApp implements OnInit {
   //region CONTROLLER
   initializeApp() {
     this.platform.ready().then(() => {
-      StatusBar.styleDefault();
-      Splashscreen.hide();
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
       this.menuController.get().enable(false);
     });
   }

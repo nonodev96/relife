@@ -1,9 +1,8 @@
 import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams, ViewController } from "ionic-angular";
+import { NavController, NavParams, ViewController } from "ionic-angular";
 import { ProductSearch } from "../../providers/products-service";
 import { FormBuilder, FormGroup } from "@angular/forms";
 
-@IonicPage()
 @Component({
   selector: "page-search-filters-modal",
   templateUrl: "search-filters-modal.html"

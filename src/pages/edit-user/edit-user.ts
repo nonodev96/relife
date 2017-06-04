@@ -2,12 +2,13 @@ import { Component, OnInit } from "@angular/core";
 import {
   ActionSheetController, AlertController, Loading, LoadingController, NavController
 } from "ionic-angular";
-import { AuthService, User } from "../../providers/auth-service";
 import { DomSanitizer } from "@angular/platform-browser";
+import { Camera } from "@ionic-native/camera";
+import { DatePicker } from "@ionic-native/date-picker";
+import { ImagePicker } from "@ionic-native/image-picker";
 
-import { DatePicker, Camera, ImagePicker } from "ionic-native";
+import { AuthService, User } from "../../providers/auth-service";
 import { SharedService } from "../../providers/shared-service";
-
 
 @Component({
   selector: "page-edit-user",
@@ -31,7 +32,10 @@ export class EditUserPage implements OnInit {
   //endregion
 
   //region CONSTRUCTOR
-  constructor(public sharedS: SharedService,
+  constructor(public camera: Camera,
+              public datePicker: DatePicker,
+              public imagePicker: ImagePicker,
+              public sharedS: SharedService,
               public navCtrl: NavController,
               private actionSheetCtrl: ActionSheetController,
               private alertCtrl: AlertController,
@@ -96,7 +100,7 @@ export class EditUserPage implements OnInit {
 
   //region CONTROLLER
   public editBirthDay() {
-    DatePicker.show({
+    this.datePicker.show({
       date: new Date(),
       mode: "date",
       androidTheme: 5
@@ -132,13 +136,13 @@ export class EditUserPage implements OnInit {
             let response = JSON.parse(allowed.text());
 
             if (Object.keys(response.meta).length == 0) {
-              let userEvent: User = new User(response.data[ 0 ]);
+              let userEvent: User = new User(response.data[0]);
               this.sharedS.setEmitterUser(userEvent);
 
               let alert = this.alertCtrl.create({
                 title: "Usuario " + this._userObject.nickname + " actualizado ",
                 subTitle: "Los datos del usuario han sido actualizados correctamente",
-                buttons: [ "OK" ]
+                buttons: ["OK"]
               });
               alert.present(prompt);
             } else {
@@ -166,7 +170,7 @@ export class EditUserPage implements OnInit {
           let alert = this.alertCtrl.create({
             title: "Técnicamente",
             subTitle: "Algo salió mal",
-            buttons: [ "OK" ]
+            buttons: ["OK"]
           });
           alert.present(prompt);
         });
@@ -213,7 +217,7 @@ export class EditUserPage implements OnInit {
     let alert = this.alertCtrl.create({
       title: title,
       subTitle: text,
-      buttons: [ "OK" ]
+      buttons: ["OK"]
     });
     alert.present(prompt);
   }
@@ -230,13 +234,13 @@ export class EditUserPage implements OnInit {
   //region NATIVE
   public openCamera(): void {
     let options = {
-      destinationType: Camera.PictureSourceType.PHOTOLIBRARY,
-      encodingType: Camera.EncodingType.PNG,
+      destinationType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      encodingType: this.camera.EncodingType.PNG,
       saveToPhotoAlbum: true,
       targetWidth: 1000,
       targetHeight: 1000
     };
-    Camera.getPicture(options).then(
+    this.camera.getPicture(options).then(
       (imageData) => {
         // imageData is a base64 encoded string
         this._base64Image = "data:image/png;base64," + imageData;
@@ -256,12 +260,12 @@ export class EditUserPage implements OnInit {
       width: 250
       // outputType: 1
     };
-    ImagePicker.getPictures(options).then(
+    this.imagePicker.getPictures(options).then(
       (results) => {
         for (let i = 0; i < results.length; i++) {
-          console.log("Image URI: " + results[ i ]);
-          this._image = this.domSanitizer.bypassSecurityTrustResourceUrl(results[ i ]);
-          this._base64Image = this.domSanitizer.bypassSecurityTrustResourceUrl(results[ i ]);
+          console.log("Image URI: " + results[i]);
+          this._image = this.domSanitizer.bypassSecurityTrustResourceUrl(results[i]);
+          this._base64Image = this.domSanitizer.bypassSecurityTrustResourceUrl(results[i]);
         }
       },
       (err) => {

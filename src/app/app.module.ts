@@ -5,9 +5,12 @@ import { HttpModule } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
+import { Camera } from '@ionic-native/camera';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from "@ionic-native/splash-screen";
 import { IonicStorageModule } from '@ionic/storage';
 import { NativeStorage } from "@ionic-native/native-storage";
-import { Crop } from "ionic-native";
+import { Crop } from "@ionic-native/crop";
 
 import { AddProductPage } from '../pages/add-product/add-product';
 import { AjaxTestPage } from '../pages/ajax-test/ajax-test';
@@ -82,13 +85,17 @@ import { SignUpPage } from "../pages/sign-up/sign-up";
     SignUpPage
   ],
   providers: [
+    Camera,
+    StatusBar,
+    SplashScreen,
+    NativeStorage,
+    IonicStorageModule,
+    Crop,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     ServerService,
     AuthService,
     SharedService,
-    ProductsService,
-    NativeStorage,
-    Crop
+    ProductsService
   ]
 })
 export class AppModule {
