@@ -15,6 +15,12 @@ import { SharedService } from "../providers/shared-service";
 import { ServerService } from "../providers/server-service";
 import { FavoritesPage } from "../pages/favorites/favorites";
 
+const SERVER_URL = "https://relifecloud-nonodev96.c9users.io/";
+const URL_IMG_USERS = SERVER_URL + "assets/images/users/";
+const IMG_USERS_DEFAULT = "default.jpg";
+//const URL_IMG_PRODUCTS = SERVER_URL + "assets/images/products/";
+//const IMG_PRODUCTS_DEFAULT = "default.png";
+
 type UserApp = {
   nickname: string,
   profile_avatar: string,
@@ -31,6 +37,10 @@ export class MyApp implements OnInit {
   private _pages: Array<{ title: string, component: any, nav: string }>;
   private _rootPage;
   private _user: UserApp;
+  
+  public SERVER_URL = SERVER_URL;
+  public URL_IMG_USERS = URL_IMG_USERS;
+  public IMG_USERS_DEFAULT = IMG_USERS_DEFAULT;
   //endregion
 
   //region CONSTRUCTOR

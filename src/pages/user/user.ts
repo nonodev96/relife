@@ -1,10 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { AuthService, User } from '../../providers/auth-service';
+import { AuthService } from '../../providers/auth-service';
+import { User } from '../../providers/users-service';
 import { EditUserPage } from "../edit-user/edit-user";
 import { SharedService } from "../../providers/shared-service";
 import * as moment from 'moment';
 
+const SERVER_URL = "https://relifecloud-nonodev96.c9users.io/";
+const URL_IMG_USERS = SERVER_URL + "assets/images/users/";
+const IMG_USERS_DEFAULT = "default.jpg";
+//const URL_IMG_PRODUCTS = SERVER_URL + "assets/images/products/";
+//const IMG_PRODUCTS_DEFAULT = "default.png";
 @Component({
   selector: 'page-user',
   templateUrl: 'user.html'
@@ -30,6 +36,9 @@ export class UserPage implements OnInit {
   private _backgroundRandom;
   private _birth_date;
 
+  public SERVER_URL = SERVER_URL;
+  public URL_IMG_USERS = URL_IMG_USERS;
+  public IMG_USERS_DEFAULT = IMG_USERS_DEFAULT;
   //endregion
 
   //region CONSTRUCTOR

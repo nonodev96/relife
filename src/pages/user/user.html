@@ -13,35 +13,35 @@
 
 <ion-content>
   <div id="background-profile">
-    <img src="{{_backgroundRandom}}" id="imgBackground">
+    <img src="{{ _backgroundRandom }}" id="imgBackground">
     <div id="image-avatar">
       <div id="image-border">
-        <img src="{{_user.profile_avatar}}">
+        <img src="{{ URL_IMG_USERS }}{{ _user.profile_avatar ? _user.profile_avatar : IMG_USERS_DEFAULT }}">
       </div>
-      <h2 id="nickname">{{_user.nickname}}</h2>
+      <h2 id="nickname">{{ _user.nickname }}</h2>
     </div>
   </div>
 
   <ion-list>
     <button ion-item>
       <ion-icon name="person"></ion-icon>
-      {{_user.first_name}} {{_user.last_name}}
+      {{ _user.first_name }} {{ _user.last_name }}
     </button>
     <button ion-item>
       <ion-icon name="mail"></ion-icon>
-      {{_user.email}}
+      {{ _user.email }}
     </button>
     <button ion-item>
       <ion-icon name="egg"></ion-icon>
-      {{_birth_date}}
+      {{ _birth_date }}
     </button>
     <button ion-item>
       <ion-icon name="calendar"></ion-icon>
-      {{_user.join_date}}
+      {{ _user.join_date }}
     </button>
     <button ion-item>
       <ion-icon name="map"></ion-icon>
-      {{_user.location}}
+      {{ _user.location }}
     </button>
 
   </ion-list>

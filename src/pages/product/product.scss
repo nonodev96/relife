@@ -41,4 +41,49 @@ page-product {
     object-fit: cover;
     width: 100%;
   }
+
+  #background-profile {
+    position: relative;
+    width: 100%;
+    #imgBackground {
+      width: 100% !important;
+      object-fit: cover;
+    }
+    @media screen and (orientation: portrait) {
+      height: 40%;
+    }
+    @media screen and (orientation: landscape) {
+      height: 70%;
+    }
+    overflow: hidden;
+
+    #image-avatar {
+      position: absolute;
+      top: 20%;
+      left: 0;
+      right: 0;
+      text-align: center;
+      overflow: hidden;
+      #image-border {
+        border: 3px solid white;
+        border-radius: 56%;
+        overflow: hidden;
+        margin: 0 auto;
+        height: 100px;
+        width: 100px;
+        background: rgba(255, 255, 255, 0.6);
+        img {
+          object-fit: cover;
+          object-position: center;
+          vertical-align: middle;
+          height: 100%;
+        }
+      }
+      #nickname {
+        color: white;
+        width: 100%;
+        text-align: center;
+      }
+    }
+  }
 }

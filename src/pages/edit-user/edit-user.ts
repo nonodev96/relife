@@ -8,7 +8,8 @@ import { Camera } from "@ionic-native/camera";
 import { DatePicker } from "@ionic-native/date-picker";
 import { ImagePicker } from "@ionic-native/image-picker";
 
-import { AuthService, User } from "../../providers/auth-service";
+import { AuthService } from "../../providers/auth-service";
+import { User } from "../../providers/users-service";
 import { SharedService } from "../../providers/shared-service";
 
 @Component({

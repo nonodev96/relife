@@ -9,13 +9,13 @@
     <ion-list>
       <ion-item menuClose (click)="openProfile()">
         <ion-avatar item-left>
-          <img src="{{user.profile_avatar}}" >
+          <img src="{{ URL_IMG_USERS }}{{ user.profile_avatar ? user.profile_avatar : IMG_USERS_DEFAULT }}" >
         </ion-avatar>
-        <h2>{{user.nickname}}</h2>
-        <p>{{user.email}}</p>
+        <h2>{{ user.nickname }}</h2>
+        <p>{{ user.email }}</p>
       </ion-item>
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        {{p.title}}
+        {{ p.title }}
       </button>
 
       <button menuClose ion-item (click)="logOutMenuButton()">

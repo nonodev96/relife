@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Http, Headers, RequestOptions } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
-import { User } from "./auth-service";
+import { User } from "./users-service";
 
 interface InterfaceSale {
   id: string | number;
@@ -336,28 +336,6 @@ export class ProductsService {
       }
     );
   }
-
-  // public deleteProduct(id: string | number) {
-  //   return Observable.create(
-  //     observer => {
-  //       let headers = new Headers({ "Content-Type": "application/json" });
-  //       let options = new RequestOptions({ headers: headers });
-  //
-  //       let link = SERVER_URL_PRODUCT + "/" + id;
-  //
-  //       this.http.delete(link, options).subscribe(
-  //         response => {
-  //           observer.next(response);
-  //           observer.complete();
-  //         },
-  //         error => {
-  //           observer.next(error);
-  //           observer.complete();
-  //         }
-  //       );
-  //     }
-  //   );
-  // }
 
   //endregion
 }
