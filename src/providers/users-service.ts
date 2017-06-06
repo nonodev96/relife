@@ -49,6 +49,31 @@ export class User implements InterfaceUser {
   //endregion
 }
 
+interface InterfaceInsertUser {
+  nickname: string;
+  email: string;
+  password: string;
+}
+export class InsertUser implements InterfaceInsertUser {
+  //region ATTRIBUTES
+  nickname: string;
+  email: string;
+  password: string;
+
+  //endregion
+
+  //region CONSTRUCTOR
+  constructor();
+  constructor(user: InterfaceInsertUser);
+  constructor(user?: any) {
+    this.nickname = user && user.nickname || "";
+    this.email = user && user.email || "";
+    this.password = user && user.password || "";
+  }
+
+  //endregion
+}
+
 const SERVER_URL = "https://relifecloud-nonodev96.c9users.io/";
 const SERVER_URL_API = SERVER_URL + "api/";
 const SERVER_URL_USER = SERVER_URL_API + "user";

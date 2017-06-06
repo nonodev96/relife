@@ -1,18 +1,52 @@
-<!--
-  Generated template for the SignUpPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>SignUp</ion-title>
-  </ion-navbar>
+	<ion-navbar color="theme_color_secondary">
+		<ion-toolbar>
+			<ion-title>Crear cuenta</ion-title>
+		</ion-toolbar>
+	</ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+	<form [formGroup]="insertUserFormGroup" (ngSubmit)="signUp()">
+		<ion-list>
+			<ion-item>
+				<ion-label color="primary" floating>Nick</ion-label>
+        <ion-input type="text"
+                   formControlName="nickname"
+                   autocomplete="on"
+                   autocorrect="on"
+                   autocapitalize="on"
+                   spellcheck="true"></ion-input>
+			</ion-item>
 
+			<ion-item>
+				<ion-label color="primary" floating>Email</ion-label>
+        <ion-input type="email"
+                   formControlName="email"
+                   autocomplete="on"
+                   autocorrect="on"
+                   autocapitalize="on"
+                   spellcheck="true"></ion-input>
+			</ion-item>
+
+			<ion-item>
+				<ion-label color="primary" floating>Contraseña</ion-label>
+        <ion-input type="password"
+                   formControlName="password"></ion-input>
+			</ion-item>
+
+			<ion-item>
+				<ion-label color="primary" floating>Repite la contraseña</ion-label>
+        <ion-input type="password"
+                   formControlName="repeat_password"></ion-input>
+			</ion-item>
+
+      <ion-item>
+        <button ion-button type="submit" full [disabled]="!insertUserFormGroup.valid">Crear cuenta</button>
+      </ion-item>
+		</ion-list>
+	</form>
 </ion-content>
