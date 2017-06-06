@@ -3,6 +3,8 @@
 $font-path: "../assets/fonts";
 
 @import "ionic.globals";
+@import url('https://fonts.googleapis.com/css?family=Lobster');
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
 
 // Shared Variables
 // --------------------------------------------------
@@ -31,14 +33,16 @@ $colors: (
   subtle_secondary: #b5b5b5,
   vibrant: rebeccapurple,
   theme_color_navbar: rebeccapurple,
-
-  theme_color_primary: #232a34,
-  theme_color_primary_light: #2f3640,
-  theme_color_secondary: #F44336,
-  theme_color_secondary_dark: #F44336,
-
-)
-;
+  theme_color_primary: #1b3c6b,
+  theme_color_primary_light: #4a95ff,
+  theme_color_secondary: #80caff,
+  theme_color_secondary_dark: #1d57ae,
+  theme_color_toolbar: #009688,
+  theme_color_floating_button: #4DB6AC,
+);
+.title_re_life {
+  font-family: 'Montserrat', cursive !important;
+}
 
 // App iOS Variables
 // --------------------------------------------------

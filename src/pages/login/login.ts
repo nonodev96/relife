@@ -75,7 +75,7 @@ export class LoginPage {
       allowed => {
         if (allowed) {
           this.showLoading();
-          this.authService.login(this._registerCredentials).subscribe(
+          this.authService.logIn(this._registerCredentials).subscribe(
             allowed => {
               if (allowed) {
                 setTimeout(() => {

@@ -14,6 +14,7 @@ import { AuthService } from "../providers/auth-service";
 import { SharedService } from "../providers/shared-service";
 import { ServerService } from "../providers/server-service";
 import { FavoritesPage } from "../pages/favorites/favorites";
+import { ContactsPage } from "../pages/contacts/contacts";
 
 const SERVER_URL = "https://relifecloud-nonodev96.c9users.io/";
 const URL_IMG_USERS = SERVER_URL + "assets/images/users/";
@@ -37,7 +38,7 @@ export class MyApp implements OnInit {
   private _pages: Array<{ title: string, component: any, nav: string }>;
   private _rootPage;
   private _user: UserApp;
-  
+
   public SERVER_URL = SERVER_URL;
   public URL_IMG_USERS = URL_IMG_USERS;
   public IMG_USERS_DEFAULT = IMG_USERS_DEFAULT;
@@ -59,6 +60,7 @@ export class MyApp implements OnInit {
     };
     this._pages = [
       { title: 'Inicio', component: HomePage, nav: 'setRoot' },
+      { title: 'Contactos', component: ContactsPage, nav: 'push' },
       { title: 'Añadir producto', component: AddProductPage, nav: 'push' },
       { title: 'Favoritos', component: FavoritesPage, nav: 'push' },
       { title: 'Consejos', component: SlidesToolTipsPage, nav: 'setRoot' },
@@ -138,7 +140,7 @@ export class MyApp implements OnInit {
                 data => {
                   credentials.loging = data;
                   if (data == "TRUE") {
-                    this.authService.login(credentials).subscribe(
+                    this.authService.logIn(credentials).subscribe(
                       allowed => {
                         if (allowed) {
                           setTimeout(() => {

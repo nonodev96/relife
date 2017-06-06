@@ -16,6 +16,7 @@ import { ImagePicker } from "@ionic-native/image-picker";
 
 import { AddProductPage } from '../pages/add-product/add-product';
 import { AjaxTestPage } from '../pages/ajax-test/ajax-test';
+import { ContactsPage } from '../pages/contacts/contacts';
 import { EditUserPage } from "../pages/edit-user/edit-user";
 import { FavoritesPage } from "../pages/favorites/favorites";
 import { HomePage } from '../pages/home/home';
@@ -41,6 +42,7 @@ import { UsersService } from "../providers/users-service";
     MyApp,
     AddProductPage,
     AjaxTestPage,
+    ContactsPage,
     HomePage,
     LoginPage,
     Page1Page,
@@ -73,6 +75,7 @@ import { UsersService } from "../providers/users-service";
     MyApp,
     AddProductPage,
     AjaxTestPage,
+    ContactsPage,
     HomePage,
     LoginPage,
     Page1Page,

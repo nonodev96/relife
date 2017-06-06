@@ -1,16 +1,10 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 import { NavController } from "ionic-angular";
 import { HomePage } from "../home/home";
 
-/*
- Generated class for the SlidesToolTips page.
-
- See http://ionicframework.com/docs/v2/components/#navigation for more info on
- Ionic pages and navigation.
- */
 @Component({
-  selector: 'page-slides-tool-tips',
-  templateUrl: 'slides-tool-tips.html'
+  selector: "page-slides-tool-tips",
+  templateUrl: "slides-tool-tips.html"
 })
 export class SlidesToolTipsPage {
 
@@ -22,19 +16,26 @@ export class SlidesToolTipsPage {
   constructor(public navController: NavController) {
     this._slides = [
       {
-        title: "Welcome to the Docs!",
-        description: "The <b>Ionic Component Documentation</b> showcases a number of useful components that are included out of the box with Ionic.",
-        image: "https://ionicframework.com/dist/preview-app/www/assets/img/ica-slidebox-img-1.png",
+        title: "Bienvenido a <b><span class='title_re_life'>Re Life</span></b>!",
+        description: "<b class='title_re_life'>Re Life</b> es una novedosa aplicación de venta de productos de segunda mano," +
+        " aquí tienes unos consejos de cómo se usa.",
+        image: "../assets/tool-tips/ica-slidebox-img-1.png"
       },
       {
-        title: "What is Ionic?",
-        description: "<b>Ionic Framework</b> is an open source SDK that enables developers to build high quality mobile apps with web technologies like HTML, CSS, and JavaScript.",
-        image: "https://ionicframework.com/dist/preview-app/www/assets/img/ica-slidebox-img-2.png",
+        title: "¿Cómo funciona?",
+        description: "<b>Muy fácil</b> tú quieres vender algo, " +
+        "pero no tienes ni idea de economía así que subes una foto de lo que quieres vender y la gente pujará por él 💖 <br>" +
+        "Puedes hablar con cualquiera y vender lo que deseés.",
+        image: "../assets/tool-tips/ica-slidebox-img-2.png"
       },
       {
-        title: "What is Ionic Cloud?",
-        description: "The <b>Ionic Cloud</b> is a cloud platform for managing and scaling Ionic apps with integrated services like push notifications, native builds, user auth, and live updating.",
-        image: "https://ionicframework.com/dist/preview-app/www/assets/img/ica-slidebox-img-3.png",
+        title: "¿Tan solo eso?",
+        description: "Tienes muchas más cosas que hacer <br>" +
+        "Puedes ir a editar tu cuenta <br>" +
+        "Añadir productos a favoritos 💛 <br>" +
+        " o <br>" +
+        "Hablar con personas 💞",
+        image: "../assets/tool-tips/ica-slidebox-img-3.png"
       }
     ];
   }
@@ -61,7 +62,7 @@ export class SlidesToolTipsPage {
 
   //region DEBUG
   static ionViewDidLoad() {
-    console.log('ionViewDidLoad SlidesToolTipsPage');
+    console.log("ionViewDidLoad SlidesToolTipsPage");
   }
 
   //endregion

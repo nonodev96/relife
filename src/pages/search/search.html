@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color="theme_color_secondary">
+  <ion-navbar color="theme_color_toolbar">
     <ion-title>Buscar productos</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="openSearchFiltersModal()">
@@ -7,7 +7,7 @@
       </button>
     </ion-buttons>
   </ion-navbar>
-  <ion-navbar color="theme_color_secondary">
+  <ion-navbar color="theme_color_toolbar">
     <ion-searchbar
       [showCancelButton]="true"
       (ionInput)="onInput($event)"

@@ -22,8 +22,10 @@ export class UserPage implements OnInit {
     this.sharedService.getEmittedUser().subscribe(
       item => {
         this._user = item;
-        let birthDateMoment = moment(this._user.birth_date);
-        this._birth_date = birthDateMoment.locale("es").format("D [de] MMMM [del] YYYY");
+        let birth_date_moment = moment(this._user.birth_date);
+        this._birth_date = birth_date_moment.locale("es").format("D [de] MMMM [del] YYYY");
+        let join_date_moment = moment(this._user.join_date);
+        this._join_date = join_date_moment.locale("es").format("D [de] MMMM [del] YYYY");
       }
     );
   }
@@ -35,6 +37,7 @@ export class UserPage implements OnInit {
   private _listBackground;
   private _backgroundRandom;
   private _birth_date;
+  private _join_date;
 
   public SERVER_URL = SERVER_URL;
   public URL_IMG_USERS = URL_IMG_USERS;
@@ -48,24 +51,23 @@ export class UserPage implements OnInit {
               public navParams: NavParams) {
     this._user = this.authService.getUser();
     console.log(this._user);
-    let birthDateMoment = moment(this._user.birth_date);
-    this._birth_date = birthDateMoment.locale("es").format("D [de] MMMM [del] YYYY");
+    let birth_date_moment = moment(this._user.birth_date);
+    this._birth_date = birth_date_moment.locale("es").format("D [de] MMMM [del] YYYY");
+    let join_date_moment = moment(this._user.join_date);
+    this._join_date = join_date_moment.locale("es").format("D [de] MMMM [del] YYYY");
     this._listBackground = [
       { backgroundUrl: 'assets/imgs/card-saopaolo.png' },
       { backgroundUrl: 'assets/imgs/card-madison.png' },
       { backgroundUrl: 'assets/imgs/card-sf.png' },
       { backgroundUrl: 'assets/imgs/card-amsterdam.png' }
     ];
-    let
-      random = this.randomInt(0, this._listBackground.length - 1);
-    this
-      ._backgroundRandom = this._listBackground[ random ].backgroundUrl;
+    let random = this.randomInt(0, this._listBackground.length - 1);
+    this._backgroundRandom = this._listBackground[ random ].backgroundUrl;
   }
 
   //endregion
 
   //region GETTER AND SETTER
-
   get user(): User {
     return this._user;
   }
@@ -90,25 +92,33 @@ export class UserPage implements OnInit {
     this._backgroundRandom = value;
   }
 
+  get birth_date() {
+    return this._birth_date;
+  }
+
+  set birth_date(value) {
+    this._birth_date = value;
+  }
+
+  get join_date() {
+    return this._join_date;
+  }
+
+  set join_date(value) {
+    this._join_date = value;
+  }
+
   //endregion
 
   //region CONTROLLER
-  private
-  randomInt(min, max) {
+  private randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  public
-  openEditUser() {
+  public openEditUser() {
     this.navCtrl.push(EditUserPage);
   }
 
   //endregion
 
-  //region DEBUG
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad UserPage');
-  }
-
-  //endregion
 }

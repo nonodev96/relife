@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import { User } from './users-service';
+import { Injectable } from "@angular/core";
+import { Http, Headers, RequestOptions } from "@angular/http";
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/operator/map";
+import { InsertUser, User } from "./users-service";
 
 
-const SERVER_URL = 'https://relifecloud-nonodev96.c9users.io/';
-const SERVER_URL_API = SERVER_URL + 'api/';
+const SERVER_URL = "https://relifecloud-nonodev96.c9users.io/";
+const SERVER_URL_API = SERVER_URL + "api/";
 
 @Injectable()
 export class AuthService {
@@ -50,14 +50,14 @@ export class AuthService {
   //endregion
 
   //region CONTROLLER
-  public login(credentials) {
+  public logIn(credentials) {
     if (credentials.email === null || credentials.password === null) {
       return Observable.throw("Error en las credenciales.");
     } else {
       return Observable.create(
         observer => {
           // At this point make a request to your backend to make a real check!
-          let link = SERVER_URL_API + 'user/login';
+          let link = SERVER_URL_API + "user/login";
           let body = JSON.stringify({ email: credentials.email, password: credentials.password });
           this.http.post(link, body).subscribe(
             data => {
@@ -75,7 +75,7 @@ export class AuthService {
                   location: userObjectJSON.location,
                   join_date: userObjectJSON.join_date,
                   birth_date: userObjectJSON.birth_date,
-                  profile_avatar: userObjectJSON.profile_avatar,
+                  profile_avatar: userObjectJSON.profile_avatar
                 };
                 this._currentUser = new User(userObject);
                 this._stringDataUser = JSON.stringify(this._currentUser);
@@ -100,11 +100,25 @@ export class AuthService {
     }
   }
 
-  public register() {
+  public signUp(getInsertUser: InsertUser) {
     return Observable.create(
       observer => {
-        observer.next(true);
-        observer.complete();
+        let headers = new Headers({ "Content-Type": "application/json" });
+        let options = new RequestOptions({ headers: headers });
+
+        let link = SERVER_URL_API + "user";
+        let body = JSON.stringify(getInsertUser);
+
+        this.http.post(link, body, options).subscribe(
+          response => {
+            observer.next(response);
+            observer.complete();
+          },
+          error => {
+            observer.next(error);
+            observer.complete();
+          }
+        );
       }
     );
   }
@@ -112,10 +126,10 @@ export class AuthService {
   public updateDataUser(userObject, id) {
     return Observable.create(
       observer => {
-        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let headers = new Headers({ "Content-Type": "application/json" });
         let options = new RequestOptions({ headers: headers });
 
-        let link = SERVER_URL_API + 'user/' + id;
+        let link = SERVER_URL_API + "user/" + id;
         let body = JSON.stringify(userObject);
 
         this.http.put(link, body, options).subscribe(
@@ -152,7 +166,7 @@ export class AuthService {
 
   static handleError(error) {
     console.log(error);
-    return error.json().message || 'Server error, please try again later';
+    return error.json().message || "Server error, please try again later";
   }
 
   //endregion
