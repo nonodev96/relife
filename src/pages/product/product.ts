@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
 import { NavParams } from "ionic-angular";
 import { Http } from "@angular/http";
-import { UsersService, User } from '../../providers/users-service';
+import { UsersService, User } from "../../providers/users-service";
 import { Product, ProductsService } from "../../providers/products-service";
-import * as moment from 'moment';
+import * as moment from "moment";
 
 const SERVER_URL = "https://relifecloud-nonodev96.c9users.io/";
 const URL_IMG_USERS = SERVER_URL + "assets/images/users/";
@@ -41,10 +41,10 @@ export class ProductPage {
     this.getProduct(this.productParams.id);
     this.getUser(this.productParams.id_user);
     let listBackground = [
-      { backgroundUrl: 'assets/imgs/card-saopaolo.png' },
-      { backgroundUrl: 'assets/imgs/card-madison.png' },
-      { backgroundUrl: 'assets/imgs/card-sf.png' },
-      { backgroundUrl: 'assets/imgs/card-amsterdam.png' }
+      { backgroundUrl: "assets/imgs/card-saopaolo.png" },
+      { backgroundUrl: "assets/imgs/card-madison.png" },
+      { backgroundUrl: "assets/imgs/card-sf.png" },
+      { backgroundUrl: "assets/imgs/card-amsterdam.png" }
     ];
     let random = this.randomInt(0, listBackground.length - 1);
     this.backgroundRandomUser = listBackground[ random ].backgroundUrl;
@@ -75,13 +75,17 @@ export class ProductPage {
         let json_response = JSON.parse(allowed.text());
         let user_data = json_response.data;
         this.user = new User(user_data);
-        
+
         console.log(this.user);
       }
     );
   }
 
   public pujar() {
+
+  }
+
+  public addToFavorites() {
 
   }
 

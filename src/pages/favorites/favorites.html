@@ -1,12 +1,19 @@
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>Favorítos</ion-title>
+  <ion-navbar color="theme_color_toolbar">
+    <ion-title>Favoritos</ion-title>
   </ion-navbar>
-
 </ion-header>
 
-
-<ion-content padding>
-  <h2>Pendiente</h2>
+<ion-content>
+  <ion-list>
+    <ion-item-sliding *ngFor="let product of list_products_favorites">
+      <ion-item (click)="openProductPage(product)">
+        <ion-thumbnail item-left>
+          <img src="{{ URL_IMG_PRODUCTS }}{{ product.image ? product.image : IMG_PRODUCTS_DEFAULT }}" alt="product" class="cover">
+        </ion-thumbnail>
+        <h2>{{product.title}}</h2>
+        <p>{{product.starting_price}}€</p>
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>

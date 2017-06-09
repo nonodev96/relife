@@ -19,14 +19,14 @@ export class SlidesToolTipsPage {
         title: "Bienvenido a <b><span class='title_re_life'>Re Life</span></b>!",
         description: "<b class='title_re_life'>Re Life</b> es una novedosa aplicación de venta de productos de segunda mano," +
         " aquí tienes unos consejos de cómo se usa.",
-        image: "../assets/tool-tips/ica-slidebox-img-1.png"
+        image: "assets/tool-tips/ica-slidebox-img-1.png"
       },
       {
         title: "¿Cómo funciona?",
         description: "<b>Muy fácil</b> tú quieres vender algo, " +
         "pero no tienes ni idea de economía así que subes una foto de lo que quieres vender y la gente pujará por él 💖 <br>" +
         "Puedes hablar con cualquiera y vender lo que deseés.",
-        image: "../assets/tool-tips/ica-slidebox-img-2.png"
+        image: "assets/tool-tips/ica-slidebox-img-2.png"
       },
       {
         title: "¿Tan solo eso?",
@@ -35,7 +35,7 @@ export class SlidesToolTipsPage {
         "Añadir productos a favoritos 💛 <br>" +
         " o <br>" +
         "Hablar con personas 💞",
-        image: "../assets/tool-tips/ica-slidebox-img-3.png"
+        image: "assets/tool-tips/ica-slidebox-img-3.png"
       }
     ];
   }
