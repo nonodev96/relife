@@ -36,6 +36,8 @@ import { ProductsService } from "../providers/products-service";
 import { ServerService } from "../providers/server-service";
 import { SharedService } from "../providers/shared-service";
 import { UsersService } from "../providers/users-service";
+import { FavoritesService } from '../providers/favorites-service';
+import { SalesService } from '../providers/sales-service';
 
 @NgModule({
   declarations: [
@@ -104,7 +106,9 @@ import { UsersService } from "../providers/users-service";
     ProductsService,
     ServerService,
     SharedService,
-    UsersService
+    UsersService,
+    FavoritesService,
+    SalesService
   ]
 })
 export class AppModule {

@@ -147,8 +147,7 @@ export class MyApp implements OnInit {
                             this.sharedService.setEmitterUser(this.authService.getUser());
                             this._user = this.authService.getUser();
                             this.menuController.get().enable(true);
-                            let ret = this._nav.setRoot(HomePage);
-                            if (ret) console.log(ret);
+                            this._nav.setRoot(HomePage);
                           });
                         } else {
                           this._rootPage = LoginPage;

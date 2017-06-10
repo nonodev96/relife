@@ -35,7 +35,6 @@ export class SearchPage {
       if (val.length >= 3 || val.length == 0) {
         this.productSearch.title = val;
         this.productSearch.description = val;
-        console.log(this.productSearch);
         this.productService.getProductsSearch(this.productSearch).subscribe(
           data => {
             if (data) {
@@ -84,9 +83,7 @@ export class SearchPage {
     );
     profileModal.onDidDismiss(
       data => {
-        let tmpProductSearch = new ProductSearch(data);
-        this.productSearch = tmpProductSearch;
-        console.log(tmpProductSearch);
+        this.productSearch = new ProductSearch(data);
       }
     );
     profileModal.present();
