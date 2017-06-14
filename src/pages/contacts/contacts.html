@@ -1,12 +1,25 @@
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>contacts</ion-title>
-  </ion-navbar>
-
+	<ion-navbar color="theme_color_toolbar">
+		<ion-title>Contactos</ion-title>
+	</ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content>
+	<ion-refresher (ionRefresh)="doRefresh($event)">
+		<ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Desliza hacia abajo para actualizar" refreshingSpinner="circles" refreshingText="Actualizando">
+		</ion-refresher-content>
+	</ion-refresher>
+	<ion-list>
+		<ion-item-sliding *ngFor="let contacts of list_contacts">
+			<ion-item (click)="openChatPage(contacts)">
+				<ion-thumbnail item-left>
+					<img src="{{ URL_IMG_USERS }}{{ contacts.profile_avatar ? contacts.profile_avatar : IMG_USERS_DEFAULT }}" 
+					alt="product" class="cover">
+				</ion-thumbnail>
+				<h2>{{ contacts.nickname }}</h2>
+				<p>{{ contacts.datetime_chat }}</p>
+			</ion-item>
+		</ion-item-sliding>
+	</ion-list>
 </ion-content>

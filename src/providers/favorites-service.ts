@@ -16,7 +16,38 @@ export class InsertFavorite implements InterfaceInsertFavorite {
   constructor(insertFavorite: InterfaceInsertFavorite);
   constructor(insertFavorite?: any) {
     this.id_user = insertFavorite && insertFavorite.id_user || "";
-    this.id_product = insertFavorite && insertFavorite.id_product || "";
+    this.id_product = insertFavorite && insertFavorite.id_user_to || "";
+  }
+}
+
+interface InterfaceDeleteFavoriteByIdUserAndProduct {
+  id_user: string | number;
+  id_product: string | number;
+}
+
+export class DeleteFavoriteByIdUserAndProduct implements InterfaceDeleteFavoriteByIdUserAndProduct {
+  id_user: string | number;
+  id_product: string | number;
+
+  constructor();
+  constructor(deleteFavoriteByIdUserAndProduct: InterfaceDeleteFavoriteByIdUserAndProduct);
+  constructor(deleteFavoriteByIdUserAndProduct?: any) {
+    this.id_user = deleteFavoriteByIdUserAndProduct && deleteFavoriteByIdUserAndProduct.id_user || "";
+    this.id_product = deleteFavoriteByIdUserAndProduct && deleteFavoriteByIdUserAndProduct.id_user_to || "";
+  }
+}
+
+interface InterfaceDeleteFavorite {
+  id: string | number;
+}
+
+export class DeleteFavorite implements InterfaceDeleteFavorite {
+  id: string | number;
+
+  constructor();
+  constructor(deleteFavorite: InterfaceDeleteFavorite);
+  constructor(deleteFavorite?: any) {
+    this.id = deleteFavorite && deleteFavorite.id || "";
   }
 }
 
@@ -69,15 +100,54 @@ export class FavoritesService {
     );
   }
 
-  public addFavorite(productObject: InsertFavorite) {
-    let headers = new Headers({ "Content-Type": "application/json" });
-    let options = new RequestOptions({ headers: headers });
+  public addFavorite(insertFavorite: InsertFavorite) {
+    let headers = new Headers({"Content-Type": "application/json"});
+    let options = new RequestOptions({headers: headers});
 
-    let link = SERVER_URL_FAVORITES;
-    let body = JSON.stringify(productObject);
+    let url = SERVER_URL_FAVORITES;
+    let body = JSON.stringify(insertFavorite);
     return Observable.create(
       observer => {
-        this.http.post(link, body, options).subscribe(
+        this.http.post(url, body, options).subscribe(
+          response => {
+            observer.next(response);
+            observer.complete();
+          },
+          error => {
+            observer.next(error);
+            observer.complete();
+          }
+        );
+      }
+    );
+  }
+
+  public deleteFavorite(deleteFavorite: DeleteFavorite) {
+    let link = SERVER_URL_FAVORITES + "/" + deleteFavorite.id;
+    return Observable.create(
+      observer => {
+        this.http.delete(link).subscribe(
+          response => {
+            observer.next(response);
+            observer.complete();
+          },
+          error => {
+            observer.next(error);
+            observer.complete();
+          }
+        );
+      }
+    );
+  }
+
+  public deleteFavoriteByIdUserAndProduct(deleteFavoriteByIdUserAndProduct: DeleteFavoriteByIdUserAndProduct) {
+    let headers = new Headers({"Content-Type": "application/json"});
+    let options = new RequestOptions({headers: headers});
+    let body = JSON.stringify(deleteFavoriteByIdUserAndProduct);
+    let url = SERVER_URL_FAVORITES + "/delete";
+    return Observable.create(
+      observer => {
+        this.http.post(url, body, options).subscribe(
           response => {
             observer.next(response);
             observer.complete();

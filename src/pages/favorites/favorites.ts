@@ -2,8 +2,9 @@ import { Component } from "@angular/core";
 import { NavController, NavParams } from "ionic-angular";
 import { ProductPage } from "../product/product";
 import { User } from "../../providers/users-service";
-import { FavoritesService } from "../../providers/favorites-service";
+import { DeleteFavoriteByIdUserAndProduct, FavoritesService } from "../../providers/favorites-service";
 import { AuthService } from "../../providers/auth-service";
+import { ServerService } from "../../providers/server-service";
 
 const SERVER_URL = "https://relifecloud-nonodev96.c9users.io/";
 const URL_IMG_USERS = SERVER_URL + "assets/images/users/";
@@ -28,6 +29,7 @@ export class FavoritesPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public authService: AuthService,
+              public serverService: ServerService,
               public favoritesService: FavoritesService) {
     this.user = this.authService.getUser();
     this.list_products_favorites = [];
@@ -51,11 +53,55 @@ export class FavoritesPage {
     );
   }
 
+  public deleteFavoriteByIdUserAndProduct(product) {
+    let deleteFavorite: DeleteFavoriteByIdUserAndProduct = {
+      id_user: this.user.id,
+      id_product: product.id
+    };
+    let deleteFavoriteByIdUserAndProductObject = new DeleteFavoriteByIdUserAndProduct(deleteFavorite);
+    console.log(deleteFavoriteByIdUserAndProductObject);
+    this.favoritesService.deleteFavoriteByIdUserAndProduct(deleteFavoriteByIdUserAndProductObject).subscribe(
+      data => {
+        if (data) {
+          let response = JSON.parse(data.text());
+          console.log(response);
+          this.getProductsFavoritesByUserId();
+        }
+      },
+      error => {
+        this.getProductsFavoritesByUserId();
+      }
+    );
+  }
+
   //endregion
 
   //region COMPONENTS
   public openProductPage(product) {
-    this.navCtrl.push(ProductPage, { product: product });
+    this.navCtrl.push(ProductPage, {product: product});
+  }
+
+  public doRefresh(refresher) {
+    this.serverService.serviceIsAvailable().subscribe(
+      allowed => {
+        if (allowed) {
+          let id_user = this.user.id;
+          this.favoritesService.getProductsFavoritesByUserId(id_user).subscribe(
+            data => {
+              if (data) {
+                let response = JSON.parse(data.text());
+                this.list_products_favorites = response.data;
+                refresher.complete();
+              } else {
+                refresher.cancel();
+              }
+            }
+          );
+        } else {
+          refresher.complete();
+        }
+      }
+    );
   }
 
   //endregion

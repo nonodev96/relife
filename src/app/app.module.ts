@@ -16,6 +16,7 @@ import { ImagePicker } from "@ionic-native/image-picker";
 
 import { AddProductPage } from '../pages/add-product/add-product';
 import { AjaxTestPage } from '../pages/ajax-test/ajax-test';
+import { ChatPage } from '../pages/chat/chat';
 import { ContactsPage } from '../pages/contacts/contacts';
 import { EditUserPage } from "../pages/edit-user/edit-user";
 import { FavoritesPage } from "../pages/favorites/favorites";
@@ -32,6 +33,7 @@ import { SlidesToolTipsPage } from "../pages/slides-tool-tips/slides-tool-tips";
 import { UserPage } from '../pages/user/user';
 
 import { AuthService } from "../providers/auth-service";
+import { ChatsService } from "../providers/chats-service";
 import { ProductsService } from "../providers/products-service";
 import { ServerService } from "../providers/server-service";
 import { SharedService } from "../providers/shared-service";
@@ -39,11 +41,13 @@ import { UsersService } from "../providers/users-service";
 import { FavoritesService } from '../providers/favorites-service';
 import { SalesService } from '../providers/sales-service';
 
+
 @NgModule({
   declarations: [
     MyApp,
     AddProductPage,
     AjaxTestPage,
+    ChatPage,
     ContactsPage,
     HomePage,
     LoginPage,
@@ -77,6 +81,7 @@ import { SalesService } from '../providers/sales-service';
     MyApp,
     AddProductPage,
     AjaxTestPage,
+    ChatPage,
     ContactsPage,
     HomePage,
     LoginPage,
@@ -103,6 +108,7 @@ import { SalesService } from '../providers/sales-service';
     ImagePicker,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthService,
+    ChatsService,
     ProductsService,
     ServerService,
     SharedService,

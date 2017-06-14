@@ -18,7 +18,7 @@ export class InsertBid implements InterfaceInsertBid {
   constructor(insertBid: InterfaceInsertBid);
   constructor(insertBid?: any) {
     this.id_user = insertBid && insertBid.id_user || "";
-    this.id_product = insertBid && insertBid.id_product || "";
+    this.id_product = insertBid && insertBid.id_user_to || "";
     this.bid = insertBid && insertBid.bid || "";
   }
 }

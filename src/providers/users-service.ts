@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 interface InterfaceUser {
-  id: string;
+  id: string | number;
   nickname: string;
   first_name: string;
   last_name: string;
@@ -17,7 +17,7 @@ interface InterfaceUser {
 }
 export class User implements InterfaceUser {
   //region ATTRIBUTES
-  id: string;
+  id: string | number;
   nickname: string;
   first_name: string;
   last_name: string;

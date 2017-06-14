@@ -1,0 +1,32 @@
+<ion-header>
+	<ion-navbar color="theme_color_toolbar">
+		<ion-title>{{ chatParams.nickname }}</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content #content>
+	<ion-list>
+		<ion-item-sliding *ngFor="let c of chat">
+			<ion-item>
+				<h2 [attr.text-right]=" id_user_from == c.id_user_from ? '' : null">{{ c.message }}</h2>
+				<p [attr.text-right]=" id_user_from == c.id_user_from ? '' : null">{{ c.datetime_chat }}</p>
+			</ion-item>
+		</ion-item-sliding>
+	</ion-list>
+	
+</ion-content>
+<ion-footer> 
+	<ion-toolbar>
+		<ion-item> 
+			<ion-input type="text" 
+			[value]="message"
+			[(ngModel)]="message"
+			placeholder="Escribe tu mensaje" 
+			autocomplete="on"
+			autocorrect="on"
+			autocapitalize="on"
+			spellcheck="true"></ion-input> 
+			<button ion-button outline round clear item-right (click)="sendMessage()"> Enviar </button> 
+		</ion-item>
+	</ion-toolbar>
+</ion-footer>
