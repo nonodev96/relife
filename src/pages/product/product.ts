@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { AlertController, Loading, LoadingController, NavController, NavParams } from "ionic-angular";
 import { Http } from "@angular/http";
+import { ChatPage } from "../chat/chat";
 import { UsersService, User } from "../../providers/users-service";
 import { Product, ProductsService } from "../../providers/products-service";
 import * as moment from "moment";
@@ -66,6 +67,14 @@ export class ProductPage {
   //region CONTROLLERS
   private randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  public openChatPage() {
+    let chatContacts = {
+      id_user: this.user.id,
+      nickname: this.user.nickname
+    };
+    this.navCtrl.push(ChatPage, {chatContacts: chatContacts});
   }
 
   private getProduct(id) {

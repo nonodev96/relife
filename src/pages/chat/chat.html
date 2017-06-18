@@ -8,8 +8,8 @@
 	<ion-list>
 		<ion-item-sliding *ngFor="let c of chat">
 			<ion-item>
-				<h2 [attr.text-right]=" id_user_from == c.id_user_from ? '' : null">{{ c.message }}</h2>
-				<p [attr.text-right]=" id_user_from == c.id_user_from ? '' : null">{{ c.datetime_chat }}</p>
+				<h2 text-wrap [attr.text-right]=" id_user_from == c.id_user_from ? '' : null">{{ c.message }}</h2>
+				<p text-wrap [attr.text-right]=" id_user_from == c.id_user_from ? '' : null">{{ c.datetime_chat }}</p>
 			</ion-item>
 		</ion-item-sliding>
 	</ion-list>

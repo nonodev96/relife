@@ -3,6 +3,9 @@
     <ion-toolbar>
       <ion-title>{{ product.title }}</ion-title>
       <ion-buttons end>
+        <button ion-button icon-only (click)="openChatPage()">
+          <ion-icon name="chatbubbles"></ion-icon>
+        </button>
         <button ion-button icon-only (click)="presentPromptFavorites()">
           <ion-icon name="star"></ion-icon>
         </button>
@@ -56,10 +59,10 @@
     <ion-list>
       <ion-item-sliding *ngFor="let sale of product.sale">
         <ion-item>
-          <ion-thumbnail item-left>
+          <ion-avatar item-start>
             <img
             src="{{ URL_IMG_USERS }}{{ sale.user.profile_avatar ? sale.user.profile_avatar : IMG_USERS_DEFAULT }}" alt="users">
-          </ion-thumbnail>
+          </ion-avatar>
           <h2 class="font_family">{{ sale.user.nickname }}</h2>
           <p class="font_family">{{ sale.bid }}€</p>
         </ion-item>

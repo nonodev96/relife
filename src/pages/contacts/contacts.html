@@ -13,10 +13,10 @@
 	<ion-list>
 		<ion-item-sliding *ngFor="let contacts of list_contacts">
 			<ion-item (click)="openChatPage(contacts)">
-				<ion-thumbnail item-left>
+				<ion-avatar item-start>
 					<img src="{{ URL_IMG_USERS }}{{ contacts.profile_avatar ? contacts.profile_avatar : IMG_USERS_DEFAULT }}" 
 					alt="product" class="cover">
-				</ion-thumbnail>
+				</ion-avatar>
 				<h2>{{ contacts.nickname }}</h2>
 				<p>{{ contacts.datetime_chat }}</p>
 			</ion-item>

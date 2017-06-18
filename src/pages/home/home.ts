@@ -114,14 +114,16 @@ export class HomePage {
   public updateHome() {
     this.prodService.getProductsOfToday().subscribe(
       allowed => {
-        let jsonProductsOfToday_data = JSON.parse(allowed.text()).data;
-        this._listProductsOfToday = [];
-        for (let productOfToday of jsonProductsOfToday_data) {
-          productOfToday.time_left = productOfToday.datetime_product;
-          this.countDown(productOfToday);
-          setTimeout(() => {
-            this._listProductsOfToday.push(productOfToday);
-          }, 200);
+        if (allowed) {
+          let jsonProductsOfToday_data = JSON.parse(allowed.text()).data;
+          this._listProductsOfToday = [];
+          for (let productOfToday of jsonProductsOfToday_data) {
+            productOfToday.time_left = productOfToday.datetime_product;
+            this.countDown(productOfToday);
+            setTimeout(() => {
+              this._listProductsOfToday.push(productOfToday);
+            }, 200);
+          }
         }
       },
       error => {
@@ -182,16 +184,18 @@ export class HomePage {
         if (allowed) {
           this.prodService.getProductsOfToday().subscribe(
             allowed => {
-              let json_data = JSON.parse(allowed.text()).data;
-              this._listProductsOfToday = [];
+              if (allowed) {
+                let json_data = JSON.parse(allowed.text()).data;
+                this._listProductsOfToday = [];
 
-              for (let product of json_data) {
-                product.time_left = product.datetime_product;
-                this.countDown(product);
-                this._listProductsOfToday.push(product);
+                for (let product of json_data) {
+                  product.time_left = product.datetime_product;
+                  this.countDown(product);
+                  this._listProductsOfToday.push(product);
+                }
+
+                refresher.complete();
               }
-
-              refresher.complete();
             },
             error => {
               console.log("GetProductsOfToday error");
