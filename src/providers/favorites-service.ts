@@ -33,7 +33,7 @@ export class DeleteFavoriteByIdUserAndProduct implements InterfaceDeleteFavorite
   constructor(deleteFavoriteByIdUserAndProduct: InterfaceDeleteFavoriteByIdUserAndProduct);
   constructor(deleteFavoriteByIdUserAndProduct?: any) {
     this.id_user = deleteFavoriteByIdUserAndProduct && deleteFavoriteByIdUserAndProduct.id_user || "";
-    this.id_product = deleteFavoriteByIdUserAndProduct && deleteFavoriteByIdUserAndProduct.id_user_to || "";
+    this.id_product = deleteFavoriteByIdUserAndProduct && deleteFavoriteByIdUserAndProduct.id_product || "";
   }
 }
 
