@@ -1,4 +1,4 @@
-#Re Life - NonoDev96
+# Re Life - @nonodev96
 
 [![npm version](https://badge.fury.io/js/ionic.svg)](https://badge.fury.io/js/ionic) 
 
