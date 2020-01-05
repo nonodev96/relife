@@ -2,13 +2,13 @@
 
 [![npm version](https://badge.fury.io/js/ionic.svg)](https://badge.fury.io/js/ionic) 
 
-##Install package
+## Install package
 ```npm
 npm install
 npm install -g cordova ionic 
 ```
 
-##Install platforms and plugins
+## Install platforms and plugins
 ```npm
 ionic state reset
 ionic state restore
@@ -16,20 +16,20 @@ ionic state restore
 cordova telemetry on
 ```
 
-##Run server
+## Run server
 ```npm
 ionic serve 
 ionic serve --lab
 ionic serve -lc -s -p 80
 ```
 
-##Run app in android device
+## Run app in android device
 ```npm
 ionic run android --device
 ionic run android --emulator
 ```
 
-##Plugins 
+## Plugins 
 ```npm
 ionic plugin add cordova-plugin-camera
 ...
@@ -38,7 +38,7 @@ npm install --save @ionic-native/geolocation
 ...
 ```
 
-##Create page 
+## Create page 
 ```
 ionic g page myPage
 
@@ -50,7 +50,7 @@ pages
    | - √ Create app/pages/my-page/my-page.scss
 ```
 
-##Create a service
+## Create a service
 ```
 ionic g provider authService
 
@@ -59,7 +59,7 @@ providers
  | - √ Create app/providers/my-data/auth-service.ts
 ```
 
-##PATH
+## PATH
 [Obtener solo las herramientas de línea de comando
 ](https://developer.android.com/studio/index.html#downloads)
 
